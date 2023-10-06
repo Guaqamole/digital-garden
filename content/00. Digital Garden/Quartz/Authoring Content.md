@@ -5,7 +5,9 @@ draft: false
 tags:
   - Quartz
 ---
-## Syntax[§](https://quartz.jzhao.xyz/authoring-content#syntax)
+*Parent* : [[QUARTZ]]
+
+## Syntax
 
 As Quartz uses Markdown files as the main way of writing content, it fully supports Markdown syntax. By default, Quartz also ships with a few syntax extensions like [Github Flavored Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) (footnotes, strikethrough, tables, tasklists) and [Obsidian Flavored Markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) ([callouts](https://quartz.jzhao.xyz/features/callouts))
 
@@ -25,3 +27,4 @@ Some common front-matter fields that are natively supported by Quartz:
 - `draft`: Whether to publish the page or not. This is one way to make [pages private](https://quartz.jzhao.xyz/features/private-pages)
    in Quartz.
 - `date`: A string representing the day the note was published. Normally uses `YYYY-MM-DD` format.
+

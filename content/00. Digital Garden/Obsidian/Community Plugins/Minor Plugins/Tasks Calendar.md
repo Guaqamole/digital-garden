@@ -1,12 +1,10 @@
 ---
-title: Table of Contents
+title: Tasks Calendar
 date: 2023-10-06
 draft: false
 tags:
   - TBE
-  - ToC
 ---
 *Parent* : [[COMMUNITY PLUGINS]]
 
-https://luran.me/605
-
+https://github.com/702573N/Obsidian-Tasks-Calendar
