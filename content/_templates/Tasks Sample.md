@@ -1,0 +1,12 @@
+- [ ] Go to Rock Climbing 📅 2023-04-24 
+- [x] Find a room 📅 2023-04-24 ✅ 2023-04-24
+- [x] Buy some clothes 📅 2023-04-25 ✅ 2023-04-24
+- [ ] Garden cleaning📅 2023-04-23 
+- [ ] Write for Medium 📅 2023-04-24 ⏫ 
+- [ ] Shop online📅 2023-05-23 🔼 
+- [x] Schedule Tweets 📅 2023-04-30 ✅ 2023-04-24
+- [x] Upload Videos to Youtube ⏫ 📅 2023-04-30 ✅ 2023-04-23
+- [ ] Finish Power Writing Course📅 2023-04-30 ⏫ 
+- [ ] Start Creating a SwipeFile📅 2023-04-24 
+- [ ] Build something📅 2023-04-21
+- [ ] Write a newsletter 📅 2023-04-21
