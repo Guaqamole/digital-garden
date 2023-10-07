@@ -5,7 +5,7 @@ draft: false
 tags:
   - Quartz
 ---
-*Parent* : [[QUARTZ]]
+*Parent* : [[00. Digital Garden]]
 
 ## Syntax
 
