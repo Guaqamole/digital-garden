@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Use find command to find files
-# ending with a space and 'number'
+# ending with a space and 'number'.
 
 find_twos() {
     find . -type f -name '* .md*' -o -name '*2.sh*' -print0 |
