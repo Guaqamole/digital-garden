@@ -16,8 +16,8 @@ find_twos
 read -p "delete files? (y/n): " response
 if [[ "$response" =~ ^[Yy]$ ]]; then
     find . -name '* *.csv*' -o -name '* *.json*' -o -name '* *.js*' -o -name '* *.css*' | while read LINE; do rm "$LINE" ; done
+    find . -name '* 2.md*' -o -name '*.DS_Store*' | while read LINE; do rm "$LINE" ; done
     echo "$LINE ALl files Deleted."
-    rm './.DS_Store'
 else
     echo "Delete Cancelled."
 fi
