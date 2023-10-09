@@ -3,7 +3,7 @@ tag: dailies
 cssclass: dashboard
 ---
 ## <% tp.file.title %>
-<< [[Invalid date|Yesterday]] | [[Invalid date|Tomorrow]] >>
+<< [[<% tp.date.now("DD.MMMM.YYYY", -1) %> | Yesterday]] | [[Tomorrow]] >>
 
 > [!warning]+ [[Action Dashboard| OverDue ]]
 > ```tasks

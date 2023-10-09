@@ -4,5 +4,5 @@ date: <% tp.date.now() %>
 draft: false
 tags: []
 ---
-*Parent* : **Self**
+
 
