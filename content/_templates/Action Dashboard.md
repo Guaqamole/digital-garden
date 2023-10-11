@@ -33,9 +33,12 @@ tags:
 > sort by priority  
 
 ---
-# 오늘 할일
+# To Do.
+#### 오전
 - [ ]  📅 <% tp.date.now() %>
 - [ ]  📅 <% tp.date.now() %>
+
+#### 오후
 - [ ]  📅 <% tp.date.now() %>
 - [ ]  📅 <% tp.date.now() %>
 
@@ -46,5 +49,5 @@ tags:
 
 ---
 
-# More Work To Be Done.
+# More Works To Be Done.
 

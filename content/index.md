@@ -18,8 +18,13 @@ date: 2023-10-05
 #### [[00. Digital Garden]]
 #### [[01. Programming Language]]
 #### [[02. Infra]]
-#### [[03. Algorithm]]
+#### [[03. Data]]
+#### [[04. Cloud]]
+#### [[05. Algorithm]]
+#### [[06. Dev]]
 #### [[10. Books]]
+#### [[11. Projects]]
+#### [[12. Interview]]
 
 
 ### 📔 [[Daily Notes]]
