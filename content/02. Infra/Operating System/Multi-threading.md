@@ -1,6 +1,7 @@
 ---
 
 excalidraw-plugin: parsed
+draft: true
 tags: [excalidraw]
 
 ---
@@ -19,41 +20,41 @@ Multi-Threading vs Multi-Processing ^GX8im0iC
 	"source": "https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/1.9.23",
 	"elements": [
 		{
-			"id": "GX8im0iC",
 			"type": "text",
-			"x": -282.3723449707031,
-			"y": -453.32151794433594,
-			"width": 623.3397216796875,
-			"height": 45,
-			"angle": 0,
-			"strokeColor": "#1e1e1e",
-			"backgroundColor": "transparent",
+			"version": 88,
+			"versionNonce": 1078595148,
+			"isDeleted": false,
+			"id": "GX8im0iC",
 			"fillStyle": "hachure",
 			"strokeWidth": 1,
 			"strokeStyle": "solid",
 			"roughness": 1,
 			"opacity": 100,
+			"angle": 0,
+			"x": -282.3723449707031,
+			"y": -453.32151794433594,
+			"strokeColor": "#1e1e1e",
+			"backgroundColor": "transparent",
+			"width": 623.3399047851562,
+			"height": 45,
+			"seed": 212106868,
 			"groupIds": [],
 			"frameId": null,
 			"roundness": null,
-			"seed": 212106868,
-			"version": 88,
-			"versionNonce": 1078595148,
-			"isDeleted": false,
-			"boundElements": null,
+			"boundElements": [],
 			"updated": 1697036019133,
 			"link": null,
 			"locked": false,
-			"text": "Multi-Threading vs Multi-Processing",
-			"rawText": "Multi-Threading vs Multi-Processing",
 			"fontSize": 36,
 			"fontFamily": 1,
+			"text": "Multi-Threading vs Multi-Processing",
+			"rawText": "Multi-Threading vs Multi-Processing",
 			"textAlign": "left",
 			"verticalAlign": "top",
-			"baseline": 31,
 			"containerId": null,
 			"originalText": "Multi-Threading vs Multi-Processing",
-			"lineHeight": 1.25
+			"lineHeight": 1.25,
+			"baseline": 31
 		}
 	],
 	"appState": {
@@ -71,10 +72,10 @@ Multi-Threading vs Multi-Processing ^GX8im0iC
 		"currentItemTextAlign": "left",
 		"currentItemStartArrowhead": null,
 		"currentItemEndArrowhead": "arrow",
-		"scrollX": 557.4788818359375,
-		"scrollY": 551.6679077148438,
+		"scrollX": 485.0352087897528,
+		"scrollY": 1212.662685939146,
 		"zoom": {
-			"value": 1
+			"value": 0.3868011018652885
 		},
 		"currentItemRoundness": "round",
 		"gridSize": null,
