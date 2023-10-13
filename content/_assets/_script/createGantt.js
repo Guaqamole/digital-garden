@@ -1,43 +1,5 @@
----
-tags:
-  - dailies
-showDone: true
----
-<< [[2023-10-11|Yesterday]] | [[2023-10-13|Tomorrow]] | [[2023-10-10|그저께]] | [[2023-10-14|모레]] >>
-
-> [!warning]+ [[Action Dashboard| OverDue ]]
-> ```tasks
-> not done
-> sort by due date
-> due before 2023-10-12
-> hide due date
-> hide backlink
-> limit 5
-> ```
-
-> [!todo]+ Today's Tasks
-> ```tasks
-> not done
-> due 2023-10-12
-> sort by path
-> sort by priority
-> hide due date
-> hide backlink
-> limit 5
-> ```
-
-> [!todo]+ Upcoming Tasks
-> ```tasks  
-> not done  
-> due after 2023-10-12
-> sort by due date
-> sort by priority  
-
-
----
-
-
-```dataviewjs
+dv = app.plugins.plugins.dataview.api
+tp = app.plugins.plugins['templater-obsidian'].templater.current_functions_object
 
 function textParser(taskText, noteCreationDate, parentEndDate) {
     const emojis = ["📅", "⏳", "🛫", "➕", "✅", "⏫", "🔼", "🔽"];
@@ -181,58 +143,27 @@ function loopGantt (pageArray, showDone){
     return queryGlobal;
 }
 
-const Mermaid = `gantt
+async function create_gantt() {
+
+	const Mermaid = `gantt
         title Gantt Chart
         dateFormat  YYYY-MM-DD
         axisFormat %b %e
         `;
-    let pages = dv.pages('"Daily Notes/2023-10"');
 
-    //let filteredPages = pages.map(page => {
-    //    let tasks = page.file.tasks.filter(t => t.text.includes("#task"));
-    //    return {...page, file: {...page.file, tasks: tasks}};
-    //});
-    let filteredPages = pages;
-    let showDone = dv.current().showDone;
-    let ganttOutput = loopGantt(filteredPages, showDone);
-    //
+    const page = await tp.system.prompt("트래킹할 Task들의 폴더 경로를 적어주세요 (예시: Daily Notes/2023-10 )")
+
+	let pages = dv.pages('"' + page + '"');
+
+	let filteredPages = pages;
+	let showDone = true;
+	let ganttOutput = loopGantt(filteredPages, showDone);
 
 	//add dummy task so that today's date is always shown:
-    let today = new Date().toISOString().slice(0, 10); 
-    ganttOutput += ". :active, " + today + ", " + today + "\n\n";
-    
-    dv.paragraph("```mermaid\n" + Mermaid + ganttOutput + "\n```");
-	console.log("```mermaid\n" + Mermaid + ganttOutput + "\n```");
-	
-	// Generate a link to view the resulting chart
-    //dv.span("[View this chart in a browser](https://mermaid.ink/img/"+btoa(Mermaid+ganttOutput)+")")
-    
-    // Print the ganttOutput to inspect it
-    //dv.paragraph(ganttOutput);
-    //dv.paragraph("```\n" + Mermaid + ganttOutput + "\n```");
-```
+	let today = new Date().toISOString().slice(0, 10); 
+	ganttOutput += ". :active, " + today + ", " + today + "\n\n";
 
+	return "```mermaid\n" + Mermaid + ganttOutput + "\n```"
+}
 
----
-
-# To Do.
-
-#### 오전
-- [x] Blocking I/O vs Non-Blocking I/O 🛫 2023-10-12 📅 2023-10-13 ✅ 2023-10-13
-
-#### 오후
-- [x] Test Gantt Chart 🛫 2023-10-12 📅 2023-10-13 ✅ 2023-10-13
-
-
----
-
-
-
-# 고민중
-- 
-
-
-
----
-
-# More Works To Be Done.
+module.exports = create_gantt;
