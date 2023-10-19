@@ -10,7 +10,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     baseUrl: "https://guaqamole.github.io/digital-garden",
-    ignorePatterns: ["private", "_templates", ".obsidian", ".sh", "_assets", "_img", "_test"],
+    ignorePatterns: ["private", "_templates", ".obsidian", ".sh", "_assets", "_img", "_test", "20. Tutoring", "30. Work"],
     defaultDateType: "created",
     theme: {
       typography: {

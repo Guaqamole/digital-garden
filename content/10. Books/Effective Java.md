@@ -1,8 +1,11 @@
 ---
 title: Effective Java
-date: 2023-10-10
-draft: false
+Author:
+  - Joshua Bloch
+Status: Unread
 tags:
+  - GoogleRecommend
   - Java
-author:
+Kanban-Cover: "![Book Cover|200](https://image.yes24.com/goods/65551284/XL)"
+draft: false
 ---
