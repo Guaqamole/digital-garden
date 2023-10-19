@@ -4,6 +4,7 @@ date: 2023-10-18
 draft: false
 tags:
   - Spark
+  - ErrorLog
 ---
 # 현상
 
@@ -31,7 +32,7 @@ rds_df = (spark
 	.option("driver", "com.mysql.cj.jdbc.Driver")
 	#.option("dbtable", transform_rds_sql)
 	.option("query", rds_sql)
-	.option("user", "namkyu").option("password", "9gPu2rODrkOCNwwu")
+	.option("user", "xxxxx").option("password", "xxxxx")
 	#.option("partitionColumn", "point_id") # cannot use with 'query' option.
 	#.option("lowerBound",1)
 	#.option("upperBound",20000)
@@ -59,3 +60,4 @@ ___
 SELECT name, age
 FROM users
 ```
+
