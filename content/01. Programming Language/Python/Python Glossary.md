@@ -5,6 +5,7 @@ draft: false
 tags:
   - Python
 link: https://docs.python.org/ko/3/glossary.html
+complete: true
 ---
 ## 2to3
 

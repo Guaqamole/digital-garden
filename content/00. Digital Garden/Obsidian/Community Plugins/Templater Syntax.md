@@ -3,7 +3,6 @@ title: Templater Syntax
 date: 2023-10-06
 draft: false
 tags:
-  - Templater
   - CommunityPlugins
 ---
 *Parent* : [[00. Digital Garden]]

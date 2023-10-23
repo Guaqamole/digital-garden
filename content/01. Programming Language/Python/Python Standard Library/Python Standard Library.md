@@ -5,6 +5,7 @@ draft: false
 tags:
   - Python
   - StandardLibrary
+complete: true
 ---
 [파이썬 언어 레퍼런스](https://docs.python.org/ko/3/reference/index.html#reference-index) 는 파이썬 언어의 정확한 문법과 의미를 설명하고 있지만, 이 라이브러리 레퍼런스 설명서는 파이썬과 함께 배포되는 표준 라이브러리를 설명합니다. 또한, 파이썬 배포판에 일반적으로 포함되어있는 선택적 구성 요소 중 일부를 설명합니다.
 

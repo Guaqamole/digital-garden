@@ -1,14 +1,15 @@
 ---
-title: Spark jdbc sql syntax error
+title: ERR - Spark jdbc sql syntax error
 date: 2023-10-18
 draft: false
 tags:
   - Spark
   - ErrorLog
+complete: true
 ---
 # 현상
 
-```sh
+```bash
 java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ';) SPARK_GEN_SUBQ_0 WHERE 1=0' at line 15
 ```
 

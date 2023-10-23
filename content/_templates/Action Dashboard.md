@@ -1,7 +1,6 @@
 ---
 tags:
   - dailies
-showDone: true
 ---
 << [[<% tp.date.now("YYYY-MM-DD", -1) %>|Yesterday]] | [[<% tp.date.now("YYYY-MM-DD", +1) %>|Tomorrow]] | [[<% tp.date.now("YYYY-MM-DD", -2) %>|그저께]] | [[<% tp.date.now("YYYY-MM-DD", +2) %>|모레]] >>
 

@@ -1,3 +1,9 @@
+---
+title: MemoJang
+complete: true
+---
+
+
 2023-10-13
 
 ## hello
@@ -5,7 +11,6 @@
 Dd
 
 Dd
-
 
 ```mermaid
 flowchart LR
@@ -60,4 +65,16 @@ classDef green fill:#6ad98b,stroke:#000,color:#000
 	531164 --> 270243
 	531164 --> 964069
 	531164 --> 155688("_source")
+```
+
+```dataview
+TABLE file.name, file.ctime as "created", file.path as "path"
+FROM #Python 
+```
+
+```python
+a = 1
+b = 3
+
+print(a+b)
 ```

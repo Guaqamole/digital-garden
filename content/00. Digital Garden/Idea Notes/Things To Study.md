@@ -1,9 +1,29 @@
 ---
-title: Things To Study
-date: 2023-10-12
-draft: false
-tags: []
+kanban-plugin: basic
+draft: true
 ---
-# Algorithm
 
-- DP 글 작성
+## Java
+
+- [ ] - Stack Trace
+
+
+## Algorithm
+
+- [ ] DP 글 작성
+
+
+## OS
+
+- [ ] - System Call
+- [ ] - Memory overhead
+- [ ] - bottleneck
+
+
+
+
+%% kanban:settings
+```
+{"kanban-plugin":"basic","lane-width":400,"show-checkboxes":true}
+```
+%%

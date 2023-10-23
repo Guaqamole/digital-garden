@@ -5,6 +5,7 @@ draft: false
 tags:
   - Python
   - BigQuery
+complete: true
 ---
 ## 빅쿼리 클라이언트 객체 만들기
 

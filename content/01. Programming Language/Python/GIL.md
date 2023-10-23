@@ -4,6 +4,8 @@ date: 2023-10-09
 draft: false
 tags:
   - Python
+  - Concept
+complete:
 ---
 # 파이썬 GIL이란?
 

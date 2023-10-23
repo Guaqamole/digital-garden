@@ -4,6 +4,8 @@ date: 2023-10-10
 draft: false
 tags:
   - Python
+  - Concept
+complete:
 ---
 pypy는 CPython의 컴파일러를 python으로 작성한 구현체 입니다.(self-hosted compiler)
 

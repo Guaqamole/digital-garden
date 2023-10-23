@@ -5,6 +5,8 @@ draft: false
 tags:
   - Python
   - OOP
+  - Concept
+complete:
 ---
 # 파이썬은 객체로 이루어져있다.
 

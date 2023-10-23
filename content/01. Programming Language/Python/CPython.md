@@ -5,7 +5,8 @@ draft: false
 tags:
   - Python
   - C
-  - TBE
+  - Concept
+complete:
 ---
 ![](https://i.imgur.com/0XL5NNA.png)
 
