@@ -1,11 +1,12 @@
 ---
-tags: 
-aliases:
-  - Home
-cssclasses:
-  - cards
-  - cards-1-1
-  - table-wide
+tags: []
+aliases: 
+Type: 
+Progress: 200
+Target: 1000
+Reason: 크롤링 스킬 업그레이드, 각종 프로젝트에 활용
+Timespan: 1 Year
+DueDate: 2023-12-31
 draft: true
 ---
 # Dashboard

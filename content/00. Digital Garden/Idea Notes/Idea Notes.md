@@ -15,3 +15,8 @@ https://heehehe-ds.tistory.com/195
 
 ## 깃헙은 이사람 처럼...
 https://mjs1995.tistory.com/239
+
+## I want to be ...
+https://github.com/leimao
+
+## 프로젝트 수행시 항상 채용 공고를 보면서 하기!

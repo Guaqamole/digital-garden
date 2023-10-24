@@ -6,7 +6,7 @@ kanban-plugin: basic
 
 ## Spark TL;DL
 
-- [ ] # Spark Content<br><br>---
+- [ ] # Spark<br><br>---
 - [ ] ## Official Docs
 - [ ] - **DataFrame Reader** https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameReader.html#pyspark.sql.DataFrameReader
 - [ ] ## StackOverFlow

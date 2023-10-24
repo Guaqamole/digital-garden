@@ -6,16 +6,18 @@ draft: true
 ---
 
 ## Todo
-- [ ] [[; 오픈 소스 프로젝트 Contribution|오픈 소스 프로젝트 Contribution]]
 
+- [ ] [[; Data Utopia Project|Data Utopia Project]]
 
 
 ## Waiting
 
+- [ ] [[; 오픈 소스 프로젝트 Contribution|오픈 소스 프로젝트 Contribution]]
 
 
 ## In Progress
 
+- [ ] [[; Data Center Project|Data Center Project]]
 
 
 ## Completed
@@ -30,6 +32,6 @@ draft: true
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic","metadata-keys":[{"metadataKey":"subtitle","label":"","shouldHideLabel":true,"containsMarkdown":true},{"metadataKey":"goal","label":"Goal","shouldHideLabel":false,"containsMarkdown":true}],"lane-width":300}
+{"kanban-plugin":"basic","metadata-keys":[{"metadataKey":"subtitle","label":"","shouldHideLabel":true,"containsMarkdown":true},{"metadataKey":"goal","label":"Goal","shouldHideLabel":false,"containsMarkdown":true}],"lane-width":460}
 ```
 %%

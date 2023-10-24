@@ -3,13 +3,12 @@ tags:
   - goal
 aliases: 
 Type: Project
-Progress: 0
+Progress: 100
 Target: 1000
 Reason: To Improve Dev Skills, Read More Codes
 Timespan: 1 Year
 DueDate: 2024-06-01
 draft: true
-
 ---
 
 %%

@@ -1,5 +1,5 @@
 ---
-title: Spark Cluster 성능 비교
+title: Spark Demo Cluster 성능 비교
 date: 2023-10-23
 draft: false
 tags:
@@ -115,7 +115,7 @@ https://spark.apache.org/docs/latest/sql-data-sources-jdbc.html
 
 `numPartitions는` 테이블의 데이터를 병렬로 읽거나 쓰기 작업에 사용할 수 있는 최대 파티션 수를 결정한다. 해당 속성은 JDBC Connection 수를 결정하며, 쓰기에 사용되는 파티션수가 값을 초과하는경우, 쓰기 연산전에 `coalesce (numPartitions)` 를 실행해 파티션 수를 이 값에 맞게 자동으로 줄이게 된다.
 
-```
+```bash
 partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 ```
 
@@ -123,3 +123,46 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 만약 Cluster에 가용한 Executor가 2개 존재한다면 처리할 전체 Rows 수가:
 - 10,000 rows 일경우 -> 5000, 5000로 나눠서 병렬로 처리
 - 20,000 rows 일경우 -> 5000, 15000로 나눠서 병렬로 처리
+
+# Testing
+
+#### Airflow
+- Master - 2 vCPUs, 8 Gib
+- 2 x worker - 2 vCPUs, 8 Gib
+
+#### Spark Cluster
+- Master - 1 vCPU, 2g Gib
+- 2 x Worker - 1 vCPU, 2g Gib
+- numPartition: 2
+
+### Test by time taken (10.24 기준)
+| **Workflow**                   | **Spec**                     | **Airflow Cluster** | **Spark Cluster** |
+| ------------------------------ | ---------------------------- | ------------------- | ----------------- |
+| shop (shop, shop_info)         | Rows: 70864<br><br>Cols: 40  | 63s                 | 88s (+25s)        |
+| deposit                        | Rows: 73208<br><br>Cols: 7   | 42s                 | 67s (+25s)        |
+| point                          | Rows: 73210<br><br>Cols: 7   | 42s                 | 65s (+23s)        |
+| shop_address                   | Rows: 80190<br><br>Cols: 16  | 65s                 | 79s (+14s)        |
+| shop_grade                     | Rows: 63894<br><br>Cols: 11  | 43s                 | 75s (+32s)        |
+| bookmark (goods, vendor, menu) | Rows: 63165<br><br>Cols: 9   | 77s                 | 106s (+29s)       |
+| coupon_history                 | Rows: 232138<br><br>Cols: 10 | 54s                 | 92s (+38s)        |
+
+
+### Test by rows (10.24 기준)
+- Table: cmt_order_status_history
+- Total Rows: 11,615,715
+- Total Columns: 13
+
+| **order_status_history** | **Airflow Cluster** | **Spark Cluster** |
+| ------------------------ | ------------------- | ----------------- |
+| 100,000 rows             | O                   | O                 |
+| 200,000 row              | O                   | O                 |
+| 500,000 rows             | X                   | O                 |
+| 1,000,000 rows           | X                   | O                 |
+| 2,000,000 rows           | X                   | Scale-up 필요     |
+| 5,000,000 rows           | X                   | Scale-out 필요    |
+| 10,000,000 rows          | X                   | Scale-out 필요    |
+
+
+
+
+
