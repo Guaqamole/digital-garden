@@ -1,5 +1,5 @@
 ---
-title: Spark Demo Cluster 성능 비교
+title: Spark Demo Cluster 성능 Test
 date: 2023-10-23
 draft: false
 tags:
@@ -7,9 +7,10 @@ tags:
   - PoC
 complete: false
 ---
-# 개요
+# Introduction
 
 기존 Airflow로 수행했던 ETL 작업을 Spark Cluster로 이전하기 전 Airflow, Spark 클러스터간 성능차이를 비교해보고 만약 이전한다면 Airflow의 Workload를 얼마나 Spark Cluster가 가져 갈 수 있는지 알아본다.
+
 
 # Spark Partition
 
@@ -20,6 +21,7 @@ Spark의 Executor가 병렬로 작업을 수행할 수 있게 하려면 Spark는
 Spark에서는 하나의 최소 연산을 Task라고 표현하는데, 이 하나의 Task에서 하나의 Partition이 처리된다. 또한, 하나의 Task는 하나의 Core가 연산 처리한다.
 
 ## 예시
+
 - 전체 Core 수: 300개
 - 전체 Partition 수: 1800개
 Core 수를 300개로 세팅했다면, 현재 병렬로 실행이 가능한 Task의 수는 300개이며, 300개의 Partition이 작업을 처리중이다. 전체 Partition 개수가 1800개이므로, 미리 선점된 300개의 CPU 자원이 release 되야 나머지 Task를 실행한다.
@@ -28,8 +30,8 @@ Core 수를 300개로 세팅했다면, 현재 병렬로 실행이 가능한 Task
 
 이처럼 설정된 Partition 수에 따라 각 Partition의 크기가 결정된다. 그리고 이 Partition의 크기가 결국 Core 당 필요한 메모리 크기를 결정하게 된다.
 
-- **Partition 수 → Core에 영향을 미침**
-- **Partition 크기 → 메모리 크기에 영향을 미침**
+- `Partition` 수 → `Core` 에 영향을 미침
+- `Partition` 크기 → `메모리 크기`에 영향을 미침
 
 따라서, Partition의 크기와 수가 Spark 성능에 큰 영향을 미치는데, 통상적으로는 Partition의 크기가 클수록 메모리가 더 필요하고, Partition의 수가 많을수록 Core가 더 필요하다.
 
@@ -50,6 +52,7 @@ Spark Partition이 성능에 어떤 영향을 미치는지 이해했다면, Spar
 
 
 ## 실전
+
 Spark에서 Partition을 나누는 방법은 여러가지가 있지만 가장 기초적인 방법은 데이터 소스 API를 사용하는 것
 
 Spark에서 지원하는 대표적인 데이터 소스 종류는 다음과 같다 (커뮤니티에서 만든 데이터 소스는 더 많다):
@@ -72,7 +75,7 @@ DataFrameReader.format(...).option("key", "value").schema(...).load()
 ### 데이터 읽기
 이번 예제에서는 PySpark를 사용하여 RDS 데이터를 BigQuery로 적재해야하므로 JDBC Connection에 관한 옵션과, SQL을 사용한만 예제만 명시
 
-#### Spark Session 객체 생성
+### Spark Session 객체 생성
 ```python
 from pyspark.sql import SparkSession
 
@@ -82,7 +85,7 @@ spark = SparkSession.builder.config("spark.jars", "mysql-connector-j-8.0.33.jar"
 
 ```
 
-#### JDBC 데이터 소스 생성
+### JDBC 데이터 소스 생성
 - 위 예시와같이 `.format()` , `.option()`, `.load()` 형식 사용
 ```python
 rds_df = (spark
@@ -126,16 +129,17 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 
 # Testing
 
-#### Airflow
+**Airflow**
 - Master - 2 vCPUs, 8 Gib
 - 2 x worker - 2 vCPUs, 8 Gib
 
-#### Spark Cluster
+**Spark Cluster**
 - Master - 1 vCPU, 2g Gib
 - 2 x Worker - 1 vCPU, 2g Gib
 - numPartition: 2
 
-### Test by time taken (10.24 기준)
+## Test by time taken (10.24 기준)
+
 | **Workflow**                   | **Spec**                     | **Airflow Cluster** | **Spark Cluster** |
 | ------------------------------ | ---------------------------- | ------------------- | ----------------- |
 | shop (shop, shop_info)         | Rows: 70864<br><br>Cols: 40  | 63s                 | 88s (+25s)        |

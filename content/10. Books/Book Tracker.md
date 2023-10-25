@@ -9,6 +9,8 @@ draft: true
 
 - [ ] [[Code Complete]]
 - [ ] [[Effective Java]]
+- [ ] [[Five Lines of Code]]
+- [ ] [[데이터 엔지니어를 위한 97가지 조언]]
 
 
 ## Currently Reading
@@ -23,6 +25,6 @@ draft: true
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic","metadata-keys":[{"metadataKey":"Author","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Status","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Kanban-Cover","label":"","shouldHideLabel":true,"containsMarkdown":true}],"lane-width":300}
+{"kanban-plugin":"basic","metadata-keys":[{"metadataKey":"Author","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Status","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Topics","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Kanban-Cover","label":"","shouldHideLabel":true,"containsMarkdown":true}],"lane-width":300}
 ```
 %%

@@ -2,7 +2,8 @@
 title: Kanban Book Tracker
 date: 2023-10-18
 draft: false
-tags: 
+tags:
+  - Kanban
 link: https://thebuccaneersbounty.wordpress.com/2022/06/19/tutorial-how-to-make-a-book-tracker-in-obsidian/
 ---
 ## How to Create a Book Note using a Template

@@ -19,6 +19,12 @@ kanban-plugin: basic
 - [ ] - When to Scale-up vs Scale-out?
 
 
+## Data Engineering
+
+- [ ] # Data Engineering
+- [ ] - https://github.com/datastacktv/data-engineer-roadmap](https://github.com/datastacktv/data-engineer-roadmap
+
+
 
 
 %% kanban:settings
