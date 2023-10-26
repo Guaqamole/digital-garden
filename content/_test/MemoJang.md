@@ -78,3 +78,10 @@ b = 3
 
 print(a+b)
 ```
+
+
+
+```dataview
+list
+where contains(complete, false)
+```

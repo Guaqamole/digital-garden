@@ -1,7 +1,7 @@
 {
 	"nodes":[
-		{"id":"f6680e4e056ae9ea","x":80,"y":-300,"width":400,"height":199,"type":"file","file":"_assets/_img/SnowFlakeDERoadMap2023.png"},
-		{"id":"7eb7d940504fcdbb","x":-420,"y":-500,"width":280,"height":1189,"type":"file","file":"_assets/_img/DataEngineerRoadMap2021.png"}
+		{"id":"f6680e4e056ae9ea","type":"file","file":"_assets/_img/SnowFlakeDERoadMap2023.png","x":80,"y":-300,"width":400,"height":199},
+		{"id":"7eb7d940504fcdbb","type":"file","file":"_assets/_img/DataEngineerRoadMap2021.png","x":-420,"y":-500,"width":280,"height":1189}
 	],
 	"edges":[]
 }

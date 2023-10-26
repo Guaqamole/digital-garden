@@ -18,12 +18,13 @@ Spark의 Executor가 병렬로 작업을 수행할 수 있게 하려면 Spark는
 
 하나의 파티션만 있다면 수천 개의 Executor가 있더라도 Spark는 병렬로 작업하지 않고 반대로, 파티션 수만 많고 Executor가 하나뿐이라면 Spark는 여전히 병렬로 작업하지 않는다.
 
-Spark에서는 하나의 최소 연산을 Task라고 표현하는데, 이 하나의 Task에서 하나의 Partition이 처리된다. 또한, 하나의 Task는 하나의 Core가 연산 처리한다.
+Spark에서는 하나의 최소 연산을 Task라고 표현하는데, 이 하나의 Task에서 하나의 Partition이 처리된다. 또한, 하나의 Task는 **하나의 Core가 연산 처리한다.**
 
 ## 예시
 
 - 전체 Core 수: 300개
 - 전체 Partition 수: 1800개
+
 Core 수를 300개로 세팅했다면, 현재 병렬로 실행이 가능한 Task의 수는 300개이며, 300개의 Partition이 작업을 처리중이다. 전체 Partition 개수가 1800개이므로, 미리 선점된 300개의 CPU 자원이 release 되야 나머지 Task를 실행한다.
 
 ![](https://tech.kakao.com/storage/2022/01/01-12.png)
@@ -73,9 +74,12 @@ DataFrameReader.format(...).option("key", "value").schema(...).load()
 -  `.schema()` (선택) : 데이터에서 스키마를 제공하거나, 스키마 추론 기능을 사용할 때 사용
 
 ### 데이터 읽기
+
 이번 예제에서는 PySpark를 사용하여 RDS 데이터를 BigQuery로 적재해야하므로 JDBC Connection에 관한 옵션과, SQL을 사용한만 예제만 명시
 
+
 ### Spark Session 객체 생성
+
 ```python
 from pyspark.sql import SparkSession
 
@@ -85,7 +89,9 @@ spark = SparkSession.builder.config("spark.jars", "mysql-connector-j-8.0.33.jar"
 
 ```
 
+
 ### JDBC 데이터 소스 생성
+
 - 위 예시와같이 `.format()` , `.option()`, `.load()` 형식 사용
 ```python
 rds_df = (spark
@@ -127,6 +133,8 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 - 10,000 rows 일경우 -> 5000, 5000로 나눠서 병렬로 처리
 - 20,000 rows 일경우 -> 5000, 15000로 나눠서 병렬로 처리
 
+---
+
 # Testing
 
 **Airflow**
@@ -138,7 +146,7 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 - 2 x Worker - 1 vCPU, 2g Gib
 - numPartition: 2
 
-## Test by time taken (10.24 기준)
+### **Test by time taken** (10.24 기준)
 
 | **Workflow**                   | **Spec**                     | **Airflow Cluster** | **Spark Cluster** |
 | ------------------------------ | ---------------------------- | ------------------- | ----------------- |
@@ -151,7 +159,7 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 | coupon_history                 | Rows: 232138<br><br>Cols: 10 | 54s                 | 92s (+38s)        |
 
 
-### Test by rows (10.24 기준)
+### **Test by rows** (10.24 기준)
 - Table: cmt_order_status_history
 - Total Rows: 11,615,715
 - Total Columns: 13
@@ -165,8 +173,5 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 | 2,000,000 rows           | X                   | Scale-up 필요     |
 | 5,000,000 rows           | X                   | Scale-out 필요    |
 | 10,000,000 rows          | X                   | Scale-out 필요    |
-
-
-
 
 

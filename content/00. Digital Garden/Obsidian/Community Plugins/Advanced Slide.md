@@ -3,7 +3,7 @@ title: Advanced Slide
 date: 2023-10-21
 draft: false
 tags: 
-complete: false
+complete: true
 ---
 https://mszturc.github.io/obsidian-advanced-slides/getting-start/learnmore/
 

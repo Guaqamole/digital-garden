@@ -47,7 +47,7 @@ WHERE file.name = this.file.name
  ```
 TABLE file.name, complete
 WHERE file.name = this.file.name
-ㅂ```
+```
 
 
 

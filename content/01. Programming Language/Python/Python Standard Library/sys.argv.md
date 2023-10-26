@@ -5,7 +5,7 @@ draft: false
 tags:
   - Python
   - StandardLibrary
-complete: false
+complete: true
 ---
 sys.argv는 파이썬 스크립트로 전달한 명령행 매개변수를 처리할 때 사용하는 모듈이다.
 ## 문제

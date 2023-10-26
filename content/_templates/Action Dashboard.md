@@ -48,17 +48,16 @@ tags:
 - [ ] 🛫 <% tp.date.now("YYYY-MM-DD") %> 📅 <% tp.date.now("YYYY-MM-DD", +1) %>
 
 
-
 ---
-
-
 
 # 고민중
 - 
 
 
 
+
 ---
+
 
 # More Works To Be Done.
 
