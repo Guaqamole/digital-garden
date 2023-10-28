@@ -5,7 +5,7 @@ draft: false
 tags:
   - Spark
   - Concept
-complete: false
+complete: true
 ---
 Spark Application은 *Driver Process* 와 다수의 *Executor Process* 로 구성된다.
 
@@ -13,7 +13,7 @@ Spark Application은 *Driver Process* 와 다수의 *Executor Process* 로 구�
 
 ## Driver Process
 
-<mark style="background: #89760F;">Driver Process는 클러스터 노드중 하나에서 실행되며</mark>, `main()` 함수를 실행한다.
+<mark style="background: #C6AB16;">Driver Process는 클러스터 노드중 하나에서 실행되며</mark>, `main()` 함수를 실행한다.
 
 Driver Process는:
 - 스파크 어플리케이션 정보의 유지관리
@@ -24,7 +24,7 @@ Driver Process는:
 
 ## Executor
 
-<mark style="background: #89760F;">Executor는 Driver Process가 할당한 작업을 수행한다.</mark>
+<mark style="background: #C6AB16;">Executor는 Driver Process가 할당한 작업을 수행한다.</mark>
 
 즉, 드라이버가 할당한 코드를 실행하고 진행 상황을 다시 드라이버 노드에 보고하는 두가지 역할을 수행한다.
 

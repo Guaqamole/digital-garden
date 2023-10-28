@@ -23,6 +23,7 @@ kanban-plugin: basic
 
 - [ ] # Data Engineering
 - [ ] - https://github.com/datastacktv/data-engineer-roadmap](https://github.com/datastacktv/data-engineer-roadmap
+- [ ] - [DE 블로그 읽을거리](https://www.notion.so/joron1827/a3ec55bc213e4d65bbdc51796d39dd08)
 
 
 
