@@ -6,7 +6,7 @@ tags:
   - MinorPlugins
   - CommunityPlugins
 ---
-*Parent* : [[00. Digital Garden]]
+
 
 ## obsidian 목차 생성 플러그인 설치하기
 

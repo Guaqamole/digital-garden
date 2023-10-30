@@ -5,7 +5,7 @@ draft: false
 tags:
   - CommunityPlugins
 ---
-*Parent* : [[00. Digital Garden]]
+
 
 ### **Templater 플러그인 (커뮤니티 플러그인)**
 

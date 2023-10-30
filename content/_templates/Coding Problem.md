@@ -4,8 +4,17 @@ date: <%tp.date.now() %>
 draft: false
 tags:
   - CodingTest
-link: 
-difficulty: []
+Platform: {{VALUE:Baekjoon,LeetCode,HackerRank}}
+link: {{VALUE:URL Link To Problem}}
+difficulty: {{VALUE:Difficulty (골드 2 실버 4...)}}
+highlight: false
+Reason: N/A
+Status: Not Solved ✏️
+idea: false
+implment: false
+time-complexity: false
+time-enough: false
+tries: 1
 ---
 # 문제
 
@@ -21,7 +30,17 @@ ___
 
 
 ____
+
 # 코드
+
+
+
+
+
+
+___
+
+# 비슷한 문제들
 
 
 

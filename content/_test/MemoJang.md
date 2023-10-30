@@ -6,6 +6,7 @@ complete: true
 
 2023-10-13
 
+
 ## hello
 
 Dd
@@ -84,4 +85,18 @@ print(a+b)
 ```dataview
 list
 where contains(complete, false)
+```
+
+
+```dataview
+table filter(file.tags, (t) => t !="#CodingTest" AND t !="#Learned") as tags
+from #Learned 
+```
+
+
+```dataview
+table platform, difficulty, filter(file.tags, (t) => t !="#CodingTest" AND t !="#Learned") as tags
+from #CodingTest 
+where file.name != "Coding Problem" AND file.name != "Baekjoon Skeleton Codes"
+AND status = "Solved ✅"
 ```

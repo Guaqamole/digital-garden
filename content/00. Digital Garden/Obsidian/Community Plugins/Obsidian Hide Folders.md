@@ -6,7 +6,7 @@ tags:
   - MinorPlugins
   - CommunityPlugins
 ---
-*Parent* : [[00. Digital Garden]]
+
 
 ## [Configuration](https://github.com/JonasDoesThings/obsidian-hide-folders#configuration)
 

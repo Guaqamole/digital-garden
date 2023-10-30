@@ -6,7 +6,7 @@ tags:
   - MinorPlugins
   - CommunityPlugins
 ---
-*Parent* : [[00. Digital Garden]]
+
 
 ```
 .markdown-preview-view div[data-tag-name="h1"] + div > h2 {

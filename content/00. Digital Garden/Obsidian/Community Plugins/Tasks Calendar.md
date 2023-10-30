@@ -6,7 +6,7 @@ tags:
   - MinorPlugins
   - CommunityPlugins
 ---
-*Parent* : [[00. Digital Garden]]
+
 
 ## [Setup](https://github.com/702573N/Obsidian-Tasks-Calendar#setup)
 

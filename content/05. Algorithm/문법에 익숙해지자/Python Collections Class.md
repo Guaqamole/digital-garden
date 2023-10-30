@@ -4,7 +4,6 @@ date: 2023-10-24
 draft: false
 tags:
   - Python
-  - CodingTest
   - StandardLibrary
 complete: true
 ---

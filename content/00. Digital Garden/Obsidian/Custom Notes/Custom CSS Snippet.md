@@ -3,7 +3,7 @@ title: Custom CSS Snippet
 date: 2023-10-25
 draft: false
 tags:
-  - Snippet
+  - ObsidianCustomization
 complete: true
 link: https://publish.obsidian.md/hub/04+-+Guides%2C+Workflows%2C+%26+Courses/Guides/How+to+Style+Obsidian#Where+do+I+put+my+stylin'+declarations
 ---

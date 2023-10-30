@@ -20,3 +20,25 @@ https://mjs1995.tistory.com/239
 https://github.com/leimao
 
 ## 프로젝트 수행시 항상 채용 공고를 보면서 하기!
+
+https://blog.potados.com/dev/gardening-github/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -136,3 +136,26 @@ table tags
 from #Greedy 
 flatten tags
 ```
+
+흠... 위에 필요없는 디폴트 태그들이 너무많다 (`CodingTest)` 등.
+
+# 태그로 찾고 특정 태그는 안보이게 출력
+
+## Before
+```dataview
+TABLE file.tags as tags
+FROM #Learned 
+```
+
+
+## After
+```dataview
+TABLE filter(file.tags, (t) => t !="#CodingTest" AND t !="#Learned") as tags
+FROM #Learned 
+```
+
+
+```
+TABLE filter(file.tags, (t) => t !="#CodingTest" AND t !="#Learned") as tags
+FROM #Learned 
+```

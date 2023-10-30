@@ -5,6 +5,7 @@ draft: false
 tags:
   - Kanban
 link: https://thebuccaneersbounty.wordpress.com/2022/06/19/tutorial-how-to-make-a-book-tracker-in-obsidian/
+complete: true
 ---
 ## How to Create a Book Note using a Template
 
@@ -39,7 +40,6 @@ _Setting the template folder location to_ `_templates`
 |   |
 |---|
 |`---   Author:   Status:   Kanban-Cover:   ---`|
-
 |   |
 |---|
 |💡 What you have just added is called a YAML frontmatter. This is a custom metadata that you can put in your notes and it will be used by the Dataview plugin to display your books. You can use it to sort your books by author, for example.|

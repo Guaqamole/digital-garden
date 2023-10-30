@@ -5,7 +5,7 @@ draft: false
 tags:
   - CommunityPlugins
 ---
-*Parent*  :  [[00. Digital Garden]]
+
 
 ### periodic notes 플러그인 설정
 
