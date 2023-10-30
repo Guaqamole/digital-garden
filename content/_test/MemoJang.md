@@ -100,3 +100,12 @@ from #CodingTest
 where file.name != "Coding Problem" AND file.name != "Baekjoon Skeleton Codes"
 AND status = "Solved ✅"
 ```
+
+
+
+```mermaid
+flowchart LR
+Start --> Stop --> Test
+Start --> Test
+
+```

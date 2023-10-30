@@ -33,6 +33,7 @@ draft: true
 
 
 ## Skills
+- [ ] [[2023-10-30 - Python Source Code 분석하기|Python Source Code 분석하기]]
 
 
 
