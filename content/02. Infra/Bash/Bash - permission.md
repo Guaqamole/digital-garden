@@ -1,18 +1,17 @@
 ---
-title: Quick Bash Scripts
-date: 2023-10-19
+title: Bash - Permission
+date: 2023-10-31
 draft: false
 tags:
   - Bash
+  - HowTo
 complete: true
 ---
-# Permission
-
 ## Run as User (with no password) [link](https://askubuntu.com/questions/294736/run-a-shell-script-as-another-user-that-has-no-password)
 
 ***run.sh***
 ```bash
-#sudo -H -u root bash -c 'echo "I am $USER, with uid $UID"'
+sudo -H -u root bash -c 'echo "I am $USER, with uid $UID"'
 sudo -H -u avokey bash -c 'sh /Users/avokey/.ssh/switch.sh'
 ```
 
@@ -38,3 +37,7 @@ else
     echo "Invalid choice. Please enter 1 or 2."
 fi
 ```
+
+
+---
+

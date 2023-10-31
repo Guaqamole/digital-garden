@@ -3,7 +3,7 @@ title: Embed Video
 date: 2023-10-30
 draft: false
 tags:
-  - Obsidian
+  - ObsidianTips
 complete: true
 ---
 # How to Embed a video
@@ -81,3 +81,4 @@ Here is the responsive embeded code that works!
 And voila, you can watch your videos in Obsidian without having to struggle with different window sizes or devices.
 
 Thank you for the css from [https://youtu.be/9YffrCViTVk](https://youtu.be/9YffrCViTVk)
+
