@@ -5,6 +5,7 @@ draft: false
 tags:
   - Bash
   - HowTo
+  - Linux
 complete: true
 ---
 ##  리눅스 find 사용법 

@@ -22,7 +22,7 @@ or this format:
 
 and it will add the caption underneath the image, like this:
 
-[![](https://github.com/alangrainger/obsidian-image-captions/raw/main/example.png)](https://github.com/alangrainger/obsidian-image-captions/blob/main/example.png)
+![This is a Caption](https://github.com/alangrainger/obsidian-image-captions/raw/main/example.png)
 
 ## [Resize images](https://github.com/alangrainger/obsidian-image-captions#resize-images)
 

@@ -18,7 +18,6 @@ Google Cache provides a snapshot of web pages as they appeared when Google last 
 2. Type or paste the following link into the address bar:
 
 ```
-1
 http://webcache.googleusercontent.com/search?q=cache:
 ```
 
@@ -27,7 +26,6 @@ http://webcache.googleusercontent.com/search?q=cache:
 For example, the complete link should look like this:
 
 ```
-1
 http://webcache.googleusercontent.com/search?q=cache:https://medium.com/example-article
 ```
 

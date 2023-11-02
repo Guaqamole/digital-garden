@@ -159,3 +159,37 @@ FROM #Learned
 TABLE filter(file.tags, (t) => t !="#CodingTest" AND t !="#Learned") as tags
 FROM #Learned 
 ```
+
+
+# Choice 문 사용시 다중 조건 걸고 싶을때
+
+```
+---
+title: recursion problem
+solved: true
+hard:
+tag: #algo
+---
+```
+
+이런 Front-matter 가 있다고할때 아래와 같은 쿼리를 날리면 `hard` 의 경우 O도 X도 아닌데 X를 써야한다…
+```
+table
+	choice(solved, "O", "X") as solved,
+	choice(hard, "O", "X") as hard
+from #algo
+```
+
+|solved | hard|
+|- |-|
+| O | X|
+
+O, X, N/A 세개의 옵션을 주고싶은 경우 Nested choice 문을 사용하면 된다.
+
+```
+table
+	choice(
+		contains(hard, True),"✅",
+			choice(contains(hard, False), "❌", 
+				"N/A")) as hard
+```

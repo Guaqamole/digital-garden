@@ -5,6 +5,7 @@ Author:
 Status: Unread
 Topics: Java, Optimization
 tags:
+  - Book
   - GoogleRecommend
   - Java
 Kanban-Cover: "![Book Cover|300](https://image.yes24.com/goods/65551284/XL)"

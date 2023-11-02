@@ -4,7 +4,7 @@ date: 2023-10-24
 draft: false
 tags:
   - CodingTest
-complete: false
+complete: true
 ---
 # 여러개 입력
 
@@ -66,9 +66,6 @@ for line in sys.stdin:
 	print(a+b)
 ```
 
-```python
-
-```
 
 # 명령어 형식
 ```bash
@@ -89,3 +86,30 @@ empty
 top
 ```
 
+```python
+n = int(input())
+
+for _ in range(n):
+    command = input().split()
+    if command[0] == 'push':
+...
+```
+
+# 특정 값이 나올때 까지 입력받기
+- 0 이나오면 끝.
+```python
+8
+20
+42
+0
+```
+
+```python
+import sys
+
+while True:
+    n = int(sys.stdin.readline())
+
+    if n == 0:
+        break
+```

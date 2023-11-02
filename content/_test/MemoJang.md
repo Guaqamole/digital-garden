@@ -1,6 +1,7 @@
 ---
 title: MemoJang
 complete: true
+draft: true
 ---
 
 
@@ -110,4 +111,59 @@ Start --> Test
 
 ```
 
+---
 
+
+```python
+def hello(name):
+	print("hello", name)
+
+def add(a, b):
+	return a+b
+
+hello("kim")
+print(add(1,2))
+```
+
+---
+
+
+```python
+hello("john")
+```
+
+
+---
+
+
+
+```python
+print(add(1,2))
+print(add(1,2))
+```
+
+
+---
+
+
+
+```python
+print(add(1,2))
+```
+
+---
+
+
+## This is Jupyter notebooks
+
+다 할수있어
+
+```
+오늘 할것
+```
+
+```python
+
+```
+
+---

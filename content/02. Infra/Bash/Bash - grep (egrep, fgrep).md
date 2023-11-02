@@ -1,10 +1,11 @@
 ---
-title:  Bash - grep (egrep, fgrep)
+title: Bash - grep (egrep, fgrep)
 date: 2023-10-31
 draft: false
 tags:
-  - 
   - HowTo
+  - Bash
+  - Linux
 complete: true
 ---
 

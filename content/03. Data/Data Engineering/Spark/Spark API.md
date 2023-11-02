@@ -5,7 +5,7 @@ draft: false
 tags:
   - Spark
   - Concept
-complete: false
+complete: true
 ---
 Spark는 대규모 데이터 처리를 위한 고급 프로그래밍 인터페이스로, 데이터 처리 및 분석 작업을 간편하게 수행할 수 있도록 도와주는 도구 및 라이브러리를 가지고있다. Spark의 API는 Spark 엔진을 활용하여 데이터 처리 작업을 수행하는 데 사용되는데, Spark API의 주요 구성 요소는 다음과 같다:
 

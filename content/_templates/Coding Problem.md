@@ -4,17 +4,17 @@ date: <%tp.date.now() %>
 draft: false
 tags:
   - CodingTest
-Platform: {{VALUE:Baekjoon,LeetCode,HackerRank}}
-link: {{VALUE:URL Link To Problem}}
-difficulty: {{VALUE:Difficulty (골드 2 실버 4...)}}
+Platform: {{VALUE:Baekjoon, LeetCode, HackerRank}} 
+link: {{VALUE:URL Link To Problem}} 
+difficulty: {{VALUE:Difficulty (골드 2 실버 4...)}} 
 highlight: false
-Reason: N/A
+Comment: N/A
 Status: Not Solved ✏️
-idea: false
-implment: false
-time-complexity: false
-time-enough: false
-tries: 1
+idea: 
+implement: 
+time-complexity: 
+time-enough: 
+tries:
 ---
 # 문제
 

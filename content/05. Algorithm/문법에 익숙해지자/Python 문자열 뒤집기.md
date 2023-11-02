@@ -5,7 +5,7 @@ draft: false
 tags:
   - Python
   - Fundamental
-complete: false
+complete: true
 ---
 ```python
 a = 'happy birthday'

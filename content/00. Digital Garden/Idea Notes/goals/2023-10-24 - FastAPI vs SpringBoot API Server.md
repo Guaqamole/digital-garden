@@ -26,7 +26,8 @@ Projects:: `$= const projects = dv.page('2023-10-24 - FastAPI vs SpringBoot API 
 - Debugging
 
 # Ideas
-- 
+- 참고 블로그
+- https://breezymind.com/python-vs-go-vs-webflux-benchmark/
 
 # Milestones
 

@@ -5,6 +5,7 @@ draft: false
 tags:
   - Bash
   - HowTo
+  - Linux
 complete: true
 ---
 ## Run as User (with no password) [link](https://askubuntu.com/questions/294736/run-a-shell-script-as-another-user-that-has-no-password)
