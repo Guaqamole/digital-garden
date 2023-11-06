@@ -141,7 +141,7 @@ partitionRows = upperBound / numPartitions - lowerBound / numPartitions
 - Master - 2 vCPUs, 8 Gib
 - 2 x worker - 2 vCPUs, 8 Gib
 
-**Spark Cluster**
+**Spark Cluster** (vCPU 2배차이, 메모리 4배차이)
 - Master - 1 vCPU, 2g Gib
 - 2 x Worker - 1 vCPU, 2g Gib
 - numPartition: 2
