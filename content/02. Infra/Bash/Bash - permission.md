@@ -16,6 +16,15 @@ sudo -H -u root bash -c 'echo "I am $USER, with uid $UID"'
 sudo -H -u avokey bash -c 'sh /Users/avokey/.ssh/switch.sh'
 ```
 
+`-H`: `sudo`에게 대상 사용자(`root`인 경우)의 홈 디렉터리로 홈 환경 변수(`$HOME`)를 설정하라는 것입니다. 이를 통해 대상 사용자에게 적절한 환경 변수가 설정되도록 합니다.
+
+`-u root`: 다음에 나오는 명령어를 실행할 사용자를 지정합니다. 이 경우 `root` 사용자로 명령을 실행하도록 합니다. 이 옵션을 사용하면 지정한 사용자의 권한으로 명령을 실행할 수 있습니다. 이 경우 명령을 root 사용자로 실행합니다.
+
+```sh
+
+```
+
+
 ***switch.sh***
 ```bash
 #!/bin/bash
