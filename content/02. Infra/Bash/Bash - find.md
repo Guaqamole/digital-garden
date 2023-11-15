@@ -136,13 +136,3 @@ find . -name "*.txt" -exec rm {} \;
 ```
 
 exec를 사용하여 검색한 대상에 추가 명령어를 수행할 수도 있습니다.
-
-### 특정 txt가 포함된 파일 찾기
-```sh
-grep -rn '172.18.0.3' ./
-
-
-./workers:19:172.18.0.3
-./workers:20:172.18.0.3
-./spark-defaults.conf:29:spark.master spark://172.18.0.3:7077
-```
