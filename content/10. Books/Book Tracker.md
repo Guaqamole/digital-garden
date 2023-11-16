@@ -16,6 +16,7 @@ draft: true
 
 ## Currently Reading
 
+- [ ] [[추천 시스템 입문]]
 
 
 ## Read
