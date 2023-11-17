@@ -5,7 +5,6 @@ draft: false
 tags:
   - AWS
   - Personalize
-  - Concept
 complete: true
 ---
 

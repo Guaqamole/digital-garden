@@ -89,7 +89,7 @@ complete: true
 
  
 
-### C. **Executor**
+### C. Executor
 ![](https://i.imgur.com/qysRoZn.png)
 
 - Application에서 Driver Program이 요청한 Task들의 연산을 실제로 수행하는 프로세스

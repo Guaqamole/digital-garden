@@ -25,15 +25,15 @@ link: https://docs.python.org/3/reference/datamodel.html
 
 다음은 파이썬에서 기본적으로 사용되는 데이터 타입들이다.
 
-#### None
+### None
 
 이 타입은 단 하나의 값을 가지고 있고, None 타입의 객체는 단 하나 밖에 없다 (This type has a single value. There is a single object with this value). 예약어 ‘None’으로 객체에 접근할 수 있으며, 값이 없음을 나타내야 하는 다양한 상황에 사용된다. 예를 들어, 명시적으로 어떠한 값도 리턴하지 않는 함수의 리턴값에 쓰일 수 있으며, 사실 이 값은 false와 같다.
 
-#### NotImplemented
+### NotImplemented
 
 이 타입도 None과 같이 단 하나뿐이다. 예약어 ‘NotImplemented’로 접근 가능하다. 수와 관련된 연산이나 복잡한 비교를 수행하는 메소드에서 정의되어 있지 않은 연산을 수행해야 할 때 이 값을 리턴한다.
 
-#### numbers.Number
+### numbers.Number
 
 수와 관련된 객체는 Immutable, 즉, 한번 생성되면 값을 바꿀 수 없다. 파이썬에서 수는 정수, 실수와 복소수를 구분한다.
 
@@ -43,7 +43,7 @@ link: https://docs.python.org/3/reference/datamodel.html
 - numbers.Real (float) : 아키텍처에 따라 표현 가능한 수의 범위가 달라진다. double-precision 체계를 사용한다.
 - numbers.Complex (complex) : machine-level double precision 실수 체계와 짝을 이루어 복소수를 표현한다. 복소수 z는 실수부 z.real과 허수부 z.imag로 구분된다.
 
-#### Sequences
+### Sequences
 
 Sequence는 음수가 아닌 수로 순서를 매겨 정렬된 유한한 개수의 집합이다. len() 함수를 통해 아이템 개수를 알수 있으며, 아이템이 총 n개 있을 때, 각 요소는 0, 1, … n-1로 순서를 매기며, i번째 요소는 a[i]로 접근할 수 있다.
 

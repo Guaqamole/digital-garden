@@ -5,7 +5,6 @@ draft: false
 tags:
   - AWS
   - Personalize
-  - HowTo
 complete: true
 ---
 ![](https://i.imgur.com/l9gkkV0.png)

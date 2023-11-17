@@ -5,4 +5,5 @@ draft: false
 tags:
   - DevFundamental
   - Concept
+complete: false
 ---

@@ -6,5 +6,5 @@ tags:
   - AWS
   - Personalize
   - HowTo
-complete: true
+complete: false
 ---
