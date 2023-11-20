@@ -4,6 +4,7 @@ date: 2023-11-17
 draft: false
 tags:
   - Airflow
+  - Kubernetes
 complete: true
 link: https://github.com/airflow-helm/charts/blob/main/charts/airflow/README.md#frequently-asked-questions
 ---

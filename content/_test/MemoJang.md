@@ -2,7 +2,16 @@
 title: MemoJang
 complete: true
 draft: true
+cssClass: img-grid
 ---
+
+![[Spark Client Mode.png]]
+![[Spark Local Mode.png]]
+
+![[Standalone vs Mesos.png]]
+![[Spark Deployment Modes.png]]
+![[Pasted Image 20230809112634_406.png]]
+![[Spark Cluster Mode2.png]]
 
 
 2023-10-13

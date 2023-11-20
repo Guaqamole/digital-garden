@@ -14,10 +14,17 @@ complete: true
 
 ```python
 a, b, c, d = map(int, input().split())
-print(a,b,c,d)
 ```
 
+```python
+5 3 
+1 2 34 5
+```
 
+```python
+n,m = map(int, input().split())
+nums = list(map(int,input().split()))
+```
 # N 개 입력을 list에 넣기
 
 ```bash
