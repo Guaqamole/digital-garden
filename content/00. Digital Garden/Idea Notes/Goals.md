@@ -13,6 +13,7 @@ draft: true
 - [ ] [[2023-10-24 - 실시간 데이터 파이프라인 구축|실시간 데이터 파이프라인 구축]]
 - [ ] [[2023-10-27 - 미니 사이드 프로젝트|미니 사이드 프로젝트]]
 - [ ] [[2023-10-24 - FastAPI vs SpringBoot API Server|FastAPI vs SpringBoot API Server]]
+- [ ] [[2023-11-21 - 검색 플랫폼 스킬 업그레이드!|검색 플랫폼 스킬 업그레이드!]]
 - [ ] [[2023-10-24 - 다양한 형태 DB 구축|다양한 형태 DB 구축]]
 - [ ] [[2023-10-24 - 외부 데이터 Crawling|외부 데이터 Crawling]]
 
@@ -33,8 +34,8 @@ draft: true
 
 
 ## Skills
-- [ ] [[2023-10-30 - Python Source Code 분석하기|Python Source Code 분석하기]]
 
+- [ ] [[2023-10-30 - Python Source Code 분석하기|Python Source Code 분석하기]]
 
 
 ## DONE

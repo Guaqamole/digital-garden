@@ -23,7 +23,9 @@ https://github.com/leimao
 
 https://blog.potados.com/dev/gardening-github/
 
+## python
 
+https://velog.io/@hamdoe/python-cleancode-2.-%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%8A%A4%EB%9F%AC%EC%9A%B4-%EC%BD%94%EB%93%9C
 
 
 

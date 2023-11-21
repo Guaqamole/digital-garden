@@ -8,7 +8,7 @@ complete: true
 ---
 ## **S3 버저닝 (Versioning)**
 
-[![S3 버저닝 (Versioning)](https://blog.kakaocdn.net/dn/chLS5b/btrFqrL00Ry/NwC1rVm7kw76ls1zz2Egt0/img.jpg)](https://blog.kakaocdn.net/dn/chLS5b/btrFqrL00Ry/NwC1rVm7kw76ls1zz2Egt0/img.jpg
+![S3 버저닝 (Versioning)](https://blog.kakaocdn.net/dn/chLS5b/btrFqrL00Ry/NwC1rVm7kw76ls1zz2Egt0/img.jpg)
 
 앞서 소개했듯이, 파일을 실수로 삭제하고 저장을 해버렸을 경우, S3는 이를 위해 자동화된 백업 관리 기법인 **버전 관리** 및 생애주기 관리 기법을 제공한다.
 
@@ -33,6 +33,8 @@ aws 매니저에서 버킷을 만들때 기본적으로 비활성화 라서, �
 
 [![S3 버저닝 (Versioning)](https://blog.kakaocdn.net/dn/d5RQlT/btrFuVElAeJ/rdFvE7KPwFlBX9KkobTReK/img.png)](https://blog.kakaocdn.net/dn/d5RQlT/btrFuVElAeJ/rdFvE7KPwFlBX9KkobTReK/img.png)
 
+<br>
+
 
 ### 객체 버전 ID 수정
 
@@ -51,6 +53,8 @@ aws 매니저에서 버킷을 만들때 기본적으로 비활성화 라서, �
 파일을 삭제 한것이 아니다. 삭제 마커를 최상단에 올림으로서 마치 파일이 삭제된것처럼 효과를 주는 것이다.
 
 따라서 DELETE를 수행해도 파일의 전체적인 버전 정보를 유지시키게 된다.
+
+<br>
 
 ### 객체 버전 ID 삭제
 

@@ -102,13 +102,19 @@ oci://registry-1.docker.io/bitnamicharts/spark \
 --set service.type="NodePort"
 ```
 
+### Service Account & ClusterRoleBinding 생성
+```sh
+kubectl create serviceaccount spark --namespace=$SPARK_NAME
+kubectl create clusterrolebinding spark-role --clusterrole=edit  --serviceaccount=$SPARK_NAME:spark --namespace=$SPARK_NAME
+```
+
 ## Test
 ```sh
 ./bin/spark-submit \
 --class org.apache.spark.examples.SparkPi \
 --conf spark.kubernetes.container.image=bitnami/spark:3 \
 --master k8s://https://$API_SERVER_HOST:$API_SERVER_PORT \
---conf spark.kubernetes.namespace=$SPARK_NAME$ \
+--conf spark.kubernetes.namespace=$SPARK_NAME \
 --conf spark.kubernetes.driverEnv.SPARK_MASTER_URL=spark://spark-master-svc:spark-master-port \
 --deploy-mode cluster \
 local:///opt/spark/examples/jars/spark-examples_2.12-3.5.0.jar
