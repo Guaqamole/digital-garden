@@ -1,5 +1,5 @@
 ---
-title: Boto3 기본 사용법
+title: Boto3
 date: 2023-11-21
 draft: false
 tags: 
