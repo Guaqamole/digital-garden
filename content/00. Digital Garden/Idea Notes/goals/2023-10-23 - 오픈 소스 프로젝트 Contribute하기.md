@@ -18,10 +18,11 @@ Projects:: `$= const projects = dv.page('2023-10-23 - 오픈 소스 프로젝트
 
 # Core Output
 
+- OSSCA 마지막 기간 2023-06.
 - 
 
 # Ideas
-- 
+- https://www.oss.kr/ 여기에 프로젝트 할것들많음
 
 # Milestones
 

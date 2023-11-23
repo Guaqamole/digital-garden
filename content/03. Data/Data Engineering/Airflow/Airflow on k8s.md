@@ -6,7 +6,7 @@ tags:
   - Airflow
   - Kubernetes
 complete: true
-link: https://github.com/airflow-helm/charts/blob/main/charts/airflow/README.md#frequently-asked-questions
+link: https://github.com/airflow-helm/charts/blob/main/charts/airflow/README.md#frequently-asked-questions, https://cloudnativenow.com/features/using-airflow-to-run-spark-on-kubernetes/
 ---
 
 # 구현: Implementation

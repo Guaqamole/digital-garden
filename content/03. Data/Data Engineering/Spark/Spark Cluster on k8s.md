@@ -6,11 +6,16 @@ tags:
   - Spark
   - Kubernetes
 complete: false
-link: https://github.com/bitnami/charts/tree/main/bitnami/spark, https://purumir.github.io/2020/05/21/kubernetes%EB%A1%9C-spark-submit%ED%95%98%EA%B8%B0-spark-submit-to-kubernetes/
+link: https://github.com/bitnami/charts/tree/main/bitnami/spark, https://purumir.github.io/2020/05/21/kubernetes%EB%A1%9C-spark-submit%ED%95%98%EA%B8%B0-spark-submit-to-kubernetes/,
 ---
 # 구현: Implementation
+
+## 방법 1. Bitnami
 - IaC는 Helm Chart 사용 (Bitnami Version)
 - Cluster Manager는 k8s 사용
+
+## 방법 2. spark-operator
+- gcp에서 helm chart 제공
 
 ### Spark Cluster Spec
 - 간단히 짚고 넘어가는 spark on k8s 구조 (this content is from my obsidian note)
@@ -22,6 +27,8 @@ link: https://github.com/bitnami/charts/tree/main/bitnami/spark, https://purumir
 - cluster 모드로 실행하면 실행한 pod과는 별개로 driver pod이 새로 뜨게되며 새로 뜬 driver pod이 executor pod들을 띄우게 되는 구조
 
 ---
+
+# Bitnami
 
 ## Step 1. Install Helm Chart
 
@@ -104,18 +111,23 @@ oci://registry-1.docker.io/bitnamicharts/spark \
 
 ### Service Account & ClusterRoleBinding 생성
 ```sh
-kubectl create serviceaccount spark --namespace=$SPARK_NAME
-kubectl create clusterrolebinding spark-role --clusterrole=edit  --serviceaccount=$SPARK_NAME:spark --namespace=$SPARK_NAME
+kubectl create serviceaccount apache-spark-driver --namespace=$SPARK_NAME
+kubectl create clusterrolebinding spark-role --clusterrole=edit  --serviceaccount=$SPARK_NAME:apache-spark-driver --namespace=$SPARK_NAME
 ```
 
-## Test
+## Submit Test
+- executor는 worker instance 개수만큼 띄울수있다.
 ```sh
-./bin/spark-submit \
+K8S_API_ENDPOINT=$(kubectl config view --minify -o jsonpath='{.clusters[].cluster.server}')
+
+$SPARK_HOME/bin/spark-submit \
+--master k8s://$K8S_API_ENDPOINT \
+--name spark-pi \
 --class org.apache.spark.examples.SparkPi \
---conf spark.kubernetes.container.image=bitnami/spark:3 \
---master k8s://https://$API_SERVER_HOST:$API_SERVER_PORT \
+--conf spark.executor.instances=3 \
+--conf spark.kubernetes.container.image=apache/spark:3.5.0 \
 --conf spark.kubernetes.namespace=$SPARK_NAME \
---conf spark.kubernetes.driverEnv.SPARK_MASTER_URL=spark://spark-master-svc:spark-master-port \
+--conf spark.kubernetes.authenticate.driver.serviceAccountName=apache-spark-driver \
 --deploy-mode cluster \
 local:///opt/spark/examples/jars/spark-examples_2.12-3.5.0.jar
 ```
@@ -128,6 +140,7 @@ NAME                         READY   STATUS    RESTARTS   AGE
 pod/spark-cluster-master-0   1/1     Running   0          90s
 pod/spark-cluster-worker-0   1/1     Running   0          90s
 pod/spark-cluster-worker-1   1/1     Running   0          59s
+pod/spark-cluster-worker-2   1/1     Running   0          12s
 
 NAME                               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)
                       AGE
@@ -138,7 +151,7 @@ service/spark-cluster-master-svc   NodePort    10.103.135.53   <none>        707
 
 NAME                                    READY   AGE
 statefulset.apps/spark-cluster-master   1/1     90s
-statefulset.apps/spark-cluster-worker   2/2     90s
+statefulset.apps/spark-cluster-worker   3/3     90s
 ```
 
 ![](https://i.imgur.com/gYC3ekJ.png)
@@ -148,3 +161,75 @@ statefulset.apps/spark-cluster-worker   2/2     90s
 t2.medium 10대씩 띄어놔도 한달에 십만원은 그냥 넘기는데 이제 이 녀셕들을 잘 활용해봐야겠다ㅎㅎ
 
 익스큐터 10개씩 돌려봐야지ㅎ 재밌겠다
+
+
+---
+
+# Spark-Operator
+- https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
+- 3.1.1이 가장 최근이미지 인거같다ㅠ
+
+## Step 1. helm chart
+- CRD까지 알아서 만들어진다.
+```sh
+helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
+
+helm install spark-operator spark-operator/spark-operator --namespace spark-operator --create-namespace --set webhook.enable=true
+```
+
+
+## Step 2. Service Account
+```sh
+kubectl create serviceaccount spark --namespace=spark-operator
+
+kubectl create clusterrolebinding spark-operator-role --clusterrole=edit --serviceaccount=spark-operator:spark --namespace=spark-operator
+```
+
+## Step 3. yaml
+- https://github.com/apache/airflow/blob/2.1.4/airflow/providers/cncf/kubernetes/example_dags/example_spark_kubernetes.py
+```yaml
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: spark-pi
+  namespace: spark-operator
+spec:
+  type: Scala
+  mode: cluster
+  image: "gcr.io/spark-operator/spark:v3.1.1"
+  imagePullPolicy: Always
+  mainClass: org.apache.spark.examples.SparkPi
+  mainApplicationFile: "local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar"
+  sparkVersion: "3.1.1"
+  restartPolicy:
+    type: Never
+  volumes:
+    - name: "test-volume"
+      hostPath:
+        path: "/tmp"
+        type: Directory
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.1.1
+    serviceAccount: spark
+    volumeMounts:
+      - name: "test-volume"
+        mountPath: "/tmp"
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: 3.1.1
+    volumeMounts:
+      - name: "test-volume"
+        mountPath: "/tmp"
+```
+
+## Step 4. Deploy
+```sh
+kubectl apply -f spark-app.yaml
+```

@@ -40,7 +40,7 @@ https://velog.io/@hamdoe/python-cleancode-2.-%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%8A%A
 
 
 
-
+https://gngsn.tistory.com/category/BACKEND/AWS
 
 
 

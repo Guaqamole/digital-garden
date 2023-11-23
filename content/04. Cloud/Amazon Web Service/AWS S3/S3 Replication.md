@@ -12,10 +12,38 @@ complete: true
 Topics:
 ---
 
-Amazon S3에는 두가지 Replication 방법이 존재한다.
+S3의 Replication은 특정 버킷(Source Bucket)에서 다른 버킷(Target Bucket)으로  비동기 방식의 복제를 지원하는 기능이며  (S3 Versioning 활성화 필요) (IAM Permission 또한 필요). Replication Rule을 생성하여 특정 오브젝트가 소스 버킷에서 생성되었을때 타겟 버킷으로 복제를 할 수 있다.
 
-비동기 복제 (asynchronous replication)를 활성화 하려면 <mark style="background: #C6AB16;">S3 Versioning 활성화</mark>해야한다.
-IAM Permission 또한 필요.
+Replication types:
+- Versioning Object Replication
+- S3 Batch Replication
+- Delete Marker Replcation
+- Cross Region Replication
+- Same Region Replication
+
+<br>
+
+## S3 Batch Replication
+버킷을 사용하다가 **중간에 Replication Rules를 활성화**하면, **기존의 객체 및 데이터**는 어떻게 될까요?
+→ 버킷 속성의 복제를 활성화한 후에는, **새롭게 등록되는 객체만 복제 대상**이 됩니다.
+> [!success] 언제사용?
+> 만약 기존의 객체를 복제하고 싶다면, S3 배치 복제 기능인 S3 Batch Replication을 사용해야 합니다.
+S3 배치 복제는 기존 객체부터 복제에 실패한 객체까지 복제할 수 있습니다. 
+
+<br>
+
+## Delete Marker Replication
+그럼 Versioning되는 객체에 대한 복제가 이루어진다면, **삭제 마커** 또한 같이 생성될까요?
+→ 기본적으로 삭제 마커가 복제되지 않음. 하지만, 삭제 마커를 선택적으로 복제를 선택할 수 있다.
+
+> [!success] 언제사용?
+> Delete Marker Replication이 활성화 되어 있다면 삭제 마커 또한 복제할 수 있습니다.
+
+> [!warning]
+> 그렇다면 원본 버킷의 Delete Marker를 삭제하면 어떻게 될까요?
+→ 원본 버킷의 Delete Marker를 삭제해도 복제 버킷의 Delete Marker는 삭제되지 않습니다.
+
+<br>
 
 ## [[Cross-Region Replication (CRR)]] 
 - 자동으로 다른 리전으로 복제
