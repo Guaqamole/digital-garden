@@ -107,7 +107,6 @@ complete: true
 ---
 
 ## Cluster Manager 
-
 Cluster Manager는 여러 대의 서버로 구성된 클러스터 환경에서, 다수의 Application이 함께 구동될 수 있도록 Application(Driver와 Executor) 사이의 자원을 관리해주는 역할을 담당
 
 - 스파크와 붙이거나 뗄 수 있는(pluggable) 컴포넌트

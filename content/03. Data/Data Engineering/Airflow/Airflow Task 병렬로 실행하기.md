@@ -58,7 +58,7 @@ with DAG(
 
 # 방법 2. 동적 할당으로 List 사용
 
-![|556](https://i.imgur.com/cKOLP7b.png)
+![airflow task](https://i.imgur.com/cKOLP7b.png)
 
 ```python
 from __future__ import annotations

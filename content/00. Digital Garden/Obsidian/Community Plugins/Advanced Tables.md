@@ -38,3 +38,34 @@ ___
 ## [Obsidian Mobile](https://github.com/tgrosinger/advanced-tables-obsidian#obsidian-mobile)
 
 When using Obsidian on a mobile device, the Advanced Tables plugin can be used. Using Enter and Tab to navigate the table will not work, however you can add the "Next Cell" and "Next Row" commands to the mobile toolbar and use them to navigate, or use the buttons from the sidebar.
+
+
+# Syntax
+
+### Format content within a table
+
+You can use [basic formatting syntax](https://help.obsidian.md/Editing+and+formatting/Basic+formatting+syntax) to style content within a table.
+
+| First column                                                                        | Second column                           |
+| ----------------------------------------------------------------------------------- | --------------------------------------- |
+| [Internal links](https://help.obsidian.md/Linking+notes+and+files/Internal+links)   | Link to a file _within_ your **vault**. |
+| [Embedding files](https://help.obsidian.md/Linking+notes+and+files/Embedding+files) | n/a                                     |
+
+```
+First column | Second column -- | -- [[Basic formatting syntax\|Markdown syntax]] | ![[og-image.png\|200]]
+```
+
+<br>
+
+### Alignment
+
+| Left-aligned text | Center-aligned text | Right-aligned text |
+|:----------------- |:-------------------:| ------------------:|
+| Content           |       Content       |            Content |
+
+
+```
+Left | Center | Right
+:-- | :--: | --: 
+Content | Content | Content
+```

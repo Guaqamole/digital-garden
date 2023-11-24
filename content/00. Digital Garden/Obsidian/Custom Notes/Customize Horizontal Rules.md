@@ -2,7 +2,8 @@
 title: Customize Horizontal Rules
 date: 2023-10-28
 draft: false
-tags: 
+tags:
+  - Custom
 complete: true
 link: https://forum.obsidian.md/t/creating-fancy-horizontal-rule-lines/63700
 ---

@@ -28,6 +28,7 @@ date: 2023-10-05
 #### [[10. Books]]
 #### [[11. Projects]]
 #### [[12. Interview]]
+#### [[14. Liberal Arts & Economics]]
 #### [[22. Certification]]
 
 

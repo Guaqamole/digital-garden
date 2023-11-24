@@ -20,7 +20,7 @@ link: https://github.com/bitnami/charts/tree/main/bitnami/spark, https://purumir
 ### Spark Cluster Spec
 - 간단히 짚고 넘어가는 spark on k8s 구조 (this content is from my obsidian note)
 ### D. Kubernetes
-![](https://i.imgur.com/oi04Zzs.png)
+![|600](https://i.imgur.com/oi04Zzs.png)
 
 - Kubernetes에서는 driver가 뜨고 이 driver가 executor pod들을 실행
 - client모드로 Spark job을 실행하면 실행하고자 하는 pod이 driver가 되고 executor pod들이 새로 생성됨
@@ -54,8 +54,6 @@ https://github.com/bitnami/charts/tree/main/bitnami/spark#parameters
 ### default options
 - 일단 순정으로 설치하게 되면 기본적으로 가져가게되는 옵션이 있다.
 - 이것도 엄청 많으니 중요한것들만 짚고 넘어가자
-
-<br>
 
 ### Spark master parameters
 
