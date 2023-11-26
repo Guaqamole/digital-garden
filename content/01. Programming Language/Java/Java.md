@@ -6,18 +6,17 @@ tags:
 complete:
 ---
 # JDK, JRE, JVM
-
 ![](https://i.imgur.com/gKrMqoi.png)
 
-### **JDK**
+### JDK
 - 자바 개발 환경으로 자바 어플리케이션을 개발하기 위해 필요한 도구를 제공한다.
 - 자바 언어를 바이트 코드로 컴파일 해주는 자바 컴파일러(javac), 자바 클래스 파일을 해석해주는 역 어셈블리어(javap) 등이 있다.
 - 자세한 내용은 [Tools and Commands Reference](https://docs.oracle.com/en/java/javase/11/tools/tools-and-command-reference.html) 에서 확인이 가능하다.
 
-### **JRE**
+### JRE
 - JRE는 자바 실행 환경으로 JVM,자바 클래스 라이브러리, 기타 자바 어플리케이션 실행에 필요한 파일들을 포함한다.
 
-### **JVM**
+### JVM
 [[JVM]] 은 자바 가상 머신으로 자바 어플리케이션을 실행하는 가상 머신이다. 실제 컴퓨터로 부터 JAVA 어플리케이션 실행을 위한 메모리를 할당 받아 Runtime Data Area를 구성한다.
 
 - JVM은 인터프리터와 JIT 컴파일러를 통해 바이트 코드를 각 운영체제에 맞는 기계어로 해석시켜 실행시키고, 가비지 콜렉터를 통해 어플리케이션의 동적 메모리를 관리한다.
@@ -26,8 +25,6 @@ complete:
 ___
 
 # JAVA 컴파일 순서
-
-
 ![](https://i.imgur.com/dm6cvvX.png)
 
 
@@ -52,5 +49,5 @@ ___
     ii. JIT 컴파일러(Just-In-Time Compiler) : 인터프리터의 단점을 보완하기 위해 도입된 방식으로 바이트 코드 전체를 컴파일하여 바이너리 코드로 변경하고 이후에는 해당 메서드를 더 이상 인터프리팅 하지 않고, <mark class="hltr-highlight">바이너리 코드로 직접 실행하는 방식이다</mark>. 하나씩 인터프리팅하여 실행하는 것이 아니라 바이트 코드 전체가 컴파일된 바이너리 코드를 실행하는 것이기 때문에 전체적인 실행속도는 인터프리팅 방식보다 빠름.
 
 
-# Reference
+## Reference
 - https://docs.oracle.com/javase/specs/jvms/se7/html/
