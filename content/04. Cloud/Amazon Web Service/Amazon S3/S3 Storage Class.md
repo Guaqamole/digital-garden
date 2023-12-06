@@ -92,7 +92,6 @@ Amazon S3에는 7가지 `Storage Class`를 제공한다:
 
 
 ## S3 Intelligent Tiering (지능형 계층화)
-
 머신러닝을 통해서 **자동으로 파일의 티어(클래스)를 변경** 하는 서비스이다.
 ![](https://i.imgur.com/wXoMLcY.png)
 

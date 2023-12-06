@@ -7,9 +7,12 @@ tags:
   - AWS
 complete: true
 ---
-## 1. Data Ingestion and Transformation (34%) <br><br>
+시험시간: 170분 (일반은 130분)
+문제: 85문제 (더미 없음) (일반은 50 + 15 = 65)
+커트라인: 100 - 1000중 720점
 
-### 1.1 Data Ingestion <br>
+## 1. Data Ingestion and Transformation (34%)
+### 1.1 Data Ingestion
 #### 필요 지식
 - AWS 데이터 수집 서비스의 처리량 및 대기 시간 특성
 - 데이터 수집 패턴 (예: 빈도 및 데이터 기록)
@@ -83,7 +86,7 @@ complete: true
 
 ---
 
-## 2. Data Store Management (26%)<br><br>
+## 2. Data Store Management (26%)
 ### 2.1 Choose a data store
 
 #### 필요 지식
@@ -144,7 +147,7 @@ complete: true
 
 
 ---
-## 3. Data Operations and Support (22%)<br><br>
+## 3. Data Operations and Support (22%)
 ### 3.1 Automate data processing by using AWS services
 
 #### 필요 지식
@@ -209,7 +212,7 @@ complete: true
 
 
 ---
-## 4. Data Security and Governance (18%)<br><br>
+## 4. Data Security and Governance (18%)
 ### 4.1 Apply authentication mechanisms
 
 #### 필요 지식

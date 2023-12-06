@@ -983,3 +983,4 @@ virtual machine (가상 기계)[](https://docs.python.org/ko/3/glossary.html#ter
 ## Zen of Python (파이썬 젠)[](https://docs.python.org/ko/3/glossary.html#term-Zen-of-Python "이 용어에 대한 퍼머링크")
 
 파이썬 디자인 원리와 철학들의 목록인데, 언어를 이해하고 사용하는 데 도움이 됩니다. 이 목록은 대화형 프롬프트에서 “`import this`” 를 입력하면 보입니다.
+

@@ -22,6 +22,8 @@ cssClass: img-grid
 Dd
 
 Dd
+$$ x + y =z $$
+
 
 ```mermaid
 flowchart LR

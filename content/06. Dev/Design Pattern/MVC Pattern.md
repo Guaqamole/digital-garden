@@ -4,6 +4,7 @@ date: 2023-11-25
 draft: false
 tags:
   - DesignPattern
+  - MVC
 complete: true
 ---
 ## MVC 패턴이란?

@@ -20,9 +20,7 @@ Replication types:
 - Delete Marker Replcation
 - Cross Region Replication
 - Same Region Replication
-
 <br>
-
 ## S3 Batch Replication
 버킷을 사용하다가 **중간에 Replication Rules를 활성화**하면, **기존의 객체 및 데이터**는 어떻게 될까요?
 → 버킷 속성의 복제를 활성화한 후에는, **새롭게 등록되는 객체만 복제 대상**이 됩니다.

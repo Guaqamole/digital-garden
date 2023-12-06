@@ -7,7 +7,7 @@ tags:
   - HowTo
 complete: true
 ---
-## Spring Initializr
+# Spring Initializr
 ### 1. metadata & dependency info
 ![‘Explore’ 버튼을 클릭하면 의존성 파일들 목록을 볼 수 있다.](https://i.imgur.com/xzgKkcD.png)
 
@@ -15,7 +15,7 @@ complete: true
 - 자동화시 유용
 
 ---
-## IntelliJ Maven
+# IntelliJ Maven Type 1
 ### 1. Maven Archetype 지정
 다음으로 Maven Archetype( 원형 )의 기본값을 지정해 준다.
 

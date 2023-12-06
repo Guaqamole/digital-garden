@@ -5,6 +5,7 @@ draft: false
 tags:
   - Springboot
   - Concept
+  - Backend
 complete: true
 ---
 스프링으로 웹개발을 하려면 세가지 방법이있다.

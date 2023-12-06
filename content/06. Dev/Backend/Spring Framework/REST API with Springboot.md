@@ -6,6 +6,7 @@ tags:
   - Springboot
   - RESTful
   - HowTo
+  - Backend
 complete: true
 ---
 ## Spring Initializr
@@ -15,6 +16,8 @@ complete: true
 - 3.2.0
 - jar
 ### Dependency
+- Lombok
+- Spring Configuration Processor
 - Spring Web
 
 ---
@@ -143,6 +146,39 @@ Iterable<Coffee> getCoffees() {
 ```
 
 
+### List<> functions
+`java.util.List` provides a variety of methods for working with lists. Here are some commonly used methods:
+
+1. **Adding Elements:**
+    - `add(E element)`: Appends the specified element to the end of the list.
+    - `add(int index, E element)`: Inserts the specified element at the specified position in the list.
+
+2. **Removing Elements:**
+    - `remove(Object o)`: Removes the first occurrence of the specified element from the list.
+    - `remove(int index)`: Removes the element at the specified position in the list.
+    - `clear()`: Removes all elements from the list.
+
+3. **Accessing Elements:**
+    - `get(int index)`: Returns the element at the specified position in the list.
+    - `indexOf(Object o)`: Returns the index of the first occurrence of the specified element in the list.
+    - `contains(Object o)`: Returns `true` if the list contains the specified element.
+
+4. **Size and Checking:**
+    - `size()`: Returns the number of elements in the list.
+    - `isEmpty()`: Returns `true` if the list contains no elements.
+
+5. **Replacing Elements:**
+    - `set(int index, E element)`: Replaces the element at the specified position in the list with the specified element.
+
+1. **Sublist Operations:**
+    - `subList(int fromIndex, int toIndex)`: Returns a view of the portion of this list between the specified `fromIndex`, inclusive, and `toIndex`, exclusive.
+
+1. **Sorting:**
+    - `sort(Comparator<? super E> c)`: Sorts the list according to the order induced by the specified comparator.
+
+2. **Iteration:**
+    - `forEach(Consumer<? super E> action)`: Performs the given action for each element of the Iterable until all elements have been processed or the action throws an exception.
+
 ### 그럼 모든 커피를 조회하지 않고 특정 ID로 조회하려면?
 ```java
 @GetMapping("/coffee/{id}")
@@ -159,7 +195,7 @@ Optional<Coffee> getCoffeeById(@PathVariable String id){
 
 ## Post Mehod
 > [!NOTE] POST
-> POST는 리소스의 세부 정보(일반적으로 JSON 형식)를 제공한다. 해당 서비스에 POST 요청을해서 지정된 URI에 리소스를 생성합니다.
+> POST는 리소스의 세부 정보(일반적으로 JSON 형식)를 제공한다. 해당 서비스에 POST 요청을해서 지정된 URI에 리소스를 생성한다.
 
 스프링 부트의 자동 마샬링 덕분에 해당 커피 정보를 Coffee 객체로 받는다. 그리고 해당 객체를 커피 목록에 추가한다. Coffee 객체는 스프링 부트에 의해 언마샬링 (기본값은 JSON)되어 요청한 애플리케이션이나 서비스로 반환된다.
 ```java
@@ -169,7 +205,7 @@ Coffee postCoffee(@RequestBody Coffee coffee) {
 	return coffee;
 }
 ```
-
+- `@RequestBody` is an annotation that indicates that the `coffee` parameter should be extracted from the request body of the HTTP request. This is often used in conjunction with JSON or XML payloads in POST requests.
 
 ---
 ## Put Method
@@ -192,7 +228,17 @@ Coffee putCoffee(@PathVariable String id, @RequestBody Coffee coffee) {
 	return (coffeeIndex == -1) ? postCoffee(coffee) : coffee;
 }
 ```
-
+#### Path Variable
+- `@PathVariable` annotation is used to **extract values from the URI template**.
+- `@PathVariable String id`: This annotation is used to extract the value of the `id` variable from the URI. The `{id}` in the URI template corresponds to the variable name `id`. For example, if the URI template is "/coffees/{id}", and a request is made to "/coffees/123", the value "123" would be assigned to the `id` parameter in the `putCoffee` method.
+- `@RequestBody Coffee coffee`: This annotation indicates that the `coffee` parameter is expected to be **extracted from the request body.** This is common in PUT or POST requests where the client sends data in the request body, usually in JSON or another format.
+#### Enhanced For Loop
+designed for iterating over collections (like arrays, lists, or other iterable objects)
+```java
+for (ElementType element : collection) {
+    // Code to be executed for each element
+}
+```
 
 ---
 ## Delete Method

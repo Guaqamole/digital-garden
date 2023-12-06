@@ -45,11 +45,17 @@ df = pd.DataFrame(
 
 print(df)
 ```
+
 <br>
+### pd.read_csv(‘path/name.csv’)
+```python
+import pandas as pd
+
+df = pd.read_csv('.csv')
+```
 
 ---
 <br>
-
 ## 데이터 확인하기
 
 ### df.head(), df.tail()
