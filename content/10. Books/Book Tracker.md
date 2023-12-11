@@ -17,6 +17,7 @@ draft: true
 ## Currently Reading
 
 - [ ] [[추천 시스템 입문]]
+- [ ] [[자바 ORM 표준 JPA 프로그래밍]]
 
 
 ## Read
