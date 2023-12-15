@@ -52,6 +52,7 @@ spring.jpa.properties.hibernate.format_sql=true
 
 #ddl auto
 spring.jpa.hibernate.ddl-auto=create
+#spring.jpa.hibernate.ddl-auto=none
 ```
 
 

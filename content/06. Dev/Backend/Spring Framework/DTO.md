@@ -470,11 +470,10 @@ public class UserRequest {
 - **dto 패키지와 service패키지의 추가**
 ![](https://velog.velcdn.com/images/taegon1998/post/5cc44b4e-6235-4bd0-bd5a-caacd56bfaa2/image.png)
 
----
 
 ## 1. MemberDTO
 
-- ### @Builder Annotation 을 사용하지 않고 작성한 MemberDTO class
+### @Builder Annotation 을 사용하지 않고 작성한 MemberDTO class
 
 ```java
 @Data
@@ -550,8 +549,6 @@ public class MemberDTO {
   
 
 - ### @Builder Annotation 을 사용해서 작성한 MemberDTO class
-    
-
 ```java
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -594,10 +591,9 @@ public class MemberDTO {
 > 2. **@NoargsConstructor(AccessLevel.PROTECTED)** : 자바에서 기본생성자는 본래 자동으로 생성되지만 **@Builder에 의해서 생성자가 생성되므로** (매개변수를 가지는 생성자가 하나라도 정의 되어있는 경우) 기본 생성자는 자동으로 추가되지 않는다.
 > 3. **AccessLevel.PROTECTED** : 모든 필드에 대한 값이 들어가야함을 보장하고 싶을 때 기본 생성자 호출을 막음으로써 무분별한 객체 생성을 막을 수 있다.
 
----
+
 
 ## 2. MemberService
-
 ```java
 public interface MemberService {
     Long register(MemberDTO dto);
@@ -616,10 +612,9 @@ public interface MemberService {
 >     -> builder의 필수값인 userId, password를 생성자의 매개변수로 작성해준다.  
 >     -> Java8 버전부터 default키워드를 통해 인터페이스도 실제 내용을 가지는 코드를 작성할 수 있다.
 
----
+
 
 ## 3. MemberServiceImpl
-
 ```java
 @Service
 @RequiredArgsConstructor
@@ -640,10 +635,9 @@ public class MemberServiceImpl implements MemberService{
 > - MemberRepository 의존성 주입을 받았다.
 > - dto형태로 받은 회원정보를 interface에있는 **dtoToEntity 메소드** 를 통해 Member Entity형태로 변환 후에 **JPA의 save() 기능**을 통해 데이터베이스에 등록하였다.
 
----
+
 
 ## 4. MemberServiceImplTest
-
 ```java
 @SpringBootTest
 class MemberServiceImplTest{
@@ -653,8 +647,8 @@ class MemberServiceImplTest{
     
     @Test
     void register() {
-        MemberDTO memberDTO = MemberDTO.builder("taegon","1234")
-                .name("lee")
+        MemberDTO memberDTO = MemberDTO.builder("namkyu","1234")
+                .name("kim")
                 .build();
         Member member = memberService.dtoToEntity(memberDTO);
         memberRepository.save(member);
@@ -666,3 +660,55 @@ class MemberServiceImplTest{
 > 2. Builder Pattern을 사용해 dto객체에 required(userId, password)를 입력하고 optional(name)을 입력해주었다.
 > 3. memberSerivce의 dtoToEntity를 통해 Entity형태의 객체로 변환시켜주었다.
 > 4. Jpa save(Entity) 테스트를 성공적으로 수행할 수 있었다.
+
+
+---
+안녕하세요 강사님, 질문 드리겠습니다.
+
+DTO의 필요성에 대한 부분으로
+
+"엔티티가 변경됐을 때  변경된 사항이 API 스펙에 적용되지 않아 API가 제대로 동작하지 않을 수 있다."라고 말씀해주셨는데요.
+
+이러한 문제가 발생하는 V1에서는 받을 때는 Member, 돌려줄때는 CreateMemberResponse를 사용하고 있습니다.
+
+그런데, 여기서 요청을 때, 응답을 줄 때 모두 Member를 사용해버린다면.. Member가 변경된다 하더라도 Response에서도 변경사항이 적용되기 때문에 문제가 없는 것 아닌가?? 하는 생각이 듭니다.
+
+이 부분에 대한 추가설명을 부탁드리고 싶습니다.
+
+감사합니다!
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+이어지는 강의들을 듣다보니 자연스럽게 이해되었습니다.
+
+이해한 바를 바탕으로 질문에 대한 자답을 해보자면..
+
+**************************************************
+
+DTO를 반드시 사용해야 하는 이유는 다음과 같다.
+
+1. DTO를 사용하지 않을 경우 엔티티의 변경에 의해 API 스펙이 변경될 수 있다.
+
+->
+
+엔티티와 API가 일대일 대응의 관계를 가진다면 엔티티에 수정이 일어날 때마다 API 스펙을 일일히 변경해줘야한다.
+
+이는 매우 번거로운 작업이며 컴파일 에러로 이를 감지할 수 없기 때문에 에러 원인을 찾기가 어렵다.
+
+(DTO를 사용하면 DTO -> 엔티티 과정에서 컴파일 에러가 발생되므로 엔티티의 변경사항을 반드시 파악할 수 있다)
+
+2. 하나의 엔티티에 대해서 API는 여러 개가 존재할 수 있다.
+
+-> 각각의 API가 요구하는 엔티티에 대한 데이터는 모두 다를 확률이 높다.
+
+이때, 그냥 엔티티의 모든 정보를 넘겨줘버린다면 필요없는 데이터까지 받긴 하지만 필요한 건 전부 받은 셈이니 기능 동작에는 문제가 없을 것이다.
+
+하지만 PW처럼 보안상 감추어야 할 정보까지 모두 JSON으로 함께 넘어가기 때문에 보안 문제가 발생할 수 있다.
+
+엔티티 측에서 컬럼에 @JsonIgnore를 사용해 JSON 전달을 막을 수는 있지만 이는 엔티티가 API 스펙에 의존성을 갖게 되므로 좋지 않다.
+
+유지보수가 복잡해질 뿐 아니라 다른 API에 대해서는 그때그때 또 변경을 해줘야 하는 쓸 데 없는 번거로움이 발생한다.
+
+3. 엔티티를 그대로 넘겨줄 경우, 엔티티가 가진 정보 외의 것들은 넘겨주지 못한다.
+
+-> DTO를 사용하면 엔티티의 정보 외에 추가적으로 필요한 정보도 함께 넘겨줄 수 있다.
