@@ -146,3 +146,4 @@ DispacherServlet을 사용하면 서블릿으로 등록하면서 모든 경로�
 
 
 
+![](https://i.imgur.com/qBvt84C.png)
