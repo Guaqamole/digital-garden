@@ -24,6 +24,7 @@ kanban-plugin: basic
 
 ## # Java Intermediate
 
+- [ ] https://github.com/andrei-punko/java-interview-coding/tree/master/src/main/java/by/andd3dfx
 
 
 
