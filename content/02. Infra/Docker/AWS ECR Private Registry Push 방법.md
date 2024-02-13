@@ -6,6 +6,7 @@ tags:
   - Docker
   - ECR
 complete: true
+link: https://stackoverflow.com/questions/38587325/aws-ecr-getauthorizationtoken
 ---
 Here is a full answer, after I followed all steps - I was able to use ECR
 
@@ -36,4 +37,13 @@ aws configure --profile mfa
 액세스키 = ****
 시크릿 = ****
 aws_session_token = asdasfgdsgsdfgdf//////////dglkdfsjgirjg;sldkfjksjgl;sfdgijrfgs;iodjcvg;klxvbvxbxvbxvcbE6
+```
+
+### Docker login
+```
+aws ecr get-login-password --profile [profile] --region [region] | docker login --username AWS --password-stdin [AWS_ACCOUNT_ID].dkr.ecr.[region].amazonaws.com
+```
+
+```
+aws ecr get-login-password --profile mfa --region ap-northeast-2 | docker login --username AWS --password-stdin 327075365426.dkr.ecr.ap-northeast-2.amazonaws.com
 ```

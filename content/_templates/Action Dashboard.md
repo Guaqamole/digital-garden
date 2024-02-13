@@ -18,7 +18,7 @@ tags:
 > [!todo]+ Today's Tasks
 > ```tasks
 > not done
-> due <% tp.date.now() %>
+> due <% tp.date.now("YYYY-MM-DD", +1) %>
 > sort by path
 > sort by priority
 > hide due date
@@ -43,6 +43,10 @@ tags:
 - [ ] 🛫 <% tp.date.now("YYYY-MM-DD") %> 📅 <% tp.date.now("YYYY-MM-DD", +1) %>
 - [ ] 🛫 <% tp.date.now("YYYY-MM-DD") %> 📅 <% tp.date.now("YYYY-MM-DD", +1) %>
 
+#### 점심시간
+- [ ] 잠자기
+- [ ] 책읽기 :
+- [ ] 집안일 :
 
 #### 오후
 - [ ] 🛫 <% tp.date.now("YYYY-MM-DD") %> 📅 <% tp.date.now("YYYY-MM-DD", +1) %>
