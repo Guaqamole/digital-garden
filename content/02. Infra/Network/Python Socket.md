@@ -9,9 +9,6 @@ tags:
 complete: true
 ---
 이번에는 Python의 Socket을 활용해서 HTTP Raw Msg를 확인하는 방법에 대해서 다룹니다.
-
-  
-
 ## 1. HTTP 통신
 예전부터 requests 패키지등을 파내면서 결국 HTTP 통신은 아래처럼 흘러가게 됩니다.
 

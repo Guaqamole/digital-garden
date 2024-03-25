@@ -106,6 +106,12 @@ API thread
 - **기다림** Blocking / **기다리지 않음** Non-blocking
 - **내가 함** Synchronous / **다른 사람 시킴** Asynchronous
 
+(1)손님이 식당에서 (2)주방장에게 (3)요리를 시킨다고 가정
+- sync- blocking: 손님 요리 요청 -> 주방장 요리 시작 -> 요리 시작 알림
+- sync - nonblocking: 손님 요리 요청 -> 요리 서빙
+- async - blocking: 손님 요리 요청 -> 주방장 요청 확인 -> 주방장 요리 시작 -> 요리 서빙 -> 주방장 요청 완료
+- async - nonblocking -> 
+
 ![https://blog.kakaocdn.net/dn/s4GhX/btry69JJgmj/LkjtlqXss4xSsMQUCnjx21/img.png](https://blog.kakaocdn.net/dn/s4GhX/btry69JJgmj/LkjtlqXss4xSsMQUCnjx21/img.png)
 
 1. Sync-Blocking

@@ -192,7 +192,3 @@ const Mermaid = `gantt
     //dv.paragraph(ganttOutput);
     //dv.paragraph("```\n" + Mermaid + ganttOutput + "\n```");
 ```
-
-
-```
-
