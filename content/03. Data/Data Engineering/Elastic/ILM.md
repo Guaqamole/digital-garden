@@ -2,7 +2,8 @@
 title: ILM
 date: 2024-03-25
 draft: false
-tags: 
+tags:
+  - Elastic
 complete: true
 link: https://stackoverflow.com/questions/32718927/is-there-a-way-to-set-ttl-in-elastic-search-index
 ---
@@ -19,6 +20,14 @@ link: https://stackoverflow.com/questions/32718927/is-there-a-way-to-set-ttl-in-
 	        "index.lifecycle.name": "delete_log_after_2day"
 	    }
 	}
+}
+```
+
+## \_settings
+```json
+PUT /<index_name>/_settings
+{
+	"lifecycle.name": "my_policy"
 }
 ```
 
@@ -47,3 +56,4 @@ link: https://stackoverflow.com/questions/32718927/is-there-a-way-to-set-ttl-in-
   }
 }
 ```
+
