@@ -1,5 +1,5 @@
 ---
-title: Garbage Collector
+title: Java Garbage Collector
 date: 2023-12-09
 draft: false
 tags:

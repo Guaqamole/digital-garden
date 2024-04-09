@@ -12,6 +12,7 @@ draft: true
 - [ ] [[Five Lines of Code]]
 - [ ] [[데이터 엔지니어를 위한 97가지 조언]]
 - [ ] [[고성능 파이썬]]
+- [ ] [[파이썬 머신러닝 완벽 가이드]]
 
 
 ## Currently Reading

@@ -6,8 +6,7 @@ tags:
   - Java
 complete: true
 ---
-# 제네릭
-
+## 제네릭이란?
 자바에서 사용할 데이터 타입을 지정하는 기법입니다.
 
 ```java
@@ -15,7 +14,6 @@ ArrayList<String> list = new ArrayList<>();
 ```
 
 ## 제네릭을 사용하는 이유
-
 1. 컴파일 타임에 타입 검사를 통해서 예외를 방지하기
 2. 클래스 외부에서 타입을 지정하기 때문에 타입을 체크하고 변환해줄 필요가 없습니다
 
@@ -32,7 +30,6 @@ public static void main(String[] args) {
 List에 타입 지정을 안 하면 Object로 타입이 지정되고 더하는 부분에서 형 변환을 직접해줘야 합니다.
 
 하지만 제네릭을 사용하면 변환과정이 생략됩니다
-
 ```java
 public static void main(String[] args) {
     List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
@@ -44,7 +41,7 @@ public static void main(String[] args) {
 ```
 
 ## 타입 파라미터 컨벤션
-![](https://i.imgur.com/b75qBLM.png)
+![|575](https://i.imgur.com/b75qBLM.png)
 
 반드시 지켜야할 필요는 없지만 암묵적인 규칙입니다.
 
@@ -88,10 +85,8 @@ public class GenericPractice {
 ```
 
 제네릭 타입을 리턴 타입 앞에 꼭 붙여야 하는 이유는
-
 - 자바 문법
 - Static 메서드
-
 ```java
 class ClassName<E> {
  
@@ -144,7 +139,7 @@ class Main {
 
 
 ---
-# 와일드 카드
+## 와일드 카드
 ```java
 public static void print(Object[] arr) {
     for (Object e : arr) {
@@ -186,21 +181,21 @@ public static void main(String[] args) {
 > 💡 `<?>` : 모든 타입이 가능하다
 
 
-![](https://i.imgur.com/KrtCKWA.png)
+![|575](https://i.imgur.com/KrtCKWA.png)
 
 
 
 💡 `<? extends U>` : 타입 매개변수의 범위는 U 클래스이거나, U를 상속한 하위 클래스 (U와 U의 자손 타입)
-![](https://i.imgur.com/4iqEmT4.png)
+![|575](https://i.imgur.com/4iqEmT4.png)
 
 
 
 💡 `<? super U>` : 타입 매개변수의 범위는 U 클래스이거나, U가 상속한 상위 클래스 (U와 U의 조상 타입)
-![](https://i.imgur.com/Gsa1Rk6.png)
+![|575](https://i.imgur.com/Gsa1Rk6.png)
 
 
-#### 결과
-![](https://i.imgur.com/IrPa4Vm.png)
+### 결과
+![|500](https://i.imgur.com/IrPa4Vm.png)
 
 ## 와일드카드는 언제 사용하면 좋을까?
 
