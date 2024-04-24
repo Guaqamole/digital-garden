@@ -6,10 +6,10 @@ tags:
   - Spring
 complete: true
 ---
-## 스프링 컨테이너란?
+## 스프링 컨테이너란(application context)?
 IoC원리가 적용된 스프링 프레임워크의 핵심 컴포넌트
 스프링 컨테이너는 자바 객체의 생명 주기를 관리하며, 생성된 자바 객체들에게 추가적인 기능을 제공한다.
-→ 스프링에서는 자바 객체를 [[Spring Bean|빈(Bean)]]이라 한다.
+→ 스프링에서는 Sprint Container에 의해 관리되는 자바 객체를 [[Spring Bean|빈(Bean)]]이라 한다.
 
 DI 컨테이너 혹은 IoC 컨테이너 라고도 불리며 BeanFactory, ApplicationContext를 통틀어 추상적으로 하는 말이다.
 

@@ -1,5 +1,5 @@
 ---
-title: Dispatcher Servelet
+title: Dispatcher Servlet
 date: 2023-12-09
 draft: false
 tags:

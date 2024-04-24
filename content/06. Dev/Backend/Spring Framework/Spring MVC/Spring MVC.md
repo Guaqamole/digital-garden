@@ -4,7 +4,7 @@ date: 2023-12-09
 draft: false
 tags:
   - Springboot
-  - MVC
+  - SpringMVC
 complete: true
 ---
 먼저 Spring MVC는 스프링의 서브 프로젝트로, Servlet/JSP 보다 빠른 웹 개발이 가능합니다.   
