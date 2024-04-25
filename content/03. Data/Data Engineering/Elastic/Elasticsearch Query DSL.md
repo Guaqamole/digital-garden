@@ -6,7 +6,7 @@ tags:
   - Elastic
 complete: true
 ---
-### 여러 검색 대상 지정
+## 여러 검색 대상 지정
 ```json
 GET fs-goods-v1-*,fs-goods-v2-*,mgeon-*,mapping*,products*/_search
 
@@ -54,11 +54,11 @@ GET fs-goods-v1-*,fs-goods-v2-*,mgeon-*,mapping*,products*/_search
 }
 ```
 
-### 쿼리 문자열 검색
+## 쿼리 문자열 검색
 검색을 할때는
 - QueryDSL을 사용하여 검색하는 방법과
 - 요청 주소줄에 q라는 매개변수를 넣고 그곳에 Lucene Query 문자열을 지정해 검색하는 방법이 있다.
-#### Query DSL
+### Query DSL
 ```json
 GET my_index/_search
 {
@@ -70,7 +70,7 @@ GET my_index/_search
 }
 ```
 
-#### Query String
+### Query String
 [[Lucene Cheatsheet]] 참고해서 사용해보자.
 ```json
 GET my_index/_search?q=title:hello
@@ -103,7 +103,7 @@ GET [index_name]/_search
 }
 ```
 
-### Range Query
+## Range Query
 ```json
 {
     "query": {
@@ -134,7 +134,8 @@ GET [index_name]/_search
 | s   | 초   |
 
 
-### bool 쿼리 (중요)
+## Compound Query
+### bool query (중요)
 must, must_not, filter, should 의 4가지 종류의 조건절에 다른 쿼리를 조합하여 사용한다.
 ```json
 {
@@ -159,9 +160,9 @@ must, must_not, filter, should 의 4가지 종류의 조건절에 다른 쿼리�
     }
 }
 ```
-- MUST & FILTER 조건졸에 들어간 하위 쿼리는 모두 AND 조건으로 만족해야 최종 검색 결과에 포함된다.
+- MUST & FILTER 조건절에 들어간 하위 쿼리는 **모두 AND 조건으로 만족해야 최종 검색 결과에 포함된다.**
 - MUST NOT 조건절에 들어간 쿼리를 만족하는 문서는 최종 검색 결과에서 제외된다.
-- SHOULD 조건절에 들어간 쿼리는 `minimum_should_match` 에 지정한 개수 이상의 하위 쿼리를 만족하는 문서가 최종 검색 결과에 포함된다. 
+- SHOULD 조건절에 들어간 쿼리는 `minimum_should_match` 에 지정한 개수 이상의 하위 쿼리를 만족하는 문서가 최종 검색 결과에 포함된다 (OR 조건). 
 
 #### Query Context & Filter Context
 must 와 filter는 모두 AND 조건으로 검색을 수행하지만 점수를 계산하느냐 여부가 다르다.
@@ -191,14 +192,149 @@ must, filter, must_not, should 사이에 어떤 쿼리가 먼저 수행된다는
 2. 쪼갠 쿼리를 조합하여 재작성한다. 
 3. 그 뒤 쪼개진 각 쿼리를 수행할 경우의 비용을 측정한다.
 4. 추정한 비용과 효과를 토대로 유리할 것으로 생각되는 부분을 먼저 수행한다.
-5. 
-### Routing
+
+### constant_score query
+filter  부분에 지정한 쿼리를 필터 문맥에서 검색하는 쿼리다. 해당 쿼리에 매치된 문서의 유사도 점수는 일괄적으로 1로 지정된다.
+```json
+GET [index_name]/_search
+{
+    "query": {
+        "constant_score": {
+            "filter": {
+                "term": {
+                    "fileName": "hello"
+                }
+            }
+        }
+    }
+}
+```
+
+**boost**
+(선택사f항, float) 필터 쿼리와 일치하는 모든 문서에 대한 상수 관련성 점수로 사용되는 부동 소수점 숫자입니다. 기본값은 1.0입니다.
+### dis_max query
+Disjunction max의 줄임말. 멀티 키워드 검색을 수행시 여러 필드에서 검색을 수행하게 되는 조건에서 멀티 키워드의 키워드와 동일한 키워드의 score를 더욱 높이 평가 하는 방식을 제공
+
+query와 정확히 일치하는 Document에 가장 높은 점수를 부여하고 나머지 subqueries에 대해 매칭될 경우 tie_braker의 값을 곱해 최종 점수를 계산한다. tie_braker의 기본값은 0.0이며 최대값은 1.0이다.
+
+예를 들어 "코로나19 팬데믹" 이라는 두단어 키워드(멀티키워드)로 검색을 수행한다고 할 때..
+```
+제목 : 코로나 맥주 불티나
+내용 : 코로나19의 위기 속 코로나 맥주 반짝 특수
+
+제목 : 전염병 세계적 대유행
+내용 : 코로나19 팬데믹 선언은 세계적 ...
+```
+
+위 두 검색결과중 첫번째 문서는 정확하게 매칭되는 결과가 있음에도 불구하고 코로나 키워드 빈도로 인한 첫번째 문장의 스코어가 더 높이 나오는 현상이 발생한다. 그렇다면 정확한 일치를 하는 문서2에 더 높은 점수를 주기 위한 방법은 없을까? 정답은 dis_max!
+
+```json
+GET test_msm/_search
+{
+  "query": {
+    "dis_max": {
+      "queries": [
+        { "match": { "test": "dogs" }},
+        { "match": { "test": "barking"}},
+        { "match": { "test": "friends"}}
+      ],
+      "tie_breaker": 0.7
+    }
+  }
+}
+```
+
+### function_score query
+function_score를 사용하면 쿼리로 검색된 문서의 점수를 수정할 수 있습니다. 
+예를 들어, score function이 계산 비용이 많이 들 때, 문서 집합을 필터링하여 점수를 계산하는 것으로 충분할 때 유용합니다.
+
+function_score를 사용하려면 사용자가 쿼리를 정의하고 해당 쿼리로 검색된 각 문서에 대한 새 점수를 계산하는 하나 이상의 function을 정의해야 합니다.
+
+검색 결과의 relevance score를 다양한 수식 조건을 활용하여 목적에 맞게 수정 할 수 있음
+- score_mode : 각 문서에서 계산된 함수의 점수를 어떻게 결합할지 지정하는 역할
+    - multiply, sum, avg, max, min, first
+- boost_mode
+    - multiply, sum, avg, max, min, replace
+
+#### script score
+원하는 스코어 계산식을 스크립트로 직접 타이핑하여 적용할 수 있는 기능(painless)
+```json
+GET /_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": { "message": "elasticsearch" }
+      },
+      "script_score": {
+        "script": {
+          "source": "Math.log(2 + doc['my-int'].value)"
+        }
+      }
+    }
+  }
+}
+```
+
+#### weight
+특정 쿼리에 원하는 만큼 가중치를 주는 기능
+```json
+"weight" : number
+```
+
+#### random score
+0과 1사이의 랜덤한 값을 주는 기능(샘플링)
+    - seed : 랜덤으로 준 값이 변하지 않도록 지정
+```json
+GET test_msm/_search
+{
+  "query": {
+    "function_score": {
+      "random_score": {
+        "seed": 15,
+      }
+    }
+  }
+}
+```
+
+#### field_value_factor
+각 필드 값에 원하는 규칙을 적용하여 스코어에 반영
+- field : 수정할 필드 명
+- factor : 곱할 값
+- modifier : 수정 할 식
+    - log : 필드 값에 로그 함수 적용
+    - log1p : 필드 값에+1을 한 뒤 로그 함수 적용
+    - log2p : 필드 값에 +2를 한 뒤 로그 함수 적용
+    - ln : 필드 값에 자연 로그 함수 적용
+    - ln1p : 필드 값에 자연 로그 함수 적용
+    - ln2p : 필드 값에 +1을 할 뒤 자연 로그 함수 적용
+    - square : 필드 값에 제곱 함수 적용
+    - sqrt : 필드 값에 제곱근 함수 적용
+    - reciprocal : 필드 값을 역수로 치환
+- missing : 필드에 빈 값이 있을때 입력할 값
+```json
+GET clothes/_search
+{
+  "query": {
+    "function_score": {
+      "field_value_factor": {
+        "field": "size",
+        "factor": 1.5,
+        "modifier": "square",
+        "missing": 1
+      }
+    }
+  }
+}
+```
+## Routing
 라우팅을 지정하지 않으면 전체 샤드에 검색 요청이 들어가기 때문에 정확히 한 샤드에만 검색 요청이 들어가게 하는것이 성능상 이득이 매우 크다.
 ```json
 GET [index_name]/_search?routing=[routing]
 ```
 
-### Sorting
+## Sorting
 ```json
 {
     "query": {
