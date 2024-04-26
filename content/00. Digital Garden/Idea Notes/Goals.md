@@ -6,6 +6,7 @@ draft: true
 ---
 
 ## Todo
+- [ ] [[2024-04-26 - test goal|test goal]]
 
 - [ ] [[2023-11-23 - Pipeline 실습|Pipeline 실습]]
 - [ ] [[2023-10-24 - 실제 서비스 개발|실제 서비스 개발]]

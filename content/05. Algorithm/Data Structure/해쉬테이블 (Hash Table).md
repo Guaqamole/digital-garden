@@ -5,24 +5,49 @@ draft: false
 tags:
   - Algorithm
 complete: true
+link: https://interviewing.io/hash-tables-interview-questions
 ---
 
-# 해쉬테이블(해쉬맵)이란
-![](https://i.imgur.com/WZPkPmi.png)
+## Key Points
+$$ \text{Time Complexity} : O(1)$$
+$$ \text{Auxiliary Space} : O(n)$$
+#### Properties
+- keys, hash function, buckets
+- only keys unique
+- high memory usage
+#### When to use
+- frequent lookup, insert, delete
+- data tracking
+- graph representaion
+- memoization
+#### Example
+- Caching
+- Process Scheduling
+- Resource Allocation
+
+## Implementation
+### Python
+```python
+
+```
+
+
+## Research
+![|625](https://i.imgur.com/WZPkPmi.png)
 
 1. 주어진 `키(문자열이나 숫자, 파일 데이터 등)`에 `해시함수` 사용하여 `해쉬코드`를 반환한다. 
 2. 반환된 `해쉬코드`를 배열의 크기로 나눠 `배열의 인덱스`로 삼는다. 
 3. `데이터의 값(value)`을 키와 함께 저장하며, 데이터가 저장되는 곳을 `버킷(bucket)` 또는 `슬롯(slot)`이라고 한다. 
 4. 해쉬 테이블은 검색에 특화된 자료구조로 `O(1)`의 속도로 검색이 가능하다. 
 
-# 해쉬 알고리즘과 충돌(Collision)
+## 해쉬 알고리즘과 충돌(Collision)
 1. `해쉬 함수`는 임의의 크기를 가진 데이터를 고정된 데이터의 크기로 변환한다. 
 2. 해쉬 함수가 사용하는 알고리즘이 `해쉬 알고리즘`이다. 
 3. `충돌`이란 해시 함수가 서로 다른 두 개의 입력 값에 대해 동일한 출력값을 반환하는 상황을 의미한다. 
 4. 충돌이 발생하는 경우는 2가지다. 첫번째, 다른 키 값이 같은 해쉬코드를 반환하는 경우와 두번째, 다른 해쉬 코드를 배열의 인덱스로 환산할 때 같은 인덱스가 반환되는 경우다. 
 5. `해쉬 알고리즘의 성능`은 충돌이 적을수록 성능이 좋다고 평가된다. 
 
-# 구현
+## 구현
 1. 기본로직
     - `getHashCode(key)`
         - 입력 값이 문자열인 경우를 가정하여, 각 문자열의 ASCII 코드 값을 합한 값을 해쉬코드로 반환한다.

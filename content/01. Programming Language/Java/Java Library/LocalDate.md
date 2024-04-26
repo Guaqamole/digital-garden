@@ -1,12 +1,10 @@
-### LocalDate와 LocalTime
-
----
-
 #### LocalDate 클래스와 LocalTime 클래스
 
 LocalDate 클래스는 날짜를 표현하는 데 사용되며, LocalTime 클래스는 시간을 표현하는 데 사용됩니다.
 
 java.time 패키지에 포함된 대부분의 클래스들은 이 두 클래스를 확장한 것이 많으므로, 우선 이 두 클래스를 잘 이해하는 것이 중요합니다.
+
+
 
 ---
 
@@ -19,7 +17,7 @@ now() 메소드는 현재의 날짜와 시간을 이용하여 새로운 객체�
 하지만 of() 메소드는 전달된 인수를 가지고 특정 날짜와 시간을 표현하는 새로운 객체를 생성하여 반환합니다.
 
 ##### 예제
-```
+```java
 LocalDate today = LocalDate.now();
 
 LocalTime present = LocalTime.now();
@@ -43,9 +41,10 @@ System.out.println(birthDay + " " + birthTime);
 2017-02-16 09:21:50.634
 
 1982-02-19 02:02:00.100
+```
 
 of() 메소드는 위의 예제에서 사용된 메소드 시그니처 이외에도 다양한 형태가 오버로딩되어 제공됩니다.
-```
+
 ---
 
 #### 날짜와 시간 객체에 접근하기
@@ -71,7 +70,7 @@ LocalDate 클래스에서 제공하는 대표적인 getter 메소드는 다음�
 Calendar 클래스와 java.time 패키지의 클래스를 같이 사용할 때에는 특히 위와 같은 차이점에 주의해야 합니다.
 
 ##### 예제
-```
+```java
 LocalDate today = LocalDate.now();
 
 System.out.println("올해는 " + today.getYear() + "년입니다.");
@@ -105,7 +104,7 @@ LocalTime 클래스에서 제공하는 대표적인 getter 메소드는 다음�
 |int getNano()|해당 시간 객체의 나노초(NANO_OF_SECOND) 필드의 값을 반환함.|
 
 ##### 예제
-```
+```java
 LocalTime present = LocalTime.now();
 
 System.out.println("현재 시각은 " + present.getHour() + "시 " + present.getMinute() + "분입니다.");
@@ -113,8 +112,11 @@ System.out.println("현재 시각은 " + present.getHour() + "시 " + pres
 
 
 ##### 실행 결과
-
+```
 현재 시간은 9시 22분입니다.
+```
+
+
 
 ---
 
@@ -146,7 +148,7 @@ ChronoField 열거체에 정의된 대표적인 열거체 상수는 다음과 �
 |EPOCH_DAY|EPOCH(1970년 1월 1일)을 기준으로 몇 번째 날|
 
 ##### 예제
-
+```java
 LocalTime present = LocalTime.now();
 
 String ampm;
@@ -162,12 +164,14 @@ if(present.get(ChronoField.AMPM_OF_DAY) == 0) {
 }
 
 System.out.println("지금은 " + ampm + " " + present.get(ChronoField.HOUR_OF_AMPM) + "시입니다.");
-
+```
 
 
 ##### 실행 결과
-
+```
 지금은 오전 9시입니다.
+```
+
 
 ---
 
@@ -190,7 +194,7 @@ LocalDate 클래스에서 제공하는 with() 메소드는 다음과 같습니�
 |LocalDate withDayOfYear(int dayOfYear)|해당 날짜 객체에서 DAY_OF_YEAR 필드를 전달된 새로운 값으로 설정한 새로운 날짜 객체를 반환함.|
 
 ##### 예제
-
+```java
 LocalDate today = LocalDate.now();
 
 System.out.println("올해는 " + today.getYear() + "년입니다.");
@@ -198,14 +202,15 @@ System.out.println("올해는 " + today.getYear() + "년입니다.");
 LocalDate otherDay = today.withYear(1982);
 
 System.out.println("올해는 " + otherDay.getYear() + "년입니다.");
-
+```
 
 
 ##### 실행 결과
-
+```
 올해는 2017년입니다.
 
 올해는 1982년입니다.
+```
 
 LocalTime 클래스에서 제공하는 with() 메소드는 다음과 같습니다.
 
@@ -218,7 +223,7 @@ LocalTime 클래스에서 제공하는 with() 메소드는 다음과 같습니�
 |LocalTime withNano(int nanoOfSecond)|해당 시간 객체에서 나노초(NANO_OF_SECOND) 필드를 전달된 새로운 값으로 설정한 새로운 시간 객체를 반환함.|
 
 ##### 예제
-
+```java
 LocalTime present = LocalTime.now();
 
 System.out.println("현재 시각은 " + present.getHour() + "시입니다.");
@@ -226,19 +231,19 @@ System.out.println("현재 시각은 " + present.getHour() + "시입니다."
 LocalTime otherTime = present.withHour(8);
 
 System.out.println("현재 시각은 " + otherTime.getHour() + "시입니다.");
-
+```
 
 
 ##### 실행 결과
-
+```
 현재 시간은 9시입니다.
 
 현재 시간은 8시입니다.
 
 with() 메소드 이외에도 특정 필드의 값을 더하거나 뺄 수 있는 다양한 plus()와 minus() 메소드도 제공됩니다.
-
+```
 ##### 예제
-
+```java
 LocalTime present = LocalTime.now();
 
 System.out.println("현재 시각은 " + present.get(ChronoField.HOUR_OF_DAY) + "시입니다.");
@@ -250,17 +255,17 @@ System.out.println("바뀐 시간은 " + otherTime.getHour() + "시입니다
 LocalTime anotherTime = present.minus(6, ChronoUnit.HOURS);
 
 System.out.println("바뀐 시간은 " + anotherTime.getHour() + "시입니다.");
-
+```
 
 
 ##### 실행 결과
-
+```
 현재 시간은 9시입니다.
 
 바뀐 시간은 11시입니다.
 
 바뀐 시간은 3시입니다.
-
+```
 ---
 
 #### 날짜와 시간 객체의 비교
@@ -276,7 +281,7 @@ LocalDate와 LocalTime 클래스에도 객체를 비교할 수 있는 compareTo(
 3. isAfter() 메소드 : 두 개의 날짜와 시간 객체를 비교하여 현재 객체가 명시된 객체보다 늦은 시간인지를 비교함.
 
 ##### 예제
-
+```java
 LocalDate today = LocalDate.now();
 
 LocalDate otherDay = LocalDate.of(1982, 02, 19);
@@ -286,3 +291,13 @@ System.out.println(today.compareTo(otherDay));
 System.out.println(today.isBefore(otherDay));
 
 System.out.println(today.isEqual(otherDay));
+```
+
+##### 실행 결과
+```
+35
+
+false
+
+false
+```
