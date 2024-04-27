@@ -1,5 +1,5 @@
 ---
-title: Two Sum
+title: 1 Two Sum
 date: 2024-04-25
 draft: false
 tags:
@@ -14,7 +14,7 @@ Status: Solved ✅
 idea: true
 implement: true
 time-complexity: 
-time-enough: 
+time-enough: true
 tries: 1
 ---
 # 문제

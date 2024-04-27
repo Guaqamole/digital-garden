@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"311eaa3160d71640","type":"text","text":"## Arrays & Hashsing\n- ","x":-109,"y":-1480,"width":419,"height":400,"color":"#ff0000"},
+		{"id":"311eaa3160d71640","type":"text","text":"## Arrays & Hashsing\n- [[Array 중복 제거]]\n- [[어구전철 (Anagram)]]\n- [[Python Collections Class]]\n- [[49 Group Anagrams]]\n- ","x":-109,"y":-1480,"width":419,"height":400,"color":"#ff0000"},
 		{"id":"a3392510b070fac8","type":"text","text":"## Two Pointers\n- ","x":-360,"y":-900,"width":419,"height":200,"color":"#ff0000"},
 		{"id":"3d31cdb6271aac0c","type":"text","text":"## Stack\n- ","x":160,"y":-900,"width":419,"height":200,"color":"#ff0000"},
 		{"id":"2fc7cb4ace01028f","type":"text","text":"## Binary Search\n- ","x":-868,"y":-160,"width":419,"height":200,"color":"#ff0000"},
@@ -8,19 +8,21 @@
 		{"id":"cfb70953b6d5cecb","type":"text","text":"## Trees\n- ","x":-360,"y":400,"width":419,"height":200,"color":"#ff0000"},
 		{"id":"59b4d375f4201532","type":"text","text":"## Sliding Window\n- ","x":-360,"y":-160,"width":419,"height":200},
 		{"id":"116cb1c29ae40283","type":"text","text":"## Heap / Priority Queue\n- ","x":-600,"y":1600,"width":419,"height":200,"color":"#ff0000"},
-		{"id":"9d3f95c6cf384dad","type":"text","text":"## Heap / Priority Queue\n- ","x":-1000,"y":2320,"width":419,"height":200},
-		{"id":"dafc27796fd54daa","type":"text","text":"## Heap / Priority Queue\n- ","x":-489,"y":2320,"width":419,"height":200},
+		{"id":"9d3f95c6cf384dad","type":"text","text":"## Intervals\n- ","x":-1000,"y":2320,"width":419,"height":200},
+		{"id":"dafc27796fd54daa","type":"text","text":"## Greedy\n- ","x":-489,"y":2320,"width":419,"height":200},
 		{"id":"8b806840f6fd8a5d","type":"text","text":"## Advanced Graphs\n- ","x":40,"y":2320,"width":419,"height":200},
-		{"id":"db4f17eb98118d07","type":"text","text":"## 1-D DP\n- ","x":760,"y":2320,"width":419,"height":200},
+		{"id":"db4f17eb98118d07","type":"text","text":"## 2-D DP\n- ","x":760,"y":2320,"width":419,"height":200,"color":"#ff0000"},
 		{"id":"22e5efbe37d1b2cc","type":"text","text":"## Advanced DP\n- ","x":1360,"y":2320,"width":419,"height":200},
 		{"id":"b9a602567536a886","type":"text","text":"## Tries\n- ","x":-1019,"y":1060,"width":419,"height":200},
-		{"id":"3b381ad1aa449467","type":"text","text":"## Graphs\n- ","x":341,"y":1600,"width":419,"height":200},
-		{"id":"26b0c958dc13de67","type":"text","text":"## 1-D DP\n- ","x":941,"y":1600,"width":419,"height":200},
-		{"id":"084109a9f271e1b3","type":"text","text":"## Backtracking\n- ","x":631,"y":960,"width":419,"height":200},
+		{"id":"3b381ad1aa449467","type":"text","text":"## Graphs\n- ","x":341,"y":1600,"width":419,"height":200,"color":"#ff0000"},
+		{"id":"26b0c958dc13de67","type":"text","text":"## 1-D DP\n- ","x":941,"y":1600,"width":419,"height":200,"color":"#ff0000"},
+		{"id":"084109a9f271e1b3","type":"text","text":"## Backtracking\n- ","x":631,"y":960,"width":419,"height":200,"color":"#ff0000"},
 		{"id":"358be3df52009833","type":"text","text":"## Math & Geometry\n- ","x":459,"y":2720,"width":419,"height":200},
 		{"id":"0a5f95fe39f331c8","type":"text","text":"## Traversal\n- #### Preorder\n- #### Postorder\n- #### Inorder","x":-1320,"y":400,"width":419,"height":200},
 		{"id":"9264b022233e2407","type":"text","text":"# Data Structure & Algorithm Road Map","x":-329,"y":-1840,"width":859,"height":100,"color":"3"},
-		{"id":"4250e4b2860a3b6e","type":"text","text":"## Sorting\n- #### BubbleSort\n- #### MergeSort\n- #### QuickSort\n- #### Heap Sort","x":631,"y":-560,"width":419,"height":280}
+		{"id":"4250e4b2860a3b6e","type":"text","text":"## Sorting\n- #### BubbleSort\n- #### MergeSort\n- #### QuickSort\n- #### Heap Sort","x":422,"y":-560,"width":419,"height":280},
+		{"id":"f14570682cf1a1db","type":"text","text":"https://github.com/onlybooks/python-algorithm-interview?tab=readme-ov-file","x":-280,"y":-2100,"width":682,"height":160},
+		{"id":"081665964d557644","type":"text","text":"# 필수로 알아야함\n- Dynamic Arrays\n\t- https://neetcode.io/courses/dsa-for-beginners/3\n- Hash Usage\n\t- https://neetcode.io/courses/dsa-for-beginners/26\n- Hash Implementation\n\t- https://neetcode.io/courses/dsa-for-beginners/27\n- Prefix Sums\n\t- https://neetcode.io/courses/advanced-algorithms/4","x":530,"y":-1640,"width":411,"height":617}
 	],
 	"edges":[
 		{"id":"b7096fcf8b33b8e9","fromNode":"311eaa3160d71640","fromSide":"bottom","toNode":"a3392510b070fac8","toSide":"top"},

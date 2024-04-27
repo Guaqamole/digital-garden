@@ -1,12 +1,12 @@
 ---
 title: <% tp.file.title %>
-date: <%tp.date.now() %>
+date: <% tp.date.now() %>
 draft: false
 tags:
   - CodingTest
-Platform: {{VALUE:Baekjoon, LeetCode, HackerRank}} 
-link: {{VALUE:URL Link To Problem}} 
-difficulty: {{VALUE:Difficulty (골드 2 실버 4...)}} 
+Platform: {{VALUE:Baekjoon, LeetCode, HackerRank}}
+link: {{VALUE:URL Link To Problem}}
+difficulty: {{VALUE:Difficulty (골드 2 실버 4...)}}
 highlight: false
 Comment: N/A
 Status: Not Solved ✏️
@@ -14,7 +14,8 @@ idea:
 implement: 
 time-complexity: 
 time-enough: 
-tries:
+tries: 
+problem-type:
 ---
 # 문제
 

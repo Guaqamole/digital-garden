@@ -22,7 +22,7 @@ let markdownLink = this.app.fileManager.generateMarkdownLink(
     ""
 );
 markdownLink = `${markdownLink.slice(0, markdownLink.length - 2)}|${
-    targetGoal.alias
+targetGoal.aliases
 }${markdownLink.slice(markdownLink.length - 2)}`;
 return `Goal:: ${markdownLink}`;
 ```
