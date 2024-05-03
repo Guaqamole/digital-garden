@@ -90,6 +90,38 @@ plt.show()
 - 그래서 우리는 신경망이 입력 데이터를 식별하고 어떻게 처리하는지 과정을 아는것이 중요하다.
 ![|750](https://i.imgur.com/g8QVaDr.png)
 
+#### 신경망 구현
+- W: 가중치
+- b: 편향
+```python
+def init_network():
+	network = {}
+	network['W1'] = np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]])
+	network['b1'] = np.array([[0.1, 0.2, 0.3]])
+	
+	network['W2'] = np.array([[0.1, 0.4], [0.2, 0.5], [0.3, 0.6]])
+	network['b2'] = np. array([0.1, 0.2])
+	
+	network['W3'] = np. array([[0.1, 0.3], [0.2, 0.4]]) 
+	network['b3'] = np. array([0.1, 0.2])
+	return network
+
+def forward(network, x):
+	W1, W2, W3 = network['W1'], network['W2'], network['W3'] 
+	b1, b2, b3 = network['b1'], network['b2'], network['b3']
+	a1 = np. dot(x, W1) + b1 z1 = sigmoid(a1)
+	a2 =np.dot(z1, W2) +b2 2 = sigmoid(a2)
+	a3 = np. dot(z2, W3) + b3 
+	y = identity_function(a3)
+	return y
+
+network = init_network()
+× = np.array([1.0, 0.5])
+y = forward(network, x)
+print(y) # [ 0.31682708 0.69627909]
+```
+
+
 ### 은닉층
 인간의 뇌에 있는 수많은 뉴런들은 인간의 의지에 따라서 신호를 받아 결과를 출력합니다.
 
@@ -123,6 +155,21 @@ plt.show()
 → 출력층에서 항등 함수를 사용하면 입력 신호가 그대로 출력 신호가 된다.
 ![|256](https://i.imgur.com/UE4nYah.png)
 
+```python
+def identity_function(x):
+	return x
+	
+W3 = np,array([0.1, 0.3], [0.2, 0.4])
+B3 = np.array([0.1, 0.2])
+
+A3 = np.dot(Z2, W3) + B3
+Y = identity_function(A3)
+```
+
+> [!info] 활성화 함수
+> 출력층의 활성화 함수는 풀고자 하는 문제의 성질에 맞게 정합니다. 예를 들어 회귀에는 항등 함수를
+> 2클래스 분류에는 시그모이드 함수를, 다중 클래스 분류에는 소프트맥스 함수를 사용한느것이 일반적이다.
+
 
 #### 소프트맥스 함수 (softmax) 중요!!
 한편, 분류에서사용하는소프트맥스함수 soft max function의식은다음과같습니다.
@@ -155,7 +202,7 @@ print(y)
 >> [0.01821127 0.24519181 0.73659691]
 
 
-def softmax(x):
+def softmax(a):
 	c = np.max(a)
 	exp_a = np.exp(a - c) # overflow 대비
 	sum_exp_a = np.sum(exp_a)

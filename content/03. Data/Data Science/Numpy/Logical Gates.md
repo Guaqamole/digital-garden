@@ -3,7 +3,7 @@ title: Logical Gates
 date: 2024-04-30
 draft: false
 tags:
-  - numpy
+  - Numpy
 complete: true
 ---
 ### AND gate
