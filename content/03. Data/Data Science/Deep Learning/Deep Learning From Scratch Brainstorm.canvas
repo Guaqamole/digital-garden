@@ -41,7 +41,6 @@
 		{"id":"ff9b359e191a784f","type":"text","text":"### Multiplication","x":-1916,"y":1430,"width":320,"height":173},
 		{"id":"d6d5e129eb8e201c","type":"text","text":"### Addition","x":-1881,"y":1032,"width":250,"height":173},
 		{"id":"9dce1ff46bc84e36","type":"text","text":"### Chain Rule","x":-1498,"y":1238,"width":262,"height":192},
-		{"id":"3ea12da019808a23","x":-2070,"y":26,"width":250,"height":60,"type":"text","text":""},
 		{"id":"5515865a538f9415","type":"file","file":"_assets/_img/Pasted image 20240503101622.png","x":-2803,"y":-1236,"width":1436,"height":808},
 		{"id":"f619e53b4b43bceb","type":"text","text":"### Ways to update weight","x":-1379,"y":2200,"width":275,"height":181},
 		{"id":"21631a6788fa3102","type":"text","text":"### SDG","x":-1871,"y":2560,"width":275,"height":181},
@@ -63,7 +62,11 @@
 		{"id":"19d78fe7b50538ac","type":"text","text":"### Test Dataset","x":644,"y":171,"width":222,"height":192},
 		{"id":"bc759c1706131519","type":"text","text":"#### Evaluate Model","x":986,"y":223,"width":250,"height":120},
 		{"id":"537df9e5009b3066","type":"text","text":"### Validation Dataset","x":639,"y":440,"width":281,"height":192},
-		{"id":"5345e68022bdcc1b","type":"text","text":"#### Evaluate Hyperparameter","x":996,"y":476,"width":250,"height":120}
+		{"id":"5345e68022bdcc1b","type":"text","text":"#### Evaluate Hyperparameter","x":996,"y":476,"width":250,"height":120},
+		{"id":"a67e539fde63e9f6","type":"text","text":"#### 0단계: HP 값 범위 설정","x":-1656,"y":1899,"width":321,"height":123},
+		{"id":"f06d934ca64ab9cb","type":"text","text":"#### 1단계: HP 값 무작위추출","x":-2027,"y":1899,"width":321,"height":123},
+		{"id":"fd5ef960abbbc4dd","type":"text","text":"#### 2단계: HP 사용해서 학습 및 검증데이터로 정확도 판단 (에폭 작게)","x":-2360,"y":1899,"width":281,"height":123},
+		{"id":"147adf605961619c","type":"text","text":"#### 3단계: 1단계 2단계 반복후 정확도 보며 범위 좁히기","x":-2760,"y":1899,"width":321,"height":123}
 	],
 	"edges":[
 		{"id":"4e7243531e708ea7","fromNode":"9f14ee28d5738631","fromSide":"bottom","toNode":"cd8bed3b815eb290","toSide":"top"},
@@ -133,6 +136,9 @@
 		{"id":"9a3321844777ae7a","fromNode":"f9ffa80f98bd4269","fromSide":"right","toNode":"7ab4743df86d73e7","toSide":"left"},
 		{"id":"a2c316e170f59f5f","fromNode":"19d78fe7b50538ac","fromSide":"right","toNode":"bc759c1706131519","toSide":"left"},
 		{"id":"817f9b2423631b29","fromNode":"7212bf5d9e677ef3","fromSide":"right","toNode":"537df9e5009b3066","toSide":"left"},
-		{"id":"69fe3cc181e6f9bd","fromNode":"537df9e5009b3066","fromSide":"right","toNode":"5345e68022bdcc1b","toSide":"left"}
+		{"id":"69fe3cc181e6f9bd","fromNode":"537df9e5009b3066","fromSide":"right","toNode":"5345e68022bdcc1b","toSide":"left"},
+		{"id":"077603dd4283c6ce","fromNode":"06d5475271380fea","fromSide":"left","toNode":"a67e539fde63e9f6","toSide":"right"},
+		{"id":"e387196ef2b65f13","fromNode":"a67e539fde63e9f6","fromSide":"left","toNode":"f06d934ca64ab9cb","toSide":"right"},
+		{"id":"a1112a06f7249e51","fromNode":"fd5ef960abbbc4dd","fromSide":"left","toNode":"147adf605961619c","toSide":"right"}
 	]
 }
