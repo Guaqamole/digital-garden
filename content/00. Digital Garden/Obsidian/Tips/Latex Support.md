@@ -2,7 +2,8 @@
 title: Latex Support
 date: 2023-12-17
 draft: false
-tags: 
+tags:
+  - ObsidianTips
 complete: true
 ---
 ```latex

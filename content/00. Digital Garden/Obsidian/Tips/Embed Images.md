@@ -2,7 +2,8 @@
 title: Embed Images
 date: 2023-11-24
 draft: false
-tags: 
+tags:
+  - ObsidianTips
 complete: true
 ---
 ## External images

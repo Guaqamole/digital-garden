@@ -29,6 +29,10 @@ For example, the complete link should look like this:
 http://webcache.googleusercontent.com/search?q=cache:https://medium.com/example-article
 ```
 
+sample!!!!
+```
+http://webcache.googleusercontent.com/search?q=cache:
+```
 ## Step 3: Install a Browser Reader Extension
 
 Now that you have the cached version of the Medium article, it’s time to make your reading experience even more enjoyable. Install a browser reader extension like [readbee](https://chrome.google.com/webstore/detail/text-mode-for-websites-re/phjbepamfhjgjdgmbhmfflhnlohldchb?hl=en-US) to transform the article into a cleaner, more distraction-free format. These extensions improve the readability of the content, making it easier on your eyes and enhancing your overall reading experience.

@@ -8,6 +8,21 @@ tags:
 complete: true
 ---
 ## Overview
+### What is Hugging Face
+허깅페이스는 트랜스포머를 기반으로 하는 다양한 모델(_transformer.models_)과 학습 스크립트(_transformer.Trainer_)를 구현해 놓은 모듈이다.
+
+> [!info] Transformers
+> A transformer is a deep learning architecture developed by **Google** and based on the multi-head attention mechanism, proposed in a 2017 paper "Attention Is All You Need".
+
+원래는 파이토치로 layer, model 등을 선언해주고 학습 스크립트도 전부 구현해야 하지만, 허깅 페이스를 사용하면 이런 수고를 덜 수 있다. 정리하면 '허깅 페이스'라는 회사가 만든 'transformers' 패키지가 있고, 일반적인 파이토치 구현체의 layer.py, model.py이 transformer.models에, train.py 가 transformer.Trainer에 대응된다.
+
+허깅페이스를 사용하면:
+- 기존의 성능이 검증된 pre-trained 모델을 쉽게 (무료로) 다운 받아서 사용할 수 있고,
+- 본인의 task에 맞게 모델을 fine-tuning하는 것도 가능하다.
+- 스스로 제작/파인튜닝한 딥러닝 모델을 공유할 수도 있다.
+
+### What is NLP
+
 NLP는 인간 언어와 관련된 모든 것을 이해하는 데 초점을 맞춘 언어학 및 기계 학습 분야입니다.
 
 **Aim**
@@ -34,8 +49,14 @@ Transformer 모델은 이전 섹션에서 언급한 것과 같은 모든 종류�
 
 Transformer 모델이 내부적으로 어떻게 작동하는지 알아보기 전에, 몇 가지 흥미로운 NLP 문제를 해결하는 데 어떻게 사용할 수 있는지에 대한 몇 가지 예를 살펴보겠습니다.
 
+### install
+```python
+pip install transformers
+from transformers import pipeline
+```
+
 ### pipeline()
-🤗 Transformers 라이브러리의 가장 기본적인 객체는 함수입니다 `pipeline()`. 모델을 필요한 전처리 및 후처리 단계와 연결하여 텍스트를 직접 입력하고 이해하기 쉬운 답변을 얻을 수 있습니다.
+🤗 Transformers 라이브러리의 가장 기본적인 객체는 `pipeline()` 함수입니다. 모델을 필요한 전처리 및 후처리 단계와 연결하여 텍스트를 직접 입력하고 이해하기 쉬운 답변을 얻을 수 있습니다.
 
 ```python
 from transformers import pipeline
