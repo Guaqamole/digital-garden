@@ -229,3 +229,125 @@ model.config.id2label
 
 
 ## Creating Transformers
+체크포인트에서 모델을 인스턴스화하려는 경우, 편리한 `AutoModel` 클래스를 사용할 수 있습니다.
+
+클래스 `AutoModel`와 모든 관련 클래스는 실제로 라이브러리에서 사용할 수 있는 다양한 모델에 대한 간단한 래퍼입니다. 체크포인트에 적합한 모델 아키텍처를 자동으로 추측한 다음 이 아키텍처로 모델을 인스턴스화할 수 있으므로 영리한 래퍼입니다.
+
+그러나 사용하려는 모델 유형을 알고 있는 경우 해당 아키텍처를 직접 정의하는 클래스를 사용할 수 있습니다. 이것이 BERT 모델에서 어떻게 작동하는지 살펴보겠습니다.
+
+### Create Transformer
+```python
+from transformers import BertConfig, BertModel
+
+# Building the config
+config = BertConfig()
+
+# Building the model from the config
+model = BertModel(config)
+print(config)
+```
+
+```python
+BertConfig {
+  [...]
+  "hidden_size": 768,
+  "intermediate_size": 3072,
+  "max_position_embeddings": 512,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  [...]
+}
+```
+
+이러한 모든 속성의 기능을 아직 보지 못했지만 일부 속성은 알고있을거라 생각합니다. `hidden_size` 속성은 `hidden_states` 벡터의 크기를 정의하고 `num_hidden_layers`는 Transformer 모델의 레이어 수를 정의합니다.
+
+#### Loading configs to model
+
+**Random** 방법
+기본 구성에서 모델을 생성하면 config가 임의의 값으로 초기화됩니다.
+
+```python
+from transformers import BertConfig, BertModel
+
+config = BertConfig()
+model = BertModel(config)
+
+# Model is randomly initialized!
+```
+
+이 상태에서 모델을 사용할 수 있지만 횡설수설이 출력됩니다. 먼저 훈련을 받아야 합니다. 당면한 작업에 대해 처음부터 모델을 훈련할 수 있지만 [1장](https://huggingface.co/course/chapter1) 에서 본 것처럼 이 작업에는 오랜 시간과 많은 데이터가 필요하며 환경에 무시할 수 없는 영향을 미칩니다. 불필요하고 중복된 노력을 피하려면 이미 훈련된 모델을 공유하고 재사용할 수 있는 것이 필수적입니다.
+
+**Pretrained** 방법
+이미 학습된 Transformer 모델을 로드하는 것은 간단합니다. `from_pretrained()`다음 방법을 사용하여 이를 수행할 수 있습니다.
+
+```python
+from transformers import BertModel
+
+model = BertModel.from_pretrained("bert-base-cased")
+```
+
+앞에서 본 것처럼 `BertModel` 을 동등한 `AutoModel`클래스로 대체할 수 있습니다. 체크포인트에 구애받지 않는 코드가 생성되므로 지금부터 이 작업을 수행하겠습니다. 코드가 하나의 체크포인트에서 작동한다면 다른 체크포인트에서도 원활하게 작동해야 합니다. 이는 체크포인트가 유사한 작업(예: 감정 분석 작업)에 대해 훈련된 한 아키텍처가 다르더라도 적용됩니다.
+
+위의 코드 샘플에서는 `BertConfig`를 사용하지 않고 대신 `bert-base-cased`식별자를 통해 사전 학습된 모델을 로드했습니다. 이는 BERT 작성자가 직접 train 한 모델 체크포인트입니다. [모델 카드](https://huggingface.co/bert-base-cased) 에서 자세한 내용을 확인할 수 있습니다 .
+
+이제 이 모델은 체크포인트의 모든 가중치로 초기화됩니다. 훈련된 작업에 대한 추론을 위해 직접 사용할 수 있으며, 새로운 작업에 대해 미세 조정할 수도 있습니다. 처음부터 훈련하는 것이 아니라 미리 훈련된 가중치로 훈련하면 빠르게 좋은 결과를 얻을 수 있습니다.
+
+가중치는 캐시 폴더에 다운로드되어 캐시되었습니다(향후 메소드 호출 시 `from_pretrained()`다시 다운로드되지 않음). 기본값은 _~/.cache/huggingface/transformers_ 입니다 . 환경 변수를 설정하여 캐시 폴더를 사용자 정의할 수 있습니다 `HF_HOME`.
+
+모델을 로드하는 데 사용되는 식별자는 BERT 아키텍처와 호환되는 한 모델 허브에 있는 모든 모델의 식별자가 될 수 있습니다. 사용 가능한 BERT 체크포인트의 전체 목록은 [여기에서](https://huggingface.co/models?filter=bert) 확인할 수 있습니다 .
+
+**Saving** 방법
+모델을 저장하는 것은 모델을 로드하는 것만큼 쉽습니다.  `save_pretrained()`:
+```python
+model.save_pretrained("directory_on_my_computer")
+```
+
+이렇게 하면 디스크에 두 개의 파일이 저장됩니다.
+```python
+ls directory_on_my_computer
+
+config.json   pytorch_model.bin
+```
+
+_config.json_ 파일 을 살펴보면 모델 아키텍처를 구축하는 데 필요한 속성을 인식할 수 있습니다. 이 파일에는 체크포인트가 어디서 생성되었는지, 체크포인트를 마지막으로 저장했을 때 사용한 🤗 Transformers 버전과 같은 일부 메타데이터도 포함되어 있습니다.
+
+pytorch_model.bin 파일 _은_ _상태 사전_ 으로 알려져 있습니다 . 여기에는 모델의 모든 가중치가 포함됩니다. 두 파일은 함께 사용됩니다. 모델의 아키텍처를 알기 위해서는 구성이 필요하며, 모델 가중치는 모델의 매개변수입니다.
+
+
+### Use Transformer for inference
+이제 모델을 로드하고 저장하는 방법을 알았으므로 모델을 사용하여 몇 가지 예측을 해보겠습니다. 변환기 모델은 토크나이저가 생성하는 숫자만 처리할 수 있습니다. 하지만 토크나이저에 대해 논의하기 전에 모델이 어떤 입력을 받아들이는지 살펴보겠습니다.
+
+토크나이저는 입력을 적절한 프레임워크의 텐서에 캐스팅하는 작업을 처리할 수 있지만, 무슨 일이 일어나고 있는지 이해하는 데 도움이 되도록 입력을 모델에 보내기 전에 수행해야 할 작업을 간략하게 살펴보겠습니다.
+
+몇 가지 시퀀스가 ​​있다고 가정해 보겠습니다.
+```python
+sequences = ["Hello!", "Cool.", "Nice!"]
+```
+
+_토크나이저는 이를 일반적으로 입력 ID_ 라고 하는 어휘 색인으로 변환합니다 . 이제 각 시퀀스는 숫자 목록입니다! 결과 출력은 다음과 같습니다.
+
+```python
+encoded_sequences = [
+    [101, 7592, 999, 102],
+    [101, 4658, 1012, 102],
+    [101, 3835, 999, 102],
+]
+```
+
+이것은 인코딩된 시퀀스 목록입니다. 목록의 목록입니다. Tensor는 직사각형 모양(행렬을 생각해 보세요)만 허용합니다. 이 "배열"은 이미 직사각형 모양이므로 텐서로 변환하는 것은 쉽습니다.
+
+```python
+import torch
+
+model_inputs = torch.tensor(encoded_sequences)
+```
+
+#### Use Tensors as inputs to the model
+모델은 다양한 인수를 허용하지만 입력 ID만 필요합니다. 다른 인수의 기능과 필요한 시기는 나중에 설명하겠지만 먼저 Transformer 모델이 이해할 수 있는 입력을 작성하는 토크나이저를 자세히 살펴봐야 합니다.
+```python
+output = model(model_inputs)
+```
+
+
+
+# 다음 [[Tokenizers]]
