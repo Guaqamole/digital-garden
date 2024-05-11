@@ -185,7 +185,7 @@ def tokenize_function(example):
     return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 ```
 
-이 함수는 (데이터 세트의 항목과 같은) 사전을 가져가서 input_ids, attention_mask 및 token_type_ids 키로 새 사전을 반환합니다. 앞에서 본 것처럼 토큰화기는 문장 쌍의 목록에서 작동하므로 예제 사전에 여러 샘플(각 키는 문장 목록으로)이 포함된 경우에도 작동합니다. 이렇게 하면 batched=True 옵션을 사용하여 (),를 매핑하여 토큰화 속도를 크게 높일 수 있습니다. 토큰화기는 🤗 토큰화 라이브러리의 Rust로 작성된 토큰화기에 의해 지원됩니다. 이 토큰화기는 매우 빠를 수 있지만 한 번에 많은 입력을 해야만 가능합니다.  
+**이 함수는 (데이터 세트의 항목과 같은) 사전을 가져가서 input_ids, attention_mask 및 token_type_ids 키로 새 사전을 반환합니다.** 앞에서 본 것처럼 토큰화기는 문장 쌍의 목록에서 작동하므로 예제 사전에 여러 샘플(각 키는 문장 목록으로)이 포함된 경우에도 작동합니다. **이렇게 하면 batched=True 옵션을 사용하여 (),를 매핑하여 토큰화 속도를 크게 높일 수 있습니다.** 토큰화기는 🤗 토큰화 라이브러리의 Rust로 작성된 토큰화기에 의해 지원됩니다. 이 토큰화기는 매우 빠를 수 있지만 한 번에 많은 입력을 해야만 가능합니다.  
   
 토큰화 함수에서 패딩 인수는 일단 생략했습니다. 이것은 모든 샘플을 최대 길이로 패딩하는 것이 효율적이지 않기 때문입니다. 그러면 전체 데이터 세트의 최대 길이가 아니라 해당 배치의 최대 길이로만 패딩하면 되기 때문에 배치를 구축할 때 샘플을 패딩하는 것이 좋습니다. 이는 입력이 매우 가변적인 길이를 가질 때 많은 시간과 처리 능력을 절약할 수 있습니다!  
   
@@ -231,7 +231,7 @@ from transformers import DataCollatorWithPadding
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 ```
 
-이 새로운 장난감을 테스트하기 위해 함께 배치할 훈련 세트에서 몇 가지 샘플을 가져와 보겠습니다. 여기에서는 `sentence1``sentence2`필요하지 않고 문자열을 포함하는 열(및 문자열로 텐서를 생성할 수 없음) `idx`을 제거하고 배치의 각 항목 길이를 살펴봅니다.
+이 새로운 장난감을 테스트하기 위해 함께 배치할 훈련 세트에서 몇 가지 샘플을 가져와 보겠습니다. 여기에서는 `sentence1` , `sentence2`필요하지 않고 문자열을 포함하는 열(및 문자열로 텐서를 생성할 수 없음) `idx`을 제거하고 배치의 각 항목 길이를 살펴봅니다.
 
 ```python
 samples = tokenized_datasets["train"][:8]
@@ -282,7 +282,7 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 ```
 
 ### Start Training
-정의하기 `Trainer` 전 첫 번째 단계는 훈련과 평가에 사용할 모든 하이퍼파라미터를 포함하는 클래스를 `TrainingArguments`정의하는 것입니다 . 제공해야 하는 유일한 인수는 학습된 모델이 저장될 디렉터리와 그 과정에서 체크포인트입니다. 나머지 모든 사항에 대해서는 기본값을 그대로 두면 기본 미세 조정에 매우 적합합니다. `Trainer`
+`Trainer` 를 정의하기 전 첫 번째 단계는 훈련과 평가에 사용할 모든 하이퍼파라미터를 포함하는 클래스인 `TrainingArguments`를 정의하는 것입니다 . 제공해야 하는 유일한 인수는 학습된 모델이 저장될 디렉터리와 그 과정에서 체크포인트입니다. 나머지 모든 사항에 대해서는 기본값을 그대로 두면 기본 미세 조정에 매우 적합합니다. 
 
 ```python
 from transformers import TrainingArguments
@@ -290,4 +290,120 @@ from transformers import TrainingArguments
 training_args = TrainingArguments("test-trainer")
 ```
 
-두 번째 단계는 모델을 정의하는 것입니다. [이전 장](https://huggingface.co/course/chapter2) 에서와 마찬가지로 두 개의 레이블이 있는 클래스를 사용합니다 `AutoModelForSequenceClassification`.
+두 번째 단계는 모델을 정의하는 것입니다. [이전 장](https://huggingface.co/course/chapter2) 에서와 마찬가지로 두 개의 레이블이 있는`AutoModelForSequenceClassification` 클래스를 사용합니다 .
+
+```python
+from transformers import AutoModelForSequenceClassification
+
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+```
+
+[2장](https://huggingface.co/course/chapter2) 과 달리 사전 학습된 모델을 인스턴스화한 후 경고가 표시된다는 점을 알 수 있습니다 . 이는 BERT가 문장 쌍을 분류하는 데 사전 학습되지 않았기 때문에 사전 학습된 모델의 헤드를 삭제하고 대신 시퀀스 분류에 적합한 새로운 헤드를 추가했기 때문입니다. 경고는 일부 가중치(삭제된 사전 훈련 헤드에 해당하는 가중치)가 사용되지 않았으며 일부 가중치(새 헤드에 대한 가중치)가 무작위로 초기화되었음을 나타냅니다. 우리가 지금 하려고 하는 것이 바로 모델 훈련을 권장하는 것으로 마무리됩니다.
+
+모델이 있으면 `Trainer`지금까지 구성된 모든 개체( , 훈련 및 검증 데이터 세트, our 및 our :)를 전달하여 `model`a `training_args`를 `data_collator`정의 `tokenizer`할 수 있습니다.
+
+```python
+from transformers import Trainer
+
+trainer = Trainer(
+    model,
+    training_args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["validation"],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+)
+```
+
+Note that when you pass the `tokenizer` as we did here, the default `data_collator` used by the `Trainer` will be a `DataCollatorWithPadding` as defined previously, so you can skip the line `data_collator=data_collator` in this call. It was still important to show you this part of the processing in section 2!
+
+To fine-tune the model on our dataset, we just have to call the `train()` method of our `Trainer`:
+
+```python
+trainer.train()
+```
+
+그러면 fine-tuning (GPU에서는 몇 분 정도 소요)이 시작되고 500단계마다 훈련 손실이 보고됩니다. 그러나 모델의 성능이 얼마나 좋은지(또는 나쁜지) 알려주지는 않습니다. 왜냐면:
+1. We didn’t tell the `Trainer` to evaluate during training by setting `evaluation_strategy` to either `"steps"` (evaluate every `eval_steps`) or `"epoch"` (evaluate at the end of each epoch).
+2. We didn’t provide the `Trainer` with a `compute_metrics()` function to calculate a metric during said evaluation (otherwise the evaluation would just have printed the loss, which is not a very intuitive number).
+
+### Evaluation
+Let’s see how we can build a useful `compute_metrics()` function and use it the next time we train. The function must take an `EvalPrediction` object (which is a named tuple with a `predictions` field and a `label_ids` field) and will return a dictionary mapping strings to floats (the strings being the names of the metrics returned, and the floats their values). To get some predictions from our model, we can use the `Trainer.predict()` command:
+
+```python
+predictions = trainer.predict(tokenized_datasets["validation"])
+print(predictions.predictions.shape, predictions.label_ids.shape)
+```
+
+```python
+(408, 2) (408,)
+```
+
+The output of the `predict()` method is another named tuple with three fields: `predictions`, `label_ids`, and `metrics`. The `metrics` field will just contain the loss on the dataset passed, as well as some time metrics (how long it took to predict, in total and on average). Once we complete our `compute_metrics()` function and pass it to the `Trainer`, that field will also contain the metrics returned by `compute_metrics()`.
+
+보시다시피 `predictions` 는 408 x 2 모양의 2차원 배열입니다(408은 우리가 사용한 데이터세트의 요소 수입니다). 이는 우리가 전달한 데이터 세트의 각 요소에 대한 로짓입니다 ( [이전 장](https://huggingface.co/course/chapter2)`predict()` 에서 본 것처럼 모든 Transformer 모델은 로짓을 반환합니다). 이를 레이블과 비교할 수 있는 예측으로 변환하려면 두 번째 축에서 최대값을 갖는 인덱스를 가져와야 합니다.
+
+```python
+import numpy as np
+
+preds = np.argmax(predictions.predictions, axis=-1)
+```
+
+이제 이를 `preds`라벨과 비교할 수 있습니다. 함수를 구축하기 위해 🤗 [평가](https://github.com/huggingface/evaluate/) 라이브러리의 `compute_metric()` function 을 사용하겠습니다 . 이번에는 함수를 사용하여 데이터세트를 로드한 것처럼 쉽게 MRPC 데이터세트와 관련된 `evaluate.load()` 함수를 로드할 수 있습니다 . 반환된 객체에는 측정항목 계산을 수행하는 데 사용할 수 있는 `compute()` 메서드가 있습니다.
+
+```python
+import evaluate
+
+metric = evaluate.load("glue", "mrpc")
+metric.compute(predictions=preds, references=predictions.label_ids)
+```
+
+```python
+{'accuracy': 0.8578431372549019, 'f1': 0.8996539792387542}
+```
+
+모델 헤드의 무작위 초기화로 인해 얻은 측정항목이 변경될 수 있으므로 얻을 수 있는 정확한 결과는 다를 수 있습니다. 여기서 우리 모델의 검증 세트 정확도는 85.78%이고 F1 score 는 89.97임을 알 수 있습니다. 이는 GLUE 벤치마크에 대한 MRPC 데이터세트의 결과를 평가하는 데 사용되는 두 가지 측정항목입니다. [BERT 논문](https://arxiv.org/pdf/1810.04805.pdf) 의 표는 기본 모델의 F1 점수가 88.9라고 보고했습니다. 그것은 우리가 현재 `uncased` 모델을 사용하고 있는 동안의 `cased` 모델이었는데, 이것이 더 나은 결과를 설명합니다.
+
+모든 것을 하나로 묶으면 다음과 같은 `compute_metrics()` function 을 얻을 수 있습니다.
+
+```python
+def compute_metrics(eval_preds):
+    metric = evaluate.load("glue", "mrpc")
+    logits, labels = eval_preds
+    predictions = np.argmax(logits, axis=-1)
+    return metric.compute(predictions=predictions, references=labels)
+```
+
+그리고 각 epoch가 끝날 때 metric을 report하기 위해 실제로 사용되는 것을 확인하기 위해 `Trainer`이 `compute_metrics()`함수를 사용하여 새 항목을 정의하는 방법은 다음과 같습니다.
+
+```python
+training_args = TrainingArguments("test-trainer", evaluation_strategy="epoch")
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+
+trainer = Trainer(
+    model,
+    training_args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["validation"],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
+)
+```
+
+Note that we create a new `TrainingArguments` with its `evaluation_strategy` set to `"epoch"` and a new model — otherwise, we would just be continuing the training of the model we have already trained. To launch a new training run, we execute:
+
+```python
+trainer.train()
+```
+
+이번에는 훈련 손실 외에 각 에포크가 끝날 때마다 검증 손실과 측정항목을 보고합니다. 다시 말하지만, 도달한 정확한 정확도/F1 점수는 모델의 무작위 헤드 초기화로 인해 우리가 찾은 것과 약간 다를 수 있지만 동일한 기준점에 있어야 합니다.
+
+이는 `Trainer`여러 GPU 또는 TPU에서 즉시 작동하며 혼합 정밀도 교육( `fp16 = True`교육 인수에 사용)과 같은 다양한 옵션을 제공합니다. 10장에서 지원되는 모든 내용을 살펴보겠습니다.
+
+이것으로 API를 사용한 미세 조정에 대한 소개를 마칩니다 `Trainer`. 가장 일반적인 NLP 작업에 대해 이 작업을 수행하는 예는 [7장](https://huggingface.co/course/chapter7) 에서 제공되지만 지금은 순수한 PyTorch에서 동일한 작업을 수행하는 방법을 살펴보겠습니다.
+
+
+
+
+# 지금까지는 함수들이 자동으로 해줬던 부분들이 많아서 처음부터 어떻게 fine-tuning 하는지 보고싶으면 [여기로](https://huggingface.co/learn/nlp-course/chapter3/4?fw=pt)
