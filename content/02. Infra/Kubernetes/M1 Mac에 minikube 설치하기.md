@@ -15,10 +15,16 @@ sudo install minikube-darwin-arm64 /usr/local/bin/minikube
 
 ## Start
 ```bash
-minikube start --driver=docker --alsologtostderr --disk-size 64g --memory 4096 --cpus 4 --profile kubeflow
+minikube start --driver=docker --alsologtostderr --disk-size 64g --memory 4096 --cpus 4 --profile mlflow
 ```
 
 ## Stop
 ```bash
 minikube stop --all
+```
+
+
+## Delete
+```bash
+minikube delete --profile=kubeflow
 ```
