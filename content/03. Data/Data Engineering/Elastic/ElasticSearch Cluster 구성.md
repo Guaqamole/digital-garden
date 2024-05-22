@@ -1,7 +1,7 @@
 ---
 title: ElasticSearch Cluster 구성
 date: 2024-05-20
-draft: false
+draft: true
 tags:
   - Elastic
 complete: true
@@ -164,9 +164,9 @@ curl localhost:9200/_cat/nodes
 
 
 #### Connecting other nodes
-- 172-31-134-184
-- 172.31.134.163
-- 172.31.140.102
+172.31.134.184
+172.31.134.163
+172.31.140.102
 ##### Node 2 elasticsearch.yml
 - `/etc/elasticsearch/elasticsearch.yml`
 ```bash
@@ -221,7 +221,7 @@ sudo systemctl start kibana
 ```
 
 
-## MetricBeat (monitoring)
+## MetricBeat (monitoring) - 안됨…
 
 ### install
 ```python
@@ -236,7 +236,13 @@ ln -s metricbeat-8.13.4-linux-x86_64 metricbeat8
 ```
 
 ### setup
-- /opt/metricbeat/metricbeat8/metricbeat.yml
+sudo vi /opt/metricbeat/metricbeat8/metricbeat.yml
+```yaml
+setup.kibana
+	host: 172.31.13.5:5601
+output.elasticsearch:
+	hosts: ["http://172.31.134.184:9200", "http://172.31.134.163:9200", "http://172.31.140.102:9200"]
+```
 
 
 ### systemd
@@ -270,4 +276,109 @@ sudo chmod g+rwx /opt/metricbeat/metricbeat8
 sudo useradd -r -d /opt/metricbeat -s /sbin/nologin ec2-user
 sudo chown -R ec2-user:metricbeat /opt/metricbeat
 
+```
+
+
+## ElasticSearch Exporter
+### binary
+```bash
+sudo mkdir -p /opt/exporter
+sudo chown ec2-user.ec2-user /opt/exporter
+cd /opt/exporter
+
+wget https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v1.7.0/elasticsearch_exporter-1.7.0.linux-amd64.tar.gz
+tar -zxvf elasticsearch_exporter-1.7.0.linux-amd64.tar.gz
+mv elasticsearch_exporter-1.7.0.linux-amd64 elasticsearch_exporter
+rm -rf elasticsearch_exporter-1.7.0.linux-amd64.tar.gz
+
+sudo ln -s /opt/exporter/elasticsearch_exporter/elasticsearch_exporter /usr/local/bin/elasticsearch_exporter
+```
+
+### systemd
+```bash
+sudo sh -c 'cat << EOF > /etc/systemd/system/elasticsearch_exporter.service
+[Unit]
+Description=Prometheus elasticsearch_exporter
+After=local-fs.target network-online.target network.target
+Wants=local-fs.target network-online.target network.target
+
+[Service]
+User=root
+Restart=on-failure
+ExecStart=/usr/local/bin/elasticsearch_exporter --es.uri=http://localhost:9200 --es.all --es.indices --es.timeout 20s
+
+[Install]
+WantedBy=default.target
+EOF'
+```
+
+### start
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable elasticsearch_exporter
+sudo systemctl start elasticsearch_exporter
+```
+
+### check
+```bash
+curl -XGET http://localhost:9114/metrics
+```
+
+
+## Node Exporter
+### binary
+```bash
+sudo mkdir -p /opt/exporter
+sudo chown ec2-user.ec2-user /opt/exporter
+cd /opt/exporter
+
+wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
+tar -zxvf node_exporter-1.7.0.linux-amd64.tar.gz
+mv node_exporter-1.7.0.linux-amd64 node_exporter
+rm -rf node_exporter-1.7.0.linux-amd64.tar.gz
+
+sudo ln -s /opt/exporter/node_exporter/node_exporter /usr/local/bin/node_exporter
+```
+
+### systemd
+```bash
+sudo sh -c 'cat << EOF > /etc/systemd/system/node_exporter.service
+[Unit]
+Description=Prometheus Node Exporter
+Documentation=https://prometheus.io/docs/guides/node-exporter/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Restart=on-failure
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+```
+
+### start
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable node_exporter
+sudo systemctl start node_exporter
+```
+
+### check
+```bash
+curl -XGET http://localhost:9100/metrics
+```
+
+
+
+
+## Plugins
+### Nori Analyzer
+```bash
+cd /usr/share/elasticsearch
+sudo bin/elasticsearch-plugin list
+sudo bin/elasticsearch-plugin install analysis-nori
+sudo systemctl restart elasticsearch
 ```
