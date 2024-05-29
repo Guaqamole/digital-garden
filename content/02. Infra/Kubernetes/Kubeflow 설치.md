@@ -329,6 +329,11 @@ kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui -n kubeflow 8888:80
 
 하단에서 진행되는 다른 포트의 경로에 접속할 때도 위의 절차와 동일하게 커맨드를 실행하고, 방화벽에 포트 번호를 추가해주면 실행하는 것이 가능합니다.
 
+#### delete kubeflow pipeline
+```python
+kustomize build apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user | kubectl delete -n kubeflow -f -
+```
+
 ### Katib[​](https://mlops-for-all.github.io/docs/setup-components/install-components-kf#katib "Katib에 대한 직접 링크")
 
 Katib 를 설치합니다.

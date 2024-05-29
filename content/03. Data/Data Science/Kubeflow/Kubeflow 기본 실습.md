@@ -6,8 +6,19 @@ tags:
   - Kubeflow
 complete: true
 ---
-## Kubeflow Pipeline
-### Example1. Hello World
+## Concepts
+- pipeline
+- component
+- experiment
+- 
+- 실행환경 & 코드 런타임 분리
+	- 이식성
+	- 반복가능성
+	- 캡슐화
+
+
+## Basic Pipeline
+### Hello World
 ```python
 import kfp
 import requests
@@ -57,4 +68,10 @@ client.create_run_from_pipeline_package('my_pipeline.yaml',arguments={"a":1,"b":
 >> [Experiment details](http://192.168.51.210/pipeline/#/experiments/details/7cf0d70b-7131-4e7b-8e03-109e9a81e18b).
 >> [Run details](http://192.168.51.210/pipeline/#/runs/details/2b12da50-99bb-41c1-984d-2dea41813a5f).
 >> RunPipelineResult(run_id=2b12da50-99bb-41c1-984d-2dea41813a5f)
+```
+
+
+### Hello World2
+```python
+
 ```
