@@ -30,7 +30,7 @@ PASSWORD = "12341234"
 NAMESPACE = "kubeflow" # 보통 kubeflow가 기본값입니다.
 
 session = requests.Session()
-response = session.get(HOST)
+response = session.get(KUBEFLOW_HOST)
 
 headers = {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -440,7 +440,7 @@ def minio_read_object_pandas(bucket: str, prefix: str):
         print(f"Error occurred: {e}")
 
     if df is not None:
-        print(df)
+        print(df)3
 
 @dsl.pipeline(
    name='minio-pipeline',

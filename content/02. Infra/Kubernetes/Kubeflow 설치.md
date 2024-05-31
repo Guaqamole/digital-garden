@@ -174,7 +174,7 @@ NAME                   READY   STATUS    RESTARTS   AGEdex-5ddf47d88d-458cs   1/
 
 OIDC AuthService 를 설치합니다.
 ```
-kustomize build common/oidc-authservice/base | kubectl apply -f -
+kustomize build common/oidc-client/oidc-authservice/base | kubectl apply -f -
 ```
 
 정상적으로 수행되면 다음과 같이 출력됩니다.
@@ -363,7 +363,7 @@ katib-controller-68c47fbf8b-b985z                        1/1     Running   0    
 추가로 katib UI가 정상적으로 접속되는지 확인합니다.
 
 ```
-kubectl port-forward svc/katib-ui -n kubeflow 8081:80
+kubectl port-forward svc/katib-ui -n kubeflow --address 0.0.0.0 8081:80
 ```
 
 웹 브라우저를 열어 [http://localhost:8081/katib/](http://localhost:8081/katib/) 경로에 접속합니다.
