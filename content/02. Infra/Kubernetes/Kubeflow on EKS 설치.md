@@ -238,7 +238,8 @@ kustomize build upstream/common/kubeflow-roles/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-11/kubeflow-istio-resources/base | kubectl apply -f -
 ```
 
-### central dashboard
+### central dashboard (보안그룹 주의)
+보안그룹 수정 → 내부 ip에 대해 모든 트래픽 통신 허용
 ```python
 kustomize build upstream/apps/centraldashboard/upstream/overlays/kserve | kubectl apply -f -
 ```
