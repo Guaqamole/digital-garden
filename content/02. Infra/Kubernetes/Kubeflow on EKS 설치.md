@@ -6,8 +6,8 @@ tags:
   - eks
 complete: true
 ---
-- Kubernetes version: 1.21
-- Kubeflow version: 1.5.0
+- Kubernetes version: 1.30
+- Kubeflow version: 1.7.0 (kubeflow eks 공식 문서 기준 최신…)
 - Kustomize version: 3.2.0 (나는 3.3 사용)
 
 github: https://github.com/awslabs/kubeflow-manifests/tree/release-v1.5.1-aws-b1.0.2
@@ -45,6 +45,24 @@ https://awslabs.github.io/kubeflow-manifests/release-v1.5.1-aws-b1.0.2/docs/depl
 - [python 3.8+](https://www.python.org/downloads/) - A programming language used for automated installation scripts.
 - [pip](https://pip.pypa.io/en/stable/installation/) - A package installer for python.
 
+### tools
+eksctl
+```python
+ARCH=arm64
+PLATFORM=$(uname -s)_$ARCH
+
+curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+
+# (Optional) Verify checksum
+curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+
+tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+
+sudo mv /tmp/eksctl /usr/local/bin
+
+eksctl
+```
+
 ### git clone
 ```python
 export KUBEFLOW_RELEASE_VERSION=v1.5.1
@@ -75,8 +93,24 @@ echo $REPO_ROOT
 
 export CLUSTER_REGION=ap-northeast-2
 echo $CLUSTER_REGION
+
+alias python=python3.8
 ```
 
+
+### desired deploy s3 method
+1. Export your desired PIPELINE_S3_CREDENTIAL_OPTION:
+2. Note: **IRSA is only supported in KFPv1, if you plan to use KFPv2, choose the IAM User option.** IRSA support for KFPv2 will be added in the next release.
+    
+    - [IRSA](https://awslabs.github.io/kubeflow-manifests/docs/deployment/rds-s3/guide/#tabs-3-0)
+```yaml
+export PIPELINE_S3_CREDENTIAL_OPTION=irsa
+```
+
+    - [IAM User](https://awslabs.github.io/kubeflow-manifests/docs/deployment/rds-s3/guide/#tabs-3-1)
+```python
+export PIPELINE_S3_CREDENTIAL_OPTION=static
+```
 ## RDS, S3 Secret
 ### requirements
 ```python
@@ -93,111 +127,599 @@ black==21.12b0
 mysql-connector-python==8.0.27
 ```
 
-### secrets
-rds secret
+### IAM secrets
+rds & s3 secret
 ```python
 export RDS_SECRET=kubeflow-rds-secret
 echo $RDS_SECRET
 
 aws secretsmanager create-secret --name $RDS_SECRET --secret-string '{"username":"admin","password":"Kubefl0w","database":"kubeflow","host":"rm12abc4krxxxxx.xxxxxxxxxxxx.us-west-2.rds.amazonaws.com","port":"3306"}' --region $CLUSTER_REGION
+
+vi awsconfigs/apps/pipeline/rds/params.env
+dbHost= #위정보 추가
+mlmdDb=kubeflow_db
+
+vi awsconfigs/apps/pipeline/s3/params.env
+bucketName=#bucket 이름
+minioServiceHost=s3.amazonaws.com #변경 X
+minioServiceRegion=ap-northeast-2
+```
+
+secret 생성
+![](https://i.imgur.com/wfyFz0C.png)
+
+```python
+vi awsconfigs/common/aws-secrets-manager/rds/secret-provider.yaml
+...
+  parameters:
+    objects: |
+      - objectName: "rds-secret-new"  # 여기에 이름 추가
+        objectType: "secretsmanager"
+        jmesPath:
+            - path: "username"
+              objectAlias: "user"
+            - path: "password"
+              objectAlias: "pass"
+            - path: "host"
+              objectAlias: "host"
+            - path: "database"
+              objectAlias: "database"
+            - path: "port"
+              objectAlias: "port"
+...
+
+
+vi awsconfigs/common/aws-secrets-manager/s3/secret-provider.yaml
+  parameters:
+    objects: |
+      - objectName: "s3-secret-new"
+        objectType: "secretsmanager"
+        jmesPath:
+            - path: "accesskey"
+              objectAlias: "access"
+            - path: "secretkey"
+              objectAlias: "secret"
 ```
 
 
+### IRSA (DO NOT WORK)
+Create and Configure IAM Roles: 
+```python
+eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER_NAME} \
+--region ${CLUSTER_REGION} --approve
+```
+
+Get the identity issuer URL by running the following commands:
+```python
+export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+export OIDC_PROVIDER_URL=$(aws eks describe-cluster --name $CLUSTER_NAME --region $CLUSTER_REGION \
+--query "cluster.identity.oidc.issuer" --output text | cut -c9-)
+
+```
+
+IAM policy access S3
+```python
+cat <<EOF > s3_policy.json
+{
+   "Version": "2012-10-17",
+   "Statement": [
+            {
+         "Effect": "Allow",
+         "Action": "s3:*",
+         "Resource": [
+            "arn:aws:s3:::${S3_BUCKET}",
+            "arn:aws:s3:::${S3_BUCKET}/*"
+               ]
+            }
+      ]
+}
+EOF
+
+```
+
+kfp backend role
+```python
+cat <<EOF > backend-trust.json
+{
+"Version": "2012-10-17",
+"Statement": [
+   {
+   "Effect": "Allow",
+   "Principal": {
+      "Federated": "arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER_URL}"
+   },
+   "Action": "sts:AssumeRoleWithWebIdentity",
+   "Condition": {
+      "StringEquals": {
+      "${OIDC_PROVIDER_URL}:aud": "sts.amazonaws.com",
+      "${OIDC_PROVIDER_URL}:sub": "system:serviceaccount:kubeflow:ml-pipeline"
+      }
+   }
+   }
+]
+}
+EOF
+```
+
+```python
+export PIPELINE_BACKEND_ROLE_NAME=kf-pipeline-backend-role-$CLUSTER_NAME
+aws --region $CLUSTER_REGION iam create-role --role-name $PIPELINE_BACKEND_ROLE_NAME --assume-role-policy-document file://backend-trust.json
+export BACKEND_ROLE_ARN=$(aws --region $CLUSTER_REGION iam get-role --role-name $PIPELINE_BACKEND_ROLE_NAME --output text --query 'Role.Arn')
+```
+
+
+profile_role
+```python
+cat <<EOF > profile-trust.json
+{
+"Version": "2012-10-17",
+"Statement": [
+   {
+   "Effect": "Allow",
+   "Principal": {
+      "Federated": "arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER_URL}"
+   },
+   "Action": "sts:AssumeRoleWithWebIdentity",
+   "Condition": {
+      "StringEquals": {
+      "${OIDC_PROVIDER_URL}:aud": "sts.amazonaws.com",
+      "${OIDC_PROVIDER_URL}:sub": "system:serviceaccount:kubeflow-user-example-com:default-editor"
+      }
+   }
+   }
+]
+}
+EOF
+```
+
+```python
+export PROFILE_ROLE_NAME=kf-pipeline-profile-role-$CLUSTER_NAME
+aws --region $CLUSTER_REGION iam create-role --role-name $PROFILE_ROLE_NAME --assume-role-policy-document file://profile-trust.json
+export PROFILE_ROLE_ARN=$(aws --region $CLUSTER_REGION iam get-role --role-name $PROFILE_ROLE_NAME --output text --query 'Role.Arn')
+```
+
+
+check roles
+```python
+echo PIPELINE_BACKEND_ROLE_NAME=$PIPELINE_BACKEND_ROLE_NAME
+echo BACKEND_ROLE_ARN=$BACKEND_ROLE_ARN
+echo AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID
+echo OIDC_PROVIDER_URL=$OIDC_PROVIDER_URL
+echo PROFILE_ROLE_NAME=$PROFILE_ROLE_NAME
+echo PROFILE_ROLE_ARN=$PROFILE_ROLE_ARN
+echo PIPELINE_S3_CREDENTIAL_OPTION=$PIPELINE_S3_CREDENTIAL_OPTION
+```
+
+atttach s3 policy to roles
+```python
+aws --region $CLUSTER_REGION iam put-role-policy --role-name $PIPELINE_BACKEND_ROLE_NAME --policy-name kf-pipeline-s3 --policy-document file://s3_policy.json
+aws --region $CLUSTER_REGION iam put-role-policy --role-name $PROFILE_ROLE_NAME --policy-name kf-pipeline-s3 --policy-document file://s3_policy.json
+```
+
+configure manifest with role ARNs (kustomize)
+```python
+yq e '.metadata.annotations."eks.amazonaws.com/role-arn"=env(BACKEND_ROLE_ARN)' -i awsconfigs/apps/pipeline/s3/service-account.yaml
+yq e '.spec.plugins[0].spec."awsIamRole"=env(PROFILE_ROLE_ARN)' -i awsconfigs/common/user-namespace/overlay/profile.yaml
+
+
+cat awsconfigs/apps/pipeline/s3/service-account.yaml
+cat awsconfigs/common/user-namespace/overlay/profile.yaml
+```
 
 ## Install
 ### order
 ```python
-cat deployments/rds-s3/kustomization.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-bases:
-  - ./base
-resources:
-  # Configured for AWS RDS and AWS S3
-
-  # AWS Secret Manager
-  - ../../awsconfigs/common/aws-secrets-manager
-  # Kubeflow Pipelines
-  - ../../awsconfigs/apps/pipeline
-  # Katib
-  - ../../awsconfigs/apps/katib-external-db-with-kubeflow
+cat tests/e2e/utils/kubeflow_installation.py # grep static 하면 static 사용가능.
 
 
+#level 1
+#cert-manager
+cert-manager:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/cert-manager/cert-manager/base
+    helm:
+      repo: remote
+  validations:
+    pods:
+      namespace: cert-manager
+      labels:
+        - key: app.kubernetes.io/instance
+          value: cert-manager
+
+#kubeflow-roles
+kubeflow-roles:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/kubeflow-roles/base
+    helm:
+      paths: ../../charts/common/kubeflow-roles
+
+#level 2
+#kubeflow-issuer
+kubeflow-issuer:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/cert-manager/kubeflow-issuer/base
+    helm:
+      paths: ../../charts/common/kubeflow-issuer
+
+#istio
+istio:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/istio-1-16/istio-crds/base
+        - ../../upstream/common/istio-1-16/istio-namespace/base
+        - ../../upstream/common/istio-1-16/istio-install/base
+    helm:
+      paths: ../../charts/common/istio
+  validations:
+    pods:
+      namespace: istio-system
+      labels:
+        - key: app
+          value: istio-ingressgateway, istiod
+
+#dex
+dex:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/dex/overlays/istio
+    helm:
+      paths: ../../charts/common/dex
+  validations:
+    pods:
+      namespace: auth
+      labels:
+        - key: app
+          value: dex
+
+#kubeflow-namespace
+kubeflow-namespace:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/kubeflow-namespace/base
+    helm:
+      paths: ../../charts/common/kubeflow-namespace
+
+#cluster-local-gateway
+cluster-local-gateway:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/istio-1-16/cluster-local-gateway/base
+    helm:
+      paths: ../../charts/common/cluster-local-gateway
+  validations:
+    pods:
+      namespace: istio-system
+      labels:
+        - key: app
+          value: cluster-local-gateway
+
+#knative-serving
+knative-serving:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/knative/knative-serving/overlays/gateways
+    helm:
+      paths: ../../charts/common/knative-serving
+  validations:
+    crds:
+      - images.caching.internal.knative.dev
+    pods:
+      namespace: knative-serving
+      labels:
+        - key: app.kubernetes.io/name
+          value: knative-serving
+
+#knative-eventing
+knative-eventing:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/knative/knative-eventing/base
+    helm:
+      paths: ../../charts/common/knative-eventing
+  validations:
+    pods:
+      namespace: knative-eventing
+      labels:
+        - key: app.kubernetes.io/name
+          value: knative-eventing
+
+#level 4
+#oidc-authservice
+oidc-authservice:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/oidc-authservice/base
+    helm:
+      paths: ../../charts/common/oidc-authservice
+  validations:
+    pods:
+      namespace: istio-system
+      labels:
+        - key: app
+          value: authservice
+
+#kubeflow-istio-resources
+kubeflow-istio-resources:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/common/istio-1-16/kubeflow-istio-resources/base
+    helm:
+      paths: ../../charts/common/kubeflow-istio-resources
+
+#kserve
+kserve:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/apps/kserve
+    helm:
+      paths: ../../charts/common/kserve
+  validations:
+    crds:
+      - clusterservingruntimes.serving.kserve.io
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: kserve
+
+#models-web-app
+models-web-app:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/contrib/kserve/models-web-app/overlays/kubeflow
+    helm:
+      paths: ../../charts/apps/models-web-app
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: kustomize.component
+          value: kserve-models-web-app
+
+#level 5
+#central-dashboard
+central-dashboard:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/apps/centraldashboard
+    helm:
+      paths: ../../charts/apps/central-dashboard
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: centraldashboard
+
+#pipelines
+kubeflow-pipelines:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/apps/pipeline/
+    helm:
+      paths: ../../charts/apps/kubeflow-pipelines/rds-s3
+  validations:
+    crds:
+      - compositecontrollers.metacontroller.k8s.io
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: application-crd-id
+          value: kubeflow-pipelines
+
+#notebook
+#admission-webhook
+admission-webhook:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/apps/admission-webhook/upstream/overlays/cert-manager
+    helm:
+      paths: ../../charts/apps/admission-webhook
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: poddefaults
+
+#jupyter-web-app
+jupyter-web-app:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/apps/jupyter-web-app
+    helm:
+      paths: ../../charts/apps/jupyter-web-app
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: jupyter-web-app
+
+#notebook-controller
+notebook-controller:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/apps/notebook-controller
+    helm:
+      paths: ../../charts/apps/notebook-controller
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: notebook-controller
+
+#volume-web-app
+volumes-web-app:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/apps/volumes-web-app/upstream/overlays/istio
+    helm:
+      paths: ../../charts/apps/volumes-web-app
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: volumes-web-app
+
+#training-operator
+training-operator:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/apps/training-operator/upstream/overlays/kubeflow
+    helm:
+      paths: ../../charts/apps/training-operator
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: control-plane
+          value: kubeflow-training-operator
+
+#katib
+katib:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/apps/katib-external-db-with-kubeflow
+    helm:
+      paths: ../../charts/apps/katib/katib-external-db-with-kubeflow
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: katib.kubeflow.org/component
+          value: controller, db-manager, ui
+
+#tensorboard
+tensorboard-controller:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
+    helm:
+      paths: ../../charts/apps/tensorboard-controller
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: tensorboard-controller
+
+#tensorboards-web-app
+tensorboards-web-app:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/apps/tensorboard/tensorboards-web-app/upstream/overlays/istio
+    helm:
+      paths: ../../charts/apps/tensorboards-web-app
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: tensorboards-web-app
+
+#profiles and kfam
+profiles-and-kfam:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../upstream/apps/profiles/upstream/overlays/kubeflow
+    helm:
+      paths: ../../charts/apps/profiles-and-kfam
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: kustomize.component
+          value: profiles
+
+#user namespace
+user-namespace:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/user-namespace/overlay
+    helm:
+      paths: ../../charts/common/user-namespace
+
+#AWS Secrets Manager
+aws-secrets-manager:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/aws-secrets-manager/rds
+    helm:
+      paths: ../../charts/common/aws-secrets-manager/rds-only
+  validations:
+    pods:
+      namespace: kubeflow
+      labels:
+        - key: app
+          value: aws-secrets-sync
 
 
+ack-sagemaker-controller:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/ack-sagemaker-controller
+    helm:
+      repo: remote
 
-cat base/kustomization.yaml
-
-
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  # Cert-Manager
-  - ../../../upstream/common/cert-manager/cert-manager/base
-  - ../../../upstream/common/cert-manager/kubeflow-issuer/base
-  # Istio
-  - ../../../upstream/common/istio-1-11/istio-crds/base
-  - ../../../upstream/common/istio-1-11/istio-namespace/base
-  - ../../../upstream/common/istio-1-11/istio-install/base
-  # OIDC Authservice
-  - ../../../upstream/common/oidc-authservice/base
-  # Dex
-  - ../../../upstream/common/dex/overlays/istio
-
-# local-gateway
-	../../../upstream/common/istio-1-11/cluster-local-gateway/base
-
-  # Kubeflow namespace
-  - ../../../upstream/common/kubeflow-namespace/base
-  # Kubeflow Roles
-  - ../../../upstream/common/kubeflow-roles/base
-  # Kubeflow Istio Resources
-  - ../../../upstream/common/istio-1-11/kubeflow-istio-resources/base
-  # Central Dashboard
-  - ../../../upstream/apps/centraldashboard/upstream/overlays/kserve
-  # Admission Webhook
-  - ../../../upstream/apps/admission-webhook/upstream/overlays/cert-manager
-  # Jupyter Web App
-  - ../../../awsconfigs/apps/jupyter-web-app
-  # Notebook Controller
-  - ../../../upstream/apps/jupyter/notebook-controller/upstream/overlays/kubeflow
-  # Profiles + KFAM
-  - ../../../upstream/apps/profiles/upstream/overlays/kubeflow
-  # Volumes Web App
-  - ../../../upstream/apps/volumes-web-app/upstream/overlays/istio
-  # Tensorboard Controller
-  - ../../../upstream/apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
-  # Tensorboards Web App
-  - ../../../upstream/apps/tensorboard/tensorboards-web-app/upstream/overlays/istio
-  # Training Operator
-  - ../../../upstream/apps/training-operator/upstream/overlays/kubeflow
-  # User namespace
-  - ../../../upstream/common/user-namespace/base
-
-  # KServe
-  - ../../../awsconfigs/apps/kserve
-  - ../../../upstream/contrib/kserve/models-web-app/overlays/kubeflow
-
-  # AWS Telemetry - This is an optional component. See usage tracking documentation for more information
-  - ../../../awsconfigs/common/aws-telemetry
+#AWS Telemetry (Optional)
+aws-telemetry:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/aws-telemetry
+    helm:
+      paths: ../../charts/common/aws-telemetry
 ```
 
 ### cert-manager
 ```python
 kustomize build upstream/common/cert-manager/cert-manager/base | kubectl apply -f -
-kustomize build upstream/common/cert-manager/kubeflow-issuer/base | kubectl apply -f -
+kustomize build upstream/common/cert-manager/kubeflow-issuer/base | kubectl apply -f - # 여기 에러나서 스킵ㅜ
 ```
 
 
 ### istio
+kubeflow v1.5.0
 ```python
 kustomize build upstream/common/istio-1-11/istio-crds/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-11/istio-namespace/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-11/istio-install/base | kubectl apply -f -
 ```
 
+kubeflow v1.7.0
 ```python
 kustomize build upstream/common/istio-1-16/istio-crds/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-16/istio-namespace/base | kubectl apply -f -
@@ -223,10 +745,12 @@ kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
 ```
 
 ### cluster-local-gateway
+kubeflow v1.5.0
 ```python
 kustomize build upstream/common/istio-1-11/cluster-local-gateway/base | kubectl apply -f -
 ```
 
+kubeflow v1.7.0
 ```python
 kustomize build upstream/common/istio-1-16/cluster-local-gateway/base | kubectl apply -f -
 ```
@@ -235,13 +759,20 @@ kustomize build upstream/common/istio-1-16/cluster-local-gateway/base | kubectl 
 ```python
 kustomize build upstream/common/kubeflow-namespace/base | kubectl apply -f -
 kustomize build upstream/common/kubeflow-roles/base | kubectl apply -f -
+```
+
+```python
 kustomize build upstream/common/istio-1-11/kubeflow-istio-resources/base | kubectl apply -f -
 ```
 
+```python
+kustomize build upstream/common/istio-1-16/kubeflow-istio-resources/base | kubectl apply -f -
+```
 ### central dashboard (보안그룹 주의)
 보안그룹 수정 → 내부 ip에 대해 모든 트래픽 통신 허용
+처음으로 kubeflow namespace에 뜨는 pod인데, 보안그룹 허용안하면 pod가 안뜬다.
 ```python
-kustomize build upstream/apps/centraldashboard/upstream/overlays/kserve | kubectl apply -f -
+kustomize build awsconfigs/apps/centraldashboard | kubectl apply -f -
 ```
 
 
@@ -259,14 +790,19 @@ kustomize build awsconfigs/apps/jupyter-web-app | kubectl apply -f -
 
 
 ### notebook controller (p)
+- profiles 배포안하면 pending 상태임!! (주의)
 ```python
 kustomize build upstream/apps/jupyter/notebook-controller/upstream/overlays/kubeflow | kubectl apply -f -
+#irsa
+kustomize build awsconfigs/apps/notebook-controller | kubectl apply -f -
+Error: json: unknown field "env"
+error: no objects passed to apply
+
+# 밑에 에러참고
 ```
 
-
-
-
 ### profiles
+- profiles deployment → notebook controller 순으로 에러가 사라짐 (당황ㄴㄴ)
 ```python
 kustomize build upstream/apps/profiles/upstream/overlays/kubeflow | kubectl apply -f -
 ```
@@ -287,12 +823,29 @@ kustomize build upstream/apps/training-operator/upstream/overlays/kubeflow | kub
 
 ### user
 ```python
-kustomize build upstream/common/user-namespace/base | kubectl apply -f -
+cp -R awsconfigs/common/user-namespace/overlay upstream/common/user-namespace
+kustomize build upstream/common/user-namespace/overlay | kubectl apply -f -
 ```
 
 
 ### kubeflow pipelines (집중)
-secrets manager
+secrets manager (배포후 검색날짜에 사용이력이 있으면 ok)
+![](https://i.imgur.com/XMITTwi.png)
+
+#### irsa
+```python
+kustomize build awsconfigs/common/aws-secrets-manager/rds | kubectl apply -f -
+```
+
+
+pipeline
+```python
+kustomize build awsconfigs/apps/pipeline | kubectl apply -f -
+```
+
+
+
+#### static
 ```python
 kustomize build awsconfigs/common/aws-secrets-manager | kubectl apply -f -
 ```
@@ -311,16 +864,68 @@ WRONG
 ![](https://i.imgur.com/u8h0lCh.png)
 
 
-
 pipeline
 ```python
-kustomize build awsconfigs/apps/pipeline | kubectl apply -f -
+kustomize build awsconfigs/apps/pipeline/static | kubectl apply -f -
 ```
 
+ml-pipeline-pod 가 안뜬다면..?
+```python
+ kubectl logs -f -n kubeflow pod/ml-pipeline-58894f4b89-zjmpg
+I0603 09:07:38.033625       7 client_manager.go:160] Initializing client manager
+I0603 09:07:38.033764       7 config.go:57] Config DBConfig.ExtraParams not specified, skipping
+F0603 09:07:38.685028       7 client_manager.go:412] Failed to check if Minio bucket exists. Error: Access Denied.
+```
+
+→ secret 을 확인하라..
+```python
+kubectl get secret -n kubeflow mlpipeline-minio-artifact -o yaml
+apiVersion: v1
+data:
+  accesskey: ""
+  secretkey: ""
+kind: Secret
+metadata:
+  annotations:
+  labels:
+    application-crd-id: kubeflow-pipelines
+    secrets-store.csi.k8s.io/managed: "true"
+  name: mlpipeline-minio-artifact
+  namespace: kubeflow
+  ownerReferences:
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    name: aws-secrets-sync-99b5765d8
+    uid: 28b41b15-ab80-4d72-a4b5-f5046b34c68f
+  resourceVersion: "27377278"
+  uid: df8785b1-340d-4748-bf53-d55b5d408fc5
+type: Opaque
+```
+이렇게 비어있으면 access denied 뜬다.
+
+```python
+vi awsconfigs/apps/pipeline/s3/disable-default-secret.yaml
+
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    application-crd-id: kubeflow-pipelines
+  name: mlpipeline-minio-artifact
+  namespace: kubeflow
+stringData:
+  accesskey: "accesskey" # 여기다 적으면 된다.
+  secretkey: "secretkey" # 여기다 적으면 된다.
+```
+
+
+
+#### 처음 실행하면 아래 에러 바로난다.
 ```python
 Error: json: unknown field "env"
 error: no objects passed to apply
 
+vi awsconfigs/apps/pipeline/kustomization.yaml
 
 # env를 envs로 변경
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -349,4 +954,20 @@ configMapGenerator:
 ### katib
 ```python
 kustomize build awsconfigs/apps/katib-external-db-with-kubeflow | kubectl apply -f -
+```
+
+
+## Network
+https://awslabs.github.io/kubeflow-manifests/docs/add-ons/load-balancer/guide/
+### Create LoadBalancer
+1. Create domain (이미 있음)
+2. Create subdomain (이미 있음)
+3. Create certificate for subdomain (이미있음) → cert arn
+4. Create Load Balancer Controller (이미있음)
+5. Create Ingress (없음)
+
+5번부터 생성.
+### Create Ingress
+```python
+export certArn=arn:aws:acm:northkorea-2:359838957435:certificate/a94tb255-839b-9414-diq4-deiuoisdf3
 ```
