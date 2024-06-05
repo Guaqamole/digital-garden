@@ -146,7 +146,7 @@ minioServiceRegion=ap-northeast-2
 ```
 
 secret 생성
-![](https://i.imgur.com/wfyFz0C.png)
+![|675](https://i.imgur.com/wfyFz0C.png)
 
 ```python
 vi awsconfigs/common/aws-secrets-manager/rds/secret-provider.yaml
@@ -182,7 +182,7 @@ vi awsconfigs/common/aws-secrets-manager/s3/secret-provider.yaml
 ```
 
 
-### IRSA (DO NOT WORK)
+### IRSA (v1.7은 이 방법으로 해야함)
 Create and Configure IAM Roles: 
 ```python
 eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER_NAME} \
@@ -768,11 +768,40 @@ kustomize build upstream/common/istio-1-11/kubeflow-istio-resources/base | kubec
 ```python
 kustomize build upstream/common/istio-1-16/kubeflow-istio-resources/base | kubectl apply -f -
 ```
+
+
 ### central dashboard (보안그룹 주의)
 보안그룹 수정 → 내부 ip에 대해 모든 트래픽 통신 허용
 처음으로 kubeflow namespace에 뜨는 pod인데, 보안그룹 허용안하면 pod가 안뜬다.
 ```python
 kustomize build awsconfigs/apps/centraldashboard | kubectl apply -f -
+```
+
+#### troubleshoot: istio 15017 port
+[https://github.com/istio/istio/wiki/Troubleshooting-Istio#sidecar-injection](https://github.com/istio/istio/wiki/Troubleshooting-Istio#sidecar-injection)
+이런식으로 15017로 통신이 안되면 비정상.
+```python
+kubectl get --raw /api/v1/namespaces/istio-system/services/https:istiod:https-webhook/proxy/inject -v4 I0531 16:47:33.022034 53702 helpers.go:246] server response object: [{ "metadata": {}, "status": "Failure", "message": "error trying to reach service: dial tcp 172.00.000.00:15017: connect: connection timed out", "reason": "ServiceUnavailable", "code": 503 }] Error from server (ServiceUnavailable): error trying to reach service: dial tcp 172.00.000.00:15017: connect: connection timed out
+```
+
+아래는 정상.
+```python
+kubectl get --raw /api/v1/namespaces/istio-system/services/https:istiod:https-webhook/proxy/inject -v4
+I0604 14:21:02.987777   21255 helpers.go:246] server response object: [{
+  "metadata": {},
+  "status": "Failure",
+  "message": "the server rejected our request for an unknown reason",
+  "reason": "BadRequest",
+  "details": {
+    "causes": [
+      {
+        "reason": "UnexpectedServerResponse",
+        "message": "no body found"
+      }
+    ]
+  },
+  "code": 400
+}]
 ```
 
 
@@ -959,6 +988,7 @@ kustomize build awsconfigs/apps/katib-external-db-with-kubeflow | kubectl apply 
 
 ## Network
 https://awslabs.github.io/kubeflow-manifests/docs/add-ons/load-balancer/guide/
+https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
 ### Create LoadBalancer
 1. Create domain (이미 있음)
 2. Create subdomain (이미 있음)
@@ -966,8 +996,87 @@ https://awslabs.github.io/kubeflow-manifests/docs/add-ons/load-balancer/guide/
 4. Create Load Balancer Controller (이미있음)
 5. Create Ingress (없음)
 
-5번부터 생성.
+나머지는 다 있으므로 5번만 생성.
+
+### prerequisite
+```python
+export CLUSTER_REGION=ap-northeast-2
+export CLUSTER_NAME=
+
+echo $CLUSTER_REGION
+echo $CLUSTER_NAME
+
+kubectl config current-context
+aws eks describe-cluster --name $CLUSTER_NAME --region $CLUSTER_REGION
+```
 ### Create Ingress
 ```python
 export certArn=arn:aws:acm:northkorea-2:359838957435:certificate/a94tb255-839b-9414-diq4-deiuoisdf3
+
+echo $certArn
+
+printf 'certArn='$certArn'' > awsconfigs/common/istio-ingress/overlays/https/params.env
+```
+
+install order
+```python
+ls awsconfigs/common/istio-ingress/overlays/https
+ingress.yaml       kustomization.yaml params.env
+
+cat awsconfigs/common/istio-ingress/overlays/https/params.env
+```
+
+
+```python
+ls awsconfigs/common/istio-ingress/base
+ingress.yaml       kustomization.yaml params.env         params.yaml
+
+kubectl describe svc -n istio-system istio-ingressgateway
+Requests:
+│       cpu:      10m
+│       memory:   40Mi
+│     Readiness:  http-get http://:15021/healthz/ready delay=1s timeout=1s period=2s #success=1 #failure=30
+
+vi awsconfigs/common/istio-ingress/base/ingress.yaml
+```
+
+```python
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/load-balancer-attributes: routing.http.drop_invalid_header_fields.enabled=true
+    alb.ingress.kubernetes.io/scheme: $(loadBalancerScheme)
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/target-type: ip
+    # 아래 추가
+    alb.ingress.kubernetes.io/healthcheck-port: "15021"
+    alb.ingress.kubernetes.io/healthcheck-path: "/healthz/ready"
+    alb.ingress.kubernetes.io/group.name: internet
+    alb.ingress.kubernetes.io/load-balancer-name: "something"
+...
+...
+spec:
+  ingressClassName: alb # 추가
+  rules:
+  - host: namkyu.qa.co.kr # 추가
+    http:
+      paths:
+      - backend:
+          service:
+            name: istio-ingressgateway
+            port:
+              number: 80
+        path: /*
+        pathType: ImplementationSpecific
+```
+
+### install
+```python
+kustomize build awsconfigs/common/istio-ingress/overlays/https | kubectl apply -f -
+```
+
+```python
+kustomize build awsconfigs/common/istio-ingress/overlays/https | kubectl delete -f -
 ```
