@@ -198,8 +198,10 @@ rm -rf /mnt/k8s-pvc/mlflow/.user_scripts_initialized
 > 둘다 해주고
 > os.system(‘mlflow experiments search’) 로 원격 서버와 연결되었는지 꼭 확인해야한다.
 
-
+tip: AWS S3 & RDS 구성했을경우 AWS 관련 환경변수는 설정안해도된다.
 ```python
+pip install mlflow
+
 # internal
 export MLFLOW_TRACKING_URI=http://mlflow-tracking.mlflow.svc.cluster.local:5000
 export MLFLOW_TRACKING_USERNAME=user

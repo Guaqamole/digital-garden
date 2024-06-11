@@ -6,6 +6,7 @@ tags:
   - Kubeflow
 complete: true
 ---
+# Kubeflow Pipelines
 ## Concepts
 - pipeline
 - component
@@ -464,4 +465,144 @@ if __name__ == '__main__':
 pymysql
 ```python
 
+```
+
+
+
+# KServe
+https://www.kubeflow.org/docs/external-add-ons/kserve/first_isvc_kserve/
+https://kserve.github.io/website/0.8/get_started/first_isvc/#2-create-an-inferenceservice
+## Install
+```python
+pip install kserve
+```
+
+```python
+pip freeze | grep kf
+kfp-pipeline-spec==0.1.16
+kfp-server-api==1.8.5
+kfserving==0.6.1
+```
+
+## Service Account
+S3 Full Access로 Service Account 생성
+```python
+eksctl create iamserviceaccount --cluster=qa-cluster --name=kubeflow-user-example-com-sa --namespace=kubeflow-user-example-com --attach-policy-arn=arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
+```
+
+```python
+kubectl get sa -n kubeflow-user-example-com
+
+NAME                           SECRETS   AGE
+default                        0         7d14h
+default-editor                 0         7d14h
+default-viewer                 0         7d14h
+kubeflow-user-example-com-sa   0         15h
+```
+→ AWS Cloudformation 들어가서 생성되었는지 확인.
+
+## Init
+```python
+from kubernetes import client 
+from kserve import KServeClient
+from kserve import constants
+from kserve import utils
+from kserve import V1beta1InferenceService
+from kserve import V1beta1InferenceServiceSpec
+from kserve import V1beta1PredictorSpec
+from kserve import V1beta1SKLearnSpec
+
+namespace = utils.get_default_target_namespace()
+namespace
+```
+## Run
+make inference service
+```python
+name='sklearn-iris'
+kserve_version='v1beta1'
+api_version = constants.KSERVE_GROUP + '/' + kserve_version
+
+isvc = V1beta1InferenceService(
+	api_version=api_version,
+	kind=constants.KSERVE_KIND,
+	metadata=client.V1ObjectMeta(name=name, namespace=namespace, annotations={'sidecar.istio.io/inject':'false'}),
+	spec=V1beta1InferenceServiceSpec(
+		predictor=V1beta1PredictorSpec(
+			service_account_name="kubeflow-user-example-com-sa", # 무조건 Service Account 명시 해줘야 S3 접근 가능
+			#sklearn=(V1beta1SKLearnSpec(storage_uri="s3://ml-qa/kserve"))
+            sklearn=(V1beta1SKLearnSpec(storage_uri="gs://kfserving-examples/models/sklearn/1.0/model"))
+            # 위 모델 URI는 S3에 모델 이미지 넣어서 사용해도됨.
+			)
+		)
+	)
+```
+
+init kserve client
+```python
+KServe = KServeClient()
+KServe.create(isvc)
+
+>>
+>>
+{'apiVersion': 'serving.kserve.io/v1beta1',
+ 'kind': 'InferenceService',
+ 'metadata': {'annotations': {'sidecar.istio.io/inject': 'false'},
+  'creationTimestamp': '2024-06-10T10:11:51Z',
+  'generation': 1,
+  'managedFields': [{'apiVersion': 'serving.kserve.io/v1beta1',
+    'fieldsType': 'FieldsV1',
+    'fieldsV1': {'f:metadata': {'f:annotations': {'.': {},
+       'f:sidecar.istio.io/inject': {}}},
+     'f:spec': {'.': {},
+      'f:predictor': {'.': {},
+       'f:serviceAccountName': {},
+       'f:sklearn': {'.': {}, 'f:name': {}, 'f:storageUri': {}}}}},
+    'manager': 'OpenAPI-Generator',
+    'operation': 'Update',
+    'time': '2024-06-10T10:11:49Z'}],
+  'name': 'sklearn-iris',
+  'namespace': 'kubeflow-user-example-com',
+  'resourceVersion': '30950755',
+  'uid': 'c3b67aa5-a347-48e0-b0a2-a57c879ef331'},
+ 'spec': {'predictor': {'model': {'modelFormat': {'name': 'sklearn'},
+    'name': '',
+    'resources': {},
+    'storageUri': 'gs://kfserving-examples/models/sklearn/1.0/model'},
+   'serviceAccountName': 'kubeflow-user-example-com-sa'}}}
+```
+
+check serving pod
+```python
+KServe.get(name, namespace=namespace, watch=True, timeout_seconds=120)
+
+NAME          READY      PREV    LATEST  URL
+sklearn-iris  True          0       100  http://sklearn-iris.kubeflow-user-example-com.svc.cluster.local
+```
+
+make predictions
+```python
+import requests
+
+isvc_resp = KServe.get(name, namespace=namespace)
+isvc_url = isvc_resp['status']['address']['url']
+
+print(isvc_url)
+
+inference_input = {
+  'instances': [
+    [6.8,  2.8,  4.8,  1.4],
+    [6.0,  3.4,  4.5,  1.6]
+  ]
+}
+
+response = requests.post(isvc_url, json=inference_input)
+print(response.text)
+
+http://sklearn-iris.kubeflow-user-example-com.svc.cluster.local/v1/models/sklearn-iris:predict
+{"predictions":[1,1]}
+```
+
+## Delete
+```python
+KServe.delete(name, namespace=namespace)
 ```

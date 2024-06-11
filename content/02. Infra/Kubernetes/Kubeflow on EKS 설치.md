@@ -744,6 +744,7 @@ cd kubeflow-manifests-1.7.0
 kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
 ```
 
+
 ### cluster-local-gateway
 kubeflow v1.5.0
 ```python
@@ -753,6 +754,18 @@ kustomize build upstream/common/istio-1-11/cluster-local-gateway/base | kubectl 
 kubeflow v1.7.0
 ```python
 kustomize build upstream/common/istio-1-16/cluster-local-gateway/base | kubectl apply -f -
+```
+
+
+### Knative-serving (optional)
+CRD 때문에 두번 실행해야함
+```python
+kustomize build upstream/common/knative/knative-serving/overlays/gateways | kubectl apply -f -
+```
+
+### Knative-eventing (optional)
+```python
+kustomize build upstream/common/knative/knative-eventing/base | kubectl apply -f -
 ```
 
 ### kubeflow-resource
@@ -981,8 +994,17 @@ configMapGenerator:
 
 
 ### katib
+- katib container들 늦게뜸 당황ㄴㄴ
 ```python
 kustomize build awsconfigs/apps/katib-external-db-with-kubeflow | kubectl apply -f -
+```
+
+
+### Kserve (optional)
+CRD 이슈로 두번 실행
+```python
+kustomize build upstream/contrib/kserve/kserve | kubectl apply -f -
+kustomize build upstream/contrib/kserve/models-web-app/overlays/kubeflow | kubectl apply -f -
 ```
 
 

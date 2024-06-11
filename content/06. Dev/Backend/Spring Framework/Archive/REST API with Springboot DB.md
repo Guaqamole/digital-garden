@@ -94,7 +94,7 @@ Spring Data JPA는 `JPARepository`를 기반으로 더욱 쉽게 데이터베이
 
 **ProductRepository.java**
 ```java
-import com.marketboro.db.data.entity.Product;  
+import com..db.data.entity.Product;  
 import org.springframework.data.jpa.repository.JpaRepository;  
   
 public interface ProductRepository extends JpaRepository<Product, Long> {  
