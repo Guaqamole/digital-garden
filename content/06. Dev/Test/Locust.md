@@ -51,3 +51,14 @@ naverflight_targetday
 test_flight_json_namkyu_new
 weather
 ```
+
+
+headless run
+```bash
+nohup locust -f locustfile.py --host=http://api.marketboro-dc.local -u 2 -r 1 --run-time 24h --csv endurance_test --html endurance_test --headless > locust.log 2>&1 &
+```
+
+headless run no log
+```python
+nohup locust -f locustfile.py --host=http://api.marketboro-dc.local -u 2 -r 1 --run-time 24h --csv endurance_test --html endurance_test --headless > /dev/null 2>&1 &
+```

@@ -10,40 +10,25 @@ complete: true
 - Kubeflow version: 1.7.0 (kubeflow eks 공식 문서 기준 최신…)
 - Kustomize version: 3.2.0 (나는 3.3 사용)
 
-github: https://github.com/awslabs/kubeflow-manifests/tree/release-v1.5.1-aws-b1.0.2
-documentation: https://awslabs.github.io/kubeflow-manifests/release-v1.5.1-aws-b1.0.2/docs/
+github: https://github.com/awslabs/kubeflow-manifests/tree/release-v1.7.0-aws-b1.0.3
+documentation: https://awslabs.github.io/kubeflow-manifests/docs/deployment/rds-s3/
 
-USING: RDS & S3
+**USING: RDS & S3**
 
-| Component                 | Local Manifests Path                             | Upstream Revision                                                                                          |
-| ------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| Training Operator         | apps/training-operator/upstream                  | [v1.4.0](https://github.com/kubeflow/tf-operator/tree/v1.4.0/manifests)                                    |
-| Notebook Controller       | apps/jupyter/notebook-controller/upstream        | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/notebook-controller/config)           |
-| Tensorboard Controller    | apps/tensorboard/tensorboard-controller/upstream | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/tensorboard-controller/config)        |
-| Central Dashboard         | apps/centraldashboard/upstream                   | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/centraldashboard/manifests)           |
-| Profiles + KFAM           | apps/profiles/upstream                           | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/profile-controller/config)            |
-| PodDefaults Webhook       | apps/admission-webhook/upstream                  | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/admission-webhook/manifests)          |
-| Jupyter Web App           | apps/jupyter/jupyter-web-app/upstream            | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/crud-web-apps/jupyter/manifests)      |
-| Tensorboards Web App      | apps/tensorboard/tensorboards-web-app/upstream   | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/crud-web-apps/tensorboards/manifests) |
-| Volumes Web App           | apps/volumes-web-app/upstream                    | [v1.5.0](https://github.com/kubeflow/kubeflow/tree/v1.5.0/components/crud-web-apps/volumes/manifests)      |
-| Katib                     | apps/katib/upstream                              | [v0.13.0](https://github.com/kubeflow/katib/tree/v0.13.0/manifests/v1beta1)                                |
-| Kubeflow Pipelines        | apps/pipeline/upstream                           | [1.8.2](https://github.com/kubeflow/pipelines/tree/1.8.2/manifests/kustomize)                              |
+## 1. Prerequisite
+https://awslabs.github.io/kubeflow-manifests/docs/deployment/prerequisites/
 
-
-## Prerequisite
-https://awslabs.github.io/kubeflow-manifests/release-v1.5.1-aws-b1.0.2/docs/deployment/prerequisites/
-
+The `make` command above installs the following tools:
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) - A command line tool for interacting with AWS services.
 - [eksctl](https://eksctl.io/introduction/#installation) - A command line tool for working with EKS clusters.
 - [kubectl](https://kubernetes.io/docs/tasks/tools) - A command line tool for working with Kubernetes clusters.
 - [yq](https://mikefarah.gitbook.io/yq) - A command line tool for YAML processing. (For Linux environments, use the [wget plain binary installation](https://github.com/mikefarah/yq/#install))
 - [jq](https://stedolan.github.io/jq/download/) - A command line tool for processing JSON.
-- [kustomize version 3.2.0](https://github.com/kubernetes-sigs/kustomize/releases/tag/v3.2.0) - A command line tool to customize Kubernetes objects through a kustomization file.
-
-> Warning: Kubeflow is not compatible with the latest versions of of kustomize 4.x. This is due to changes in the order that resources are sorted and printed. Please see [kubernetes-sigs/kustomize#3794](https://github.com/kubernetes-sigs/kustomize/issues/3794) and [kubeflow/manifests#1797](https://github.com/kubeflow/manifests/issues/1797). We know that this is not ideal and are working with the upstream kustomize team to add support for the latest versions of kustomize as soon as we can.
-
+- [kustomize version 5.0.1](https://github.com/kubernetes-sigs/kustomize/releases/tag/kustomize%2Fv5.0.1) - A command line tool to customize Kubernetes objects through a kustomization file.
 - [python 3.8+](https://www.python.org/downloads/) - A programming language used for automated installation scripts.
 - [pip](https://pip.pypa.io/en/stable/installation/) - A package installer for python.
+- [terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) - An infrastructure as code tool that lets you develop cloud and on-prem resources.
+- [helm](https://helm.sh/docs/intro/install/) - A package manager for Kubernetes
 
 ### tools
 eksctl
@@ -65,8 +50,8 @@ eksctl
 
 ### git clone
 ```python
-export KUBEFLOW_RELEASE_VERSION=v1.5.1
-export AWS_RELEASE_VERSION=v1.5.1-aws-b1.0.2
+export KUBEFLOW_RELEASE_VERSION=v1.7.0
+export AWS_RELEASE_VERSION=v1.7.0-aws-b1.0.3
 git clone https://github.com/awslabs/kubeflow-manifests.git && cd kubeflow-manifests
 git checkout ${AWS_RELEASE_VERSION}
 git clone --branch ${KUBEFLOW_RELEASE_VERSION} https://github.com/kubeflow/manifests.git upstream
@@ -81,7 +66,6 @@ kubectl config view --minify -o jsonpath='{.clusters[].name}'
 
 -> arn:aws:eks:region:123456789:cluster/{cluster_name}
 {cluster_name} 만 쓰면된다.
-
 ```
 ### envs
 ```python
@@ -99,6 +83,7 @@ alias python=python3.8
 
 
 ### desired deploy s3 method
+- 설치방법에는 static, IRSA가 있는데 static 방법은 사용 X
 1. Export your desired PIPELINE_S3_CREDENTIAL_OPTION:
 2. Note: **IRSA is only supported in KFPv1, if you plan to use KFPv2, choose the IAM User option.** IRSA support for KFPv2 will be added in the next release.
     
@@ -111,7 +96,7 @@ export PIPELINE_S3_CREDENTIAL_OPTION=irsa
 ```python
 export PIPELINE_S3_CREDENTIAL_OPTION=static
 ```
-## RDS, S3 Secret
+## 2. RDS, S3 Secret
 ### requirements
 ```python
 cd tests/e2e
@@ -306,8 +291,9 @@ cat awsconfigs/apps/pipeline/s3/service-account.yaml
 cat awsconfigs/common/user-namespace/overlay/profile.yaml
 ```
 
-## Install
-### order
+## 3. Install
+- 설치방법에는 static, IRSA가 있는데 static 방법은 사용 X
+### order (참고만 하자)
 ```python
 cat tests/e2e/utils/kubeflow_installation.py # grep static 하면 static 사용가능.
 
@@ -712,13 +698,6 @@ kustomize build upstream/common/cert-manager/kubeflow-issuer/base | kubectl appl
 
 
 ### istio
-kubeflow v1.5.0
-```python
-kustomize build upstream/common/istio-1-11/istio-crds/base | kubectl apply -f -
-kustomize build upstream/common/istio-1-11/istio-namespace/base | kubectl apply -f -
-kustomize build upstream/common/istio-1-11/istio-install/base | kubectl apply -f -
-```
-
 kubeflow v1.7.0
 ```python
 kustomize build upstream/common/istio-1-16/istio-crds/base | kubectl apply -f -
@@ -738,19 +717,8 @@ kustomize build upstream/common/oidc-authservice/base | kubectl apply -f -
 kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
 ```
 
-crd 에서 에러남 v1beta issue → 1.7.0 으로 배포
-```python
-cd kubeflow-manifests-1.7.0
-kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
-```
-
 
 ### cluster-local-gateway
-kubeflow v1.5.0
-```python
-kustomize build upstream/common/istio-1-11/cluster-local-gateway/base | kubectl apply -f -
-```
-
 kubeflow v1.7.0
 ```python
 kustomize build upstream/common/istio-1-16/cluster-local-gateway/base | kubectl apply -f -
@@ -758,7 +726,7 @@ kustomize build upstream/common/istio-1-16/cluster-local-gateway/base | kubectl 
 
 
 ### Knative-serving (optional)
-CRD 때문에 두번 실행해야함
+CRD 이슈 때문에 두번 실행해야함
 ```python
 kustomize build upstream/common/knative/knative-serving/overlays/gateways | kubectl apply -f -
 ```
@@ -887,7 +855,7 @@ kustomize build awsconfigs/apps/pipeline | kubectl apply -f -
 
 
 
-#### static
+#### static (v1.7에선 사용X)
 ```python
 kustomize build awsconfigs/common/aws-secrets-manager | kubectl apply -f -
 ```
@@ -1008,7 +976,7 @@ kustomize build upstream/contrib/kserve/models-web-app/overlays/kubeflow | kubec
 ```
 
 
-## Network
+## 4. Network
 https://awslabs.github.io/kubeflow-manifests/docs/add-ons/load-balancer/guide/
 https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
 ### Create LoadBalancer
@@ -1099,6 +1067,3 @@ spec:
 kustomize build awsconfigs/common/istio-ingress/overlays/https | kubectl apply -f -
 ```
 
-```python
-kustomize build awsconfigs/common/istio-ingress/overlays/https | kubectl delete -f -
-```

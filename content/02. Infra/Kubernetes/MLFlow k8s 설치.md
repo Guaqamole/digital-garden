@@ -198,9 +198,16 @@ rm -rf /mnt/k8s-pvc/mlflow/.user_scripts_initialized
 > 둘다 해주고
 > os.system(‘mlflow experiments search’) 로 원격 서버와 연결되었는지 꼭 확인해야한다.
 
-tip: AWS S3 & RDS 구성했을경우 AWS 관련 환경변수는 설정안해도된다.
+> [!warning]  S3 ENDPOINT URL
+> AWS에서 MLFLOW를 구성했을 경우, MLFLOW_S3 관련 설정은 하지 말아야한다.
+>  MLFLOW_S3_ENDPOINT_URL 변수는 MinIO를 사용했을때만 적용되므로 AWS 에서 사용시 자동적으로 default-artifact-root 변수에 있는 값을 사용한다.
+>  따라서, MLFLOW_S3_ENDPOINT_URL 와 default-artifact-root 를 혼용해서 사용하지 말자.
+>  https://github.com/mlflow/mlflow/issues/9523
+
+**tip: AWS S3 & RDS 구성했을경우 AWS 관련 환경변수는 설정안해도된다.**
 ```python
-pip install mlflow
+#https://github.com/mlflow/mlflow/releases?page=4
+pip install mlflow==2.5.0 --user
 
 # internal
 export MLFLOW_TRACKING_URI=http://mlflow-tracking.mlflow.svc.cluster.local:5000
@@ -238,33 +245,18 @@ os.environ['AWS_SECRET_ACCESS_KEY'] = 'minio123'
 > [!tip] kubeflow → mlflow internal 통신
 > 다른 네임스페이스의 svc로 통신하고싶을때 external name을 배포해야한다. 자세한건 [[External Name]] 참고.
 
-external-name.yaml
+init
 ```python
-apiVersion: v1
-kind: Service
-metadata:
-  name: mlflow-tracking-external
-  namespace: kubeflow
-spec:
-  type: ExternalName
-  externalName: mlflow-tracking.mlflow.svc.cluster.local
+import os
+import mlflow
+
+os.environ['MLFLOW_TRACKING_URI'] = 'http://mlflow.kubeflow.svc.cluster.local:5000'
+os.environ['MLFLOW_TRACKING_USERNAME'] = 'admin'
+os.environ['MLFLOW_TRACKING_PASSWORD'] = 'password'
+
+experiment = mlflow.get_experiment_by_name("Default")
+print(experiment._experiment_id, experiment._artifact_location)
 ```
-
-connection-test
-```python
-kubectl exec -n kubeflow ml-pipeline-cd4bf9bc8-rvrbq -it -- bash
-
-telnet mlflow-tracking-external.kubeflow.svc.cluster.local 5000
-Trying 10.101.78.43...
-Connected to mlflow-tracking-external.kubeflow.svc.cluster.local
-```
-
-internal fixed
-```python
-export MLFLOW_TRACKING_URI=http://mlflow-tracking-external.kubeflow.svc.cluster.local:5000
-os.environ['MLFLOW_TRACKING_URI'] = 'http://mlflow-tracking-external.kubeflow.svc.cluster.local:5000'
-```
-
 
 save_model.py
 ```python
@@ -275,25 +267,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_diabetes
 from sklearn.ensemble import RandomForestRegressor
 
-mlflow.autolog()
 mlflow.set_experiment(experiment_id="0")
-
-os.environ['MLFLOW_TRACKING_URI'] = 'http://mlflow-tracking.mlflow.svc.cluster.local:5000'
-os.environ['MLFLOW_S3_ENDPOINT_URL'] = 'http://minio-service.kubeflow.svc.cluster.local:9000'
-os.environ['AWS_ACCESS_KEY_ID'] = 'minio'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'minio123'
-os.environ['MLFLOW_TRACKING_USERNAME'] = 'user'
-os.environ['MLFLOW_TRACKING_PASSWORD'] = '846JphvY4D'
 
 db = load_diabetes()
 X_train, X_test, y_train, y_test = train_test_split(db.data, db.target)
 
-# Create and train models.
-rf = RandomForestRegressor(n_estimators=100, max_depth=6, max_features=3)
-rf.fit(X_train, y_train)
+with mlflow.start_run(experiment_id="0"):
+    # Create and train models.
+    rf = RandomForestRegressor(n_estimators=100, max_depth=6, max_features=3)
+    rf.fit(X_train, y_train)
 
-# Use the model to make predictions on the test dataset.
-predictions = rf.predict(X_test)
+    # Use the model to make predictions on the test dataset.
+    predictions = rf.predict(X_test)
+    
+    mlflow.log_param("rf", rf)
 ```
 
 ```python
@@ -317,3 +304,170 @@ mlflow runs list --experiment-id 0
 
 ```
 
+
+## Linear Regression
+init
+```python
+import os
+import mlflow
+os.environ['MLFLOW_TRACKING_URI'] = 'http://mlflow.kubeflow.svc.cluster.local:5000'
+os.environ['MLFLOW_TRACKING_USERNAME'] = 'admin'
+os.environ['MLFLOW_TRACKING_PASSWORD'] = 'password'
+
+experiment = mlflow.get_experiment_by_name("Default")
+print(experiment._experiment_id, experiment._artifact_location)
+```
+
+without mlflow
+- wine data 필요 (red-wine-quality.csv)
+```python
+import warnings
+import argparse
+import logging
+import pandas as pd
+import numpy as np
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import ElasticNet
+
+logging.basicConfig(level=logging.WARN)
+logger = logging.getLogger(__name__)
+
+#evaluation function
+def eval_metrics(actual, pred):
+    rmse = np.sqrt(mean_squared_error(actual, pred))
+    mae = mean_absolute_error(actual, pred)
+    r2 = r2_score(actual, pred)
+    return rmse, mae, r2
+
+
+if __name__ == "__main__":
+    warnings.filterwarnings("ignore")
+    np.random.seed(40)
+
+    # Read the wine-quality csv file from local
+    data = pd.read_csv("data/red-wine-quality.csv")
+    data.to_csv("output/red-wine-quality.csv", index=False)
+
+    # Split the data into training and test sets. (0.75, 0.25) split.
+    train, test = train_test_split(data)
+
+    # The predicted column is "quality" which is a scalar from [3, 9]
+    train_x = train.drop(["quality"], axis=1)
+    test_x = test.drop(["quality"], axis=1)
+    train_y = train[["quality"]]
+    test_y = test[["quality"]]
+
+    alpha = 0.5
+    l1_ratio = 0.5
+
+    lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
+    lr.fit(train_x, train_y)
+
+    predicted_qualities = lr.predict(test_x)
+
+    (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+
+    print("Elasticnet model (alpha={:f}, l1_ratio={:f}):".format(alpha, l1_ratio))
+    print("  RMSE: %s" % rmse)
+    print("  MAE: %s" % mae)
+    print("  R2: %s" % r2)
+```
+
+
+with mlflow + s3
+```python
+import warnings
+import argparse
+import logging
+import pandas as pd
+import numpy as np
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import ElasticNet
+
+logging.basicConfig(level=logging.WARN)
+logger = logging.getLogger(__name__)
+
+#evaluation function
+def eval_metrics(actual, pred):
+    rmse = np.sqrt(mean_squared_error(actual, pred))
+    mae = mean_absolute_error(actual, pred)
+    r2 = r2_score(actual, pred)
+    return rmse, mae, r2
+
+
+if __name__ == "__main__":
+    warnings.filterwarnings("ignore")
+    np.random.seed(40)
+
+    # Read the wine-quality csv file from local
+    data = pd.read_csv("data/red-wine-quality.csv")
+    data.to_csv("output/red-wine-quality.csv", index=False)
+
+    # Split the data into training and test sets. (0.75, 0.25) split.
+    train, test = train_test_split(data)
+
+    # The predicted column is "quality" which is a scalar from [3, 9]
+    train_x = train.drop(["quality"], axis=1)
+    test_x = test.drop(["quality"], axis=1)
+    train_y = train[["quality"]]
+    test_y = test[["quality"]]
+
+    alpha = 0.5
+    l1_ratio = 0.5
+    
+    exp = mlflow.set_experiment(experiment_name="experiment_1")
+    with mlflow.start_run(experiment_id=exp.experiment_id):
+    
+        lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
+        lr.fit(train_x, train_y)
+
+        predicted_qualities = lr.predict(test_x)
+
+        (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+
+        print("Elasticnet model (alpha={:f}, l1_ratio={:f}):".format(alpha, l1_ratio))
+        print("  RMSE: %s" % rmse)
+        print("  MAE: %s" % mae)
+        print("  R2: %s" % r2)
+        
+        mlflow.log_param("alpha", alpha)
+        mlflow.log_param("l1_ratio", l1_ratio)
+        mlflow.log_metric("rmse", rmse)
+        mlflow.log_metric("mae", mae)
+        mlflow.log_metric("r2", r2)
+        mlflow.sklearn.log_model(lr, "mymodel")
+        
+
+```
+
+load model
+```python
+import mlflow
+logged_model = 'runs:/adf770488f384055812599c083ba9456/mymodel'
+
+data = pd.read_csv("data/red-wine-quality.csv")
+data.to_csv("output/red-wine-quality.csv", index=False)
+train, test = train_test_split(data)
+test_x = test.drop(["quality"], axis=1)
+
+
+# Load model as a PyFuncModel.
+loaded_model = mlflow.pyfunc.load_model(logged_model)
+
+predicted_qualities = loaded_model.predict(test_x)
+
+(rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+
+print("Elasticnet model (alpha={:f}, l1_ratio={:f}):".format(alpha, l1_ratio))
+print("  RMSE: %s" % rmse)
+print("  MAE: %s" % mae)
+print("  R2: %s" % r2)
+```
+
+
+register model
+```python
+mlflow.register_model(logged_model, "lr")
+```
