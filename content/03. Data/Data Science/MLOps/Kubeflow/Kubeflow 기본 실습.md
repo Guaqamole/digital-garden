@@ -485,6 +485,7 @@ kfserving==0.6.1
 ```
 
 ## Service Account
+### eks
 S3 Full Access로 Service Account 생성
 ```python
 eksctl create iamserviceaccount --cluster=qa-cluster --name=kubeflow-user-example-com-sa --namespace=kubeflow-user-example-com --attach-policy-arn=arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
@@ -500,6 +501,59 @@ default-viewer                 0         7d14h
 kubeflow-user-example-com-sa   0         15h
 ```
 → AWS Cloudformation 들어가서 생성되었는지 확인.
+
+### minio (on-prem)
+https://kserve.github.io/website/0.7/modelserving/v1beta1/sklearn/v2/#testing-deployed-model
+#### create-s3-secret.yaml
+```python
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  minio-secret
+  namespace: kubeflow-user-example-com
+  annotations:
+     serving.kserve.io/s3-endpoint: minio-service.kubeflow:9000 # replace with your s3 endpoint e.g minio-service.kubeflow:9000
+     serving.kserve.io/s3-usehttps: "0" # http를 사용하지 않음 (설치된 Minio 설정)
+     serving.kserve.io/s3-region: "us-east-2"
+     serving.kserve.io/s3-useanoncredential: "false" # omitting this is the same as false, if true will ignore provided credential and use anonymous credentials
+type: Opaque
+stringData: # use `stringData` for raw credential string or `data` for base64 encoded string
+  AWS_ACCESS_KEY_ID: minio
+  AWS_SECRET_ACCESS_KEY: minio123
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kfserving-sa    # ServiceAccount 명
+  namespace: kubeflow-user-example-com    # ServiceAccount가 설치될 Namespace
+secrets:
+- name: minio-secret    # 이 ServiceAccount가 사용할 Secret (위에서 생성한 Secret)
+```
+---
+
+```python
+import requests
+
+isvc_resp = KServe.get("sklearn-irisv2", namespace=namespace)
+isvc_url = "http://sklearn-irisv2-predictor-default-00001.kubeflow-user-example-com.svc.cluster.local/v2/models/sklearn-irisv2/infer"
+
+inference_input = {
+  "inputs": [
+    {
+      "name": "input-0",
+      "shape": [2, 4],
+      "datatype": "FP32",
+      "data": [
+        [6.8, 2.8, 4.8, 1.4],
+        [6.0, 3.4, 4.5, 1.6]
+      ]
+    }
+  ]
+}
+
+response = requests.post(isvc_url, json=inference_input)
+print(response.text)
+```
 
 ## Init
 ```python
