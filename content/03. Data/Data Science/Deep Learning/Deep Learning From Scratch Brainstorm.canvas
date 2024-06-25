@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"81a35e6ba3d76697","x":-294,"y":721,"width":250,"height":60,"type":"text","text":""},
+		{"id":"81a35e6ba3d76697","type":"text","text":"","x":-294,"y":721,"width":250,"height":60},
 		{"id":"9f14ee28d5738631","type":"text","text":"## Perceptron","x":-200,"y":-1040,"width":280,"height":240,"color":"1"},
 		{"id":"7736ef840e0c52b4","type":"text","text":"#### XOR","x":786,"y":-1620,"width":253,"height":100},
 		{"id":"4d7e8634ebe19a28","type":"text","text":"#### Linear","x":1106,"y":-1176,"width":250,"height":60},
