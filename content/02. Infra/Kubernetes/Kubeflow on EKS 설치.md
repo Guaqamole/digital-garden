@@ -61,7 +61,7 @@ git clone --branch ${KUBEFLOW_RELEASE_VERSION} https://github.com/kubeflow/manif
 ### cluster-name
 ```python
 
-export CLUSTER_NAME = 
+export CLUSTER_NAME=
 kubectl config view --minify -o jsonpath='{.clusters[].name}'
 
 -> arn:aws:eks:region:123456789:cluster/{cluster_name}
@@ -291,6 +291,58 @@ cat awsconfigs/apps/pipeline/s3/service-account.yaml
 cat awsconfigs/common/user-namespace/overlay/profile.yaml
 ```
 
+
+
+### ADD node-selector in kustomize
+cert-manager 예시
+mkdir upstream/common/cert-manager/cert-manager/base/patches
+
+vi upstream/common/cert-manager/cert-manager/base/kustomization.yaml
+```python
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cert-manager.yaml
+patchesStrategicMerge: ### 여기 추가 ###
+  - patches/node-selector-patch.yaml
+```
+
+```python
+cat << EOF > upstream/common/cert-manager/cert-manager/base/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-webhook
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-cainjector
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
 ## 3. Install
 - 설치방법에는 static, IRSA가 있는데 static 방법은 사용 X
 ### order (참고만 하자)
@@ -696,7 +748,6 @@ kustomize build upstream/common/cert-manager/cert-manager/base | kubectl apply -
 kustomize build upstream/common/cert-manager/kubeflow-issuer/base | kubectl apply -f - # 여기 에러나서 스킵ㅜ
 ```
 
-
 ### istio
 kubeflow v1.7.0
 ```python
@@ -704,6 +755,42 @@ kustomize build upstream/common/istio-1-16/istio-crds/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-16/istio-namespace/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-16/istio-install/base | kubectl apply -f -
 ```
+#### nodeSelector
+vi upstream/common/istio-1-16/istio-install/base/kustmoization.yaml
+```python
+patchesStrategicMerge:
+- patches/service.yaml
+- patches/istio-configmap-disable-tracing.yaml
+- patches/disable-debugging.yaml
+- patches/node-selector-patch.yaml # 추가
+```
+
+```python
+cat << EOF > upstream/common/istio-1-16/istio-install/base/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istiod
+  namespace: istio-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
+
 
 
 
@@ -715,6 +802,31 @@ kustomize build upstream/common/oidc-authservice/base | kubectl apply -f -
 ### dex
 ```python
 kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
+```
+
+#### nodeSelector
+```python
+mkdir -p upstream/common/dex/overlays/istio/patches
+
+cat << EOF >> upstream/common/dex/overlays/istio/kustomization.yaml
+patchesStrategicMerge:
+  - patches/node-selector-patch.yaml
+EOF
+```
+
+```python
+cat << EOF > upstream/common/dex/overlays/istio/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dex
+  namespace: auth
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
 ```
 
 
