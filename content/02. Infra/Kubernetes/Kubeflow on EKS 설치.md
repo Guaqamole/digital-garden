@@ -116,6 +116,8 @@ mysql-connector-python==8.0.27
 rds & s3 secret
 ```python
 export RDS_SECRET=kubeflow-rds-secret
+export S3_BUCKET=my_bucket
+
 echo $RDS_SECRET
 
 aws secretsmanager create-secret --name $RDS_SECRET --secret-string '{"username":"admin","password":"Kubefl0w","database":"kubeflow","host":"rm12abc4krxxxxx.xxxxxxxxxxxx.us-west-2.rds.amazonaws.com","port":"3306"}' --region $CLUSTER_REGION
@@ -130,6 +132,7 @@ minioServiceHost=s3.amazonaws.com #변경 X
 minioServiceRegion=ap-northeast-2
 ```
 
+
 secret 생성
 ![|675](https://i.imgur.com/wfyFz0C.png)
 
@@ -138,7 +141,7 @@ vi awsconfigs/common/aws-secrets-manager/rds/secret-provider.yaml
 ...
   parameters:
     objects: |
-      - objectName: "rds-secret-new"  # 여기에 이름 추가
+      - objectName: "rds-secret-new"  # 여기에 이름 추가 다른건 변경 X
         objectType: "secretsmanager"
         jmesPath:
             - path: "username"
@@ -154,7 +157,7 @@ vi awsconfigs/common/aws-secrets-manager/rds/secret-provider.yaml
 ...
 
 
-vi awsconfigs/common/aws-secrets-manager/s3/secret-provider.yaml
+vi awsconfigs/common/aws-secrets-manager/s3/secret-provider.yaml # IRSA 방식은 수정 필요없음
   parameters:
     objects: |
       - objectName: "s3-secret-new"
@@ -174,12 +177,21 @@ eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER_NAME} \
 --region ${CLUSTER_REGION} --approve
 ```
 
+```bash
+eksctl create iamserviceaccount  --name kubeflow-secrets-manager-sa  --namespace kubeflow  --cluster $CLUSTER_NAME --attach-policy-arn  arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess --attach-policy-arn arn:aws:iam::aws:policy/SecretsManagerReadWrite --override-existing-serviceaccounts   --approve --region $CLUSTER_REGION
+
+kubectl get sa -n kubeflow
+kubeflow-secrets-manager-sa           0         30s
+```
+
+
+
 Get the identity issuer URL by running the following commands:
 ```python
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+
 export OIDC_PROVIDER_URL=$(aws eks describe-cluster --name $CLUSTER_NAME --region $CLUSTER_REGION \
 --query "cluster.identity.oidc.issuer" --output text | cut -c9-)
-
 ```
 
 IAM policy access S3
@@ -199,7 +211,6 @@ cat <<EOF > s3_policy.json
       ]
 }
 EOF
-
 ```
 
 kfp backend role
@@ -228,7 +239,9 @@ EOF
 
 ```python
 export PIPELINE_BACKEND_ROLE_NAME=kf-pipeline-backend-role-$CLUSTER_NAME
+
 aws --region $CLUSTER_REGION iam create-role --role-name $PIPELINE_BACKEND_ROLE_NAME --assume-role-policy-document file://backend-trust.json
+
 export BACKEND_ROLE_ARN=$(aws --region $CLUSTER_REGION iam get-role --role-name $PIPELINE_BACKEND_ROLE_NAME --output text --query 'Role.Arn')
 ```
 
@@ -259,8 +272,12 @@ EOF
 
 ```python
 export PROFILE_ROLE_NAME=kf-pipeline-profile-role-$CLUSTER_NAME
+
 aws --region $CLUSTER_REGION iam create-role --role-name $PROFILE_ROLE_NAME --assume-role-policy-document file://profile-trust.json
+
 export PROFILE_ROLE_ARN=$(aws --region $CLUSTER_REGION iam get-role --role-name $PROFILE_ROLE_NAME --output text --query 'Role.Arn')
+
+export PIPELINE_S3_CREDENTIAL_OPTION=irsa
 ```
 
 
@@ -278,20 +295,41 @@ echo PIPELINE_S3_CREDENTIAL_OPTION=$PIPELINE_S3_CREDENTIAL_OPTION
 atttach s3 policy to roles
 ```python
 aws --region $CLUSTER_REGION iam put-role-policy --role-name $PIPELINE_BACKEND_ROLE_NAME --policy-name kf-pipeline-s3 --policy-document file://s3_policy.json
+
 aws --region $CLUSTER_REGION iam put-role-policy --role-name $PROFILE_ROLE_NAME --policy-name kf-pipeline-s3 --policy-document file://s3_policy.json
 ```
 
 configure manifest with role ARNs (kustomize)
 ```python
 yq e '.metadata.annotations."eks.amazonaws.com/role-arn"=env(BACKEND_ROLE_ARN)' -i awsconfigs/apps/pipeline/s3/service-account.yaml
+
 yq e '.spec.plugins[0].spec."awsIamRole"=env(PROFILE_ROLE_ARN)' -i awsconfigs/common/user-namespace/overlay/profile.yaml
 
 
 cat awsconfigs/apps/pipeline/s3/service-account.yaml
 cat awsconfigs/common/user-namespace/overlay/profile.yaml
+
+# 아래처럼 나오면 성공
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ml-pipeline
+  namespace: kubeflow
+  annotations:
+    eks.amazonaws.com/role-arn: 'arn:aws:iam::.../kf-pipeline-backend-role-my-eks'
 ```
 
+### Install CSI Driver and update KFP configurations
+```python
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/rbac-secretproviderclass.yaml
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/csidriver.yaml
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/secrets-store.csi.x-k8s.io_secretproviderclasspodstatuses.yaml
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/secrets-store-csi-driver.yaml
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/rbac-secretprovidersyncing.yaml
+ kubectl apply -f https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml
 
+```
 
 ### ADD node-selector in kustomize
 cert-manager 예시
@@ -836,6 +874,26 @@ kubeflow v1.7.0
 kustomize build upstream/common/istio-1-16/cluster-local-gateway/base | kubectl apply -f -
 ```
 
+#### nodeSelector
+```python
+vi upstream/common/istio-1-16/cluster-local-gateway/base/kustomization.yaml
+
+cat << EOF > upstream/common/istio-1-16/cluster-local-gateway/base/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-local-gateway
+  namespace: istio-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
+
+
+
 
 ### Knative-serving (optional)
 CRD 이슈 때문에 두번 실행해야함
@@ -855,10 +913,6 @@ kustomize build upstream/common/kubeflow-roles/base | kubectl apply -f -
 ```
 
 ```python
-kustomize build upstream/common/istio-1-11/kubeflow-istio-resources/base | kubectl apply -f -
-```
-
-```python
 kustomize build upstream/common/istio-1-16/kubeflow-istio-resources/base | kubectl apply -f -
 ```
 
@@ -870,11 +924,35 @@ kustomize build upstream/common/istio-1-16/kubeflow-istio-resources/base | kubec
 kustomize build awsconfigs/apps/centraldashboard | kubectl apply -f -
 ```
 
+#### nodeSelector
+```python
+vi awsconfigs/apps/centraldashboard/kustomization.yaml
+- patches/node-selector-patch.yaml
+
+cat << EOF > awsconfigs/apps/centraldashboard/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: centraldashboard
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
+
+
+
+
+
 #### troubleshoot: istio 15017 port
 [https://github.com/istio/istio/wiki/Troubleshooting-Istio#sidecar-injection](https://github.com/istio/istio/wiki/Troubleshooting-Istio#sidecar-injection)
 이런식으로 15017로 통신이 안되면 비정상.
 ```python
-kubectl get --raw /api/v1/namespaces/istio-system/services/https:istiod:https-webhook/proxy/inject -v4 I0531 16:47:33.022034 53702 helpers.go:246] server response object: [{ "metadata": {}, "status": "Failure", "message": "error trying to reach service: dial tcp 172.00.000.00:15017: connect: connection timed out", "reason": "ServiceUnavailable", "code": 503 }] Error from server (ServiceUnavailable): error trying to reach service: dial tcp 172.00.000.00:15017: connect: connection timed out
+kubectl get --raw /api/v1/namespaces/istio-system/services/https:istiod:https-webhook/proxy/inject -v4 
+I0531 16:47:33.022034 53702 helpers.go:246] server response object: [{ "metadata": {}, "status": "Failure", "message": "error trying to reach service: dial tcp 172.00.000.00:15017: connect: connection timed out", "reason": "ServiceUnavailable", "code": 503 }] Error from server (ServiceUnavailable): error trying to reach service: dial tcp 172.00.000.00:15017: connect: connection timed out
 ```
 
 아래는 정상.
@@ -904,7 +982,28 @@ I0604 14:21:02.987777   21255 helpers.go:246] server response object: [{
 kustomize build upstream/apps/admission-webhook/upstream/overlays/cert-manager | kubectl apply -f -
 ```
 
+#### nodeSelector
+upstream/apps/admission-webhook/upstream/overlays/cert-manager
+```python
+mkdir -p upstream/apps/admission-webhook/upstream/overlays/cert-manager/patches
 
+vi upstream/apps/admission-webhook/upstream/overlays/cert-manager/kustomization.yaml
+- patches/node-selector-patch.yaml
+EOF
+
+cat << EOF > upstream/apps/admission-webhook/upstream/overlays/cert-manager/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admission-webhook-deployment
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
 ### jupyter-webapp (p)
 ```python
 kustomize build awsconfigs/apps/jupyter-web-app | kubectl apply -f -
@@ -923,13 +1022,45 @@ error: no objects passed to apply
 # 밑에 에러참고
 ```
 
+
+#### nodeSelector
+```python
+cat << EOF > upstream/apps/jupyter/notebook-controller/upstream/overlays/kubeflow/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notebook-controller-deployment
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
+
+
 ### profiles
 - profiles deployment → notebook controller 순으로 에러가 사라짐 (당황ㄴㄴ)
 ```python
 kustomize build upstream/apps/profiles/upstream/overlays/kubeflow | kubectl apply -f -
 ```
 
-
+#### nodeSelector
+```python
+cat << EOF > upstream/apps/profiles/upstream/overlays/kubeflow/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profiles-deployment
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
 
 ### volumes web app
 ```python
@@ -946,32 +1077,55 @@ kustomize build upstream/apps/training-operator/upstream/overlays/kubeflow | kub
 ### user
 ```python
 cp -R awsconfigs/common/user-namespace/overlay upstream/common/user-namespace
+
 kustomize build upstream/common/user-namespace/overlay | kubectl apply -f -
 ```
 
+#### nodeSelector
+```python
+cat << EOF > upstream/common/user-namespace/overlay/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow
+  namespace: kubeflow-user-example-com
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+EOF
+```
 
-### kubeflow pipelines (집중)
-secrets manager (배포후 검색날짜에 사용이력이 있으면 ok)
-![](https://i.imgur.com/XMITTwi.png)
 
-#### irsa
+### ML pipeline
+irsa
 ```python
 kustomize build awsconfigs/common/aws-secrets-manager/rds | kubectl apply -f -
 ```
 
-
-pipeline
-```python
-kustomize build awsconfigs/apps/pipeline | kubectl apply -f -
-```
-
-
-
-#### static (v1.7에선 사용X)
+static (사용 권장 X)
 ```python
 kustomize build awsconfigs/common/aws-secrets-manager | kubectl apply -f -
 ```
 
+accesskey secretkey update for s3
+```python
+vi awsconfigs/apps/pipeline/s3/disable-default-secret.yaml
+
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    application-crd-id: kubeflow-pipelines
+  name: mlpipeline-minio-artifact
+  namespace: kubeflow
+stringData:
+  accesskey: "accesskey" # 여기다 적으면 된다.
+  secretkey: "secretkey" # 여기다 적으면 된다.
+```
+
+#### 주의 사항
 secret manager 등록시 절대 절대 키/값 으로 하지말고
 일반 텍스트에 다 떄려박는다.
 
@@ -986,11 +1140,197 @@ WRONG
 ![](https://i.imgur.com/u8h0lCh.png)
 
 
-pipeline
+#### pipeline
+irsa
+```python
+kustomize build awsconfigs/apps/pipeline | kubectl apply -f -
+```
+
+static
 ```python
 kustomize build awsconfigs/apps/pipeline/static | kubectl apply -f -
 ```
 
+#### nodeSelector
+```python
+cat << EOF > awsconfigs/apps/pipeline/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-server
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-profile-controller
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-writer
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-envoy-deployment
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-grpc-deployment
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-persistenceagent
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-scheduledworkflow
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-ui
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-viewer-crd
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-visualizationserver
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow-controller
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+    metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
+EOF
+```
+
+
+
+
+#### 에러 발생
 ml-pipeline-pod 가 안뜬다면..?
 ```python
  kubectl logs -f -n kubeflow pod/ml-pipeline-58894f4b89-zjmpg
@@ -1040,8 +1380,6 @@ stringData:
   secretkey: "secretkey" # 여기다 적으면 된다.
 ```
 
-
-
 #### 처음 실행하면 아래 에러 바로난다.
 ```python
 Error: json: unknown field "env"
@@ -1071,6 +1409,7 @@ configMapGenerator:
   envs: 
     - ./rds/params.env
 ```
+
 
 
 ### katib
@@ -1109,6 +1448,8 @@ echo $CLUSTER_REGION
 echo $CLUSTER_NAME
 
 kubectl config current-context
+> arn:aws:eks:ap-us-2:212346789:cluster/my-eks
+
 aws eks describe-cluster --name $CLUSTER_NAME --region $CLUSTER_REGION
 ```
 ### Create Ingress
@@ -1179,3 +1520,66 @@ spec:
 kustomize build awsconfigs/common/istio-ingress/overlays/https | kubectl apply -f -
 ```
 
+## 5. 운영
+### 유저 추가하는법
+add user
+```python
+vi upstream/common/user-namespace/overlay/profile-namkyu.yaml
+
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: kubeflow-namkyu
+spec:
+  owner:
+    kind: User
+    name: namkyu@gmail.com
+  plugins:
+    - kind: AwsIamForServiceAccount
+      spec:
+        awsIamRole: arn:aws:iam::1111111111:role/kf-pipeline-profile-role-my-eks
+        annotateOnly: true
+```
+
+```python
+kubectl apply -f upstream/common/user-namespace/overlay/profile-namkyu.yaml
+```
+
+add password
+```python
+pip install passlib bcrypt
+
+from passlib.hash import bcrypt
+import getpass
+
+print(bcrypt.using(rounds=12, ident="2y").hash(getpass.getpass()))
+> $2y$12$7RrMyk.rA9I99E7OeVoMR.wt9h0J/PHhoxblCNp7g0Kt20vRhHWge
+```
+
+or
+```
+python3 -c 'from passlib.hash import bcrypt; import getpass; print(bcrypt.using(rounds=12, ident="2y").hash(getpass.getpass()))'
+
+> $2y$12$7RrMyk.rA9I99E7OeVoMR.wt9h0J/PHhoxblCNp7g0Kt20vRhHWge
+```
+
+
+```python
+vi upstream/common/dex/base/config-map.yaml
+
+staticPasswords:
+- email: user@example.com
+  hash: $2y$12$4K/VkmDd1q1Orb3xAt82zu8gk7Ad6ReFR4LCP9UeYE90NLiN9Df72
+  username: user
+  userID: "15841185641784"
+- email: namkyu@gmail.com # 아이디 추가
+  hash: $2y$12$7RrMyk.rA9I99E7OeVoMR.wt9h0J/PHhoxblCNp7g0Kt20vRhHWge # 비번추가
+```
+
+```python
+# put new cred
+kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
+
+# apply new cred
+kubectl rollout restart deployment dex -n auth
+```

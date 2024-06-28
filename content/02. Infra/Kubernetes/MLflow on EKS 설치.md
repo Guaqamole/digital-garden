@@ -5,6 +5,7 @@ draft: false
 tags:
   - MLFlow
 complete: true
+link: https://github.com/burakince/mlflow
 ---
 ## PreRequisite
 ### helm chart
@@ -121,5 +122,8 @@ spec:
 ### install
 ```python
 helm install -n kubeflow mlflow mlflow
-kubectl apply -f ingress.yaml rbac.yaml
+kubectl apply -f mlflow-ingress.yaml rbac.yaml
 ```
+
+id:
+pw:
