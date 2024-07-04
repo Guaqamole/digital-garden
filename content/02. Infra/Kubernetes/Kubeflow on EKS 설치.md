@@ -786,6 +786,48 @@ kustomize build upstream/common/cert-manager/cert-manager/base | kubectl apply -
 kustomize build upstream/common/cert-manager/kubeflow-issuer/base | kubectl apply -f - # 여기 에러나서 스킵ㅜ
 ```
 
+#### nodeSelector
+```python
+cat << EOF > upstream/common/cert-manager/cert-manager/base/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-cainjector
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-webhook
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+EOF
+```
+
+
 ### istio
 kubeflow v1.7.0
 ```python
@@ -815,6 +857,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -826,6 +869,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -836,6 +880,23 @@ EOF
 ```python
 kustomize build upstream/common/oidc-authservice/base | kubectl apply -f -
 ```
+
+#### nodeSelector
+```python
+cat << EOF > upstream/common/oidc-authservice/base/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: authservice
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+EOF
+```
+
 
 ### dex
 ```python
@@ -858,12 +919,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dex
-  namespace: auth
+  namespace: dex
 spec:
   template:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -889,6 +951,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -940,6 +1003,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -1002,6 +1066,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 ### jupyter-webapp (p)
@@ -1009,7 +1074,24 @@ EOF
 kustomize build awsconfigs/apps/jupyter-web-app | kubectl apply -f -
 ```
 
+#### nodeSelector
+```python
+mkdir -p upstream/apps/jupyter/jupyter-web-app/upstream/base/patches
 
+cat << EOF > upstream/apps/jupyter/jupyter-web-app/upstream/base/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-web-app-deployment
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+EOF
+```
 ### notebook controller (p)
 - profiles 배포안하면 pending 상태임!! (주의)
 ```python
@@ -1036,6 +1118,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -1059,6 +1142,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -1164,10 +1248,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1179,10 +1260,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1194,10 +1272,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1209,10 +1284,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1224,10 +1296,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1239,10 +1308,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1254,10 +1320,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1269,10 +1332,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1320,10 +1380,7 @@ spec:
     spec:
       nodeSelector:
         application: kubeflow
-        karpenter.sh/capacity-type: on-demand
-    metadata:
-      annotations:
-        karpenter.sh/do-not-disrupt: "true"
+        karpenter.sh/capacity-type: spot
 EOF
 ```
 
@@ -1582,4 +1639,15 @@ kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
 
 # apply new cred
 kubectl rollout restart deployment dex -n auth
+```
+
+
+```python
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: on-demand
+
+
+  annotations:
+    karpenter.sh/do-not-disrupt: "true"
 ```
