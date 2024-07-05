@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"a710559c141202a9","x":532,"y":-1894,"width":250,"height":60,"type":"text","text":""},
+		{"id":"a710559c141202a9","type":"text","text":"","x":532,"y":-1894,"width":250,"height":60},
 		{"id":"311eaa3160d71640","type":"text","text":"## Arrays & Hashsing\n- [[Array 중복 제거]]\n- [[어구전철 (Anagram)]]\n- [[Python Collections Class]]\n- [[49 Group Anagrams]]\n- ","x":-109,"y":-1480,"width":419,"height":400,"color":"#ff0000"},
 		{"id":"a3392510b070fac8","type":"text","text":"## Two Pointers\n- ","x":-360,"y":-900,"width":419,"height":200,"color":"#ff0000"},
 		{"id":"3d31cdb6271aac0c","type":"text","text":"## Stack\n- ","x":160,"y":-900,"width":419,"height":200,"color":"#ff0000"},
