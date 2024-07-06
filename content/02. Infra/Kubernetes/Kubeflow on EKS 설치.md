@@ -964,6 +964,106 @@ CRD 이슈 때문에 두번 실행해야함
 kustomize build upstream/common/knative/knative-serving/overlays/gateways | kubectl apply -f -
 ```
 
+```python
+cat << EOF > upstream/common/knative/knative-serving/overlays/gateways/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activator
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaler
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: domain-mapping
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: domainmapping-webhook
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-istio-controller
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-istio-webhook
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+EOF
+```
+
 ### Knative-eventing (optional)
 ```python
 kustomize build upstream/common/knative/knative-eventing/base | kubectl apply -f -
@@ -1475,12 +1575,71 @@ configMapGenerator:
 kustomize build awsconfigs/apps/katib-external-db-with-kubeflow | kubectl apply -f -
 ```
 
+#### nodeSelector
+```python
+cat << EOF > awsconfigs/apps/katib-external-db-with-kubeflow/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: katib-controller
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: katib-db-manager
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: katib-ui
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+EOF
+```
+
+
+
 
 ### Kserve (optional)
 CRD 이슈로 두번 실행
 ```python
 kustomize build upstream/contrib/kserve/kserve | kubectl apply -f -
 kustomize build upstream/contrib/kserve/models-web-app/overlays/kubeflow | kubectl apply -f -
+```
+
+```python
+cat << EOF > upstream/contrib/kserve/kserve/patches/node-selector-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kserve-controller-manager
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+EOF
 ```
 
 

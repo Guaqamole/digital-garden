@@ -19,13 +19,13 @@ complete: true
 
 
 # Basic Pipeline
-### KFP client Authentication
+## KFP client Authentication
 공식문서대로 kfp client를 사용하면 동작하지 않아서 아래 내용대로 한번 submit 해줘야한다.
 ```python
 import kfp
 import requests
 
-KUBEFLOW_HOST = "http://192.168.51.210"  # Central Dashboard 접근 주소 (포트 포함)
+KUBEFLOW_HOST = "http://istio-ingressgateway.istio-system.svc.cluster.local"
 USERNAME = "user@example.com"
 PASSWORD = "12341234"
 NAMESPACE = "kubeflow" # 보통 kubeflow가 기본값입니다.
@@ -49,6 +49,254 @@ client = kfp.Client(
 ```
 
 # V1
+https://kubeflow-pipelines.readthedocs.io/en/1.8.22/
+## Hello World
+https://kubeflow-pipelines.readthedocs.io/en/1.8.22/source/kfp.components.html#kfp.components.func_to_container_op
+```python
+from kfp import dsl, components
+
+def hello_world_component():
+    ret = f"Hello World!"
+    print(ret)
+    return ret
+
+
+@dsl.pipeline(name="hello_pipeline", description="Hello World Pipeline!")
+def hello_world_pipeline():
+    hello_task = components.func_to_container_op(hello_world_component)
+    _ = hello_task()
+
+
+if __name__ == "__main__":
+    client.create_run_from_pipeline_func(
+        hello_world_pipeline, arguments={}, experiment_name="hello-world-experiment")
+```
+
+## Passing TEXT Data
+```python
+import kfp
+from kfp.components import InputPath, InputTextFile, OutputPath, OutputTextFile
+from kfp.components import func_to_container_op
+
+@func_to_container_op
+def repeat_line(line: str, output_text_path: OutputPath(str), count: int = 10):
+    with open(output_text_path, 'w') as writer:
+        for i in range(count):
+            writer.write(line + '\n')
+            
+@func_to_container_op
+def print_text(text_path: InputPath()): # The "text" input is untyped so that any data can be printed
+    with open(text_path, 'r') as reader:
+        for line in reader:
+            print(line, end = '')
+            
+def print_repeating_lines_pipeline():
+    repeat_lines_task = repeat_line(line='Hello', count=5000)
+    print_text(repeat_lines_task.output)
+
+client.create_run_from_pipeline_func(print_repeating_lines_pipeline, arguments={})
+```
+
+## Pass Numpy Data
+```python
+import kfp
+
+def processdata(
+    output_path: OutputPath(str),
+    bucket: str,
+    key: str,
+):
+    
+    import boto3
+    import pandas as pd
+    import numpy as np
+    from io import StringIO
+    from sklearn.model_selection import train_test_split
+    from pathlib import Path
+    
+    Path(output_path).mkdir(parents=True, exist_ok=True)
+    s3 = boto3.client('s3')
+    
+    try:
+        obj = s3.get_object(Bucket=bucket, Key=key)
+        df = pd.read_csv(StringIO(obj['Body'].read().decode('utf-8')))
+        
+        if df is not None:
+            print("====== CSV Data ======")
+            print(df.head())
+            
+            print("====== PROCESS DATA ======")
+            fish_input = df[['Weight', 'Length', 'Diagonal', 'Height', 'Width']].to_numpy()
+            fish_target = df['Species'].to_numpy()
+            print(fish_input[:5], fish_target[:5])
+            
+            print("====== SPLIT DATA ======")
+            train_input, test_input, train_target, test_target = train_test_split(fish_input, fish_target, random_state=42)
+            print(train_input.shape, test_input.shape)
+            
+            print("====== OUTPUT DATA ======")
+            
+            np.save(output_path + '/train_input.npy', train_input)
+            #df.to_csv(output_path + '/fish.csv')
+            
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        
+processdata_op = kfp.components.create_component_from_func(
+   processdata, base_image="python", packages_to_install=["boto3", "pandas", "scikit-learn", "numpy"]
+)
+
+
+def printtext(input_path: InputPath(str)): # The "text" input is untyped so that any data can be printed
+    import numpy as np
+    
+    train_input = np.load(input_path + '/train_input.npy')
+    print(train_input)
+
+printtext_op = kfp.components.create_component_from_func(
+   printtext, base_image="python", packages_to_install=["numpy"]
+)
+    
+    
+def print_dataframe_pipeline():
+    BUCKET = 'bucket'
+    KEY = 'sample-data/fish.csv'
+    
+    processdata_task = processdata_op(BUCKET, KEY)
+    printtext_op(processdata_task.output)
+    
+client.create_run_from_pipeline_func(print_dataframe_pipeline, arguments={})
+```
+
+## SGDClassifier
+```python
+pip install pandas scikit-learn numpy matplotlib
+
+# https://velog.io/@dbs991013/%ED%99%95%EB%A5%A0%EC%A0%81-%EA%B2%BD%EC%82%AC-%ED%95%98%EA%B0%95%EB%B2%95Stochastic-Gradient-Descent
+# https://raw.githubusercontent.com/rickiepark/hg-mldl/master/fish.csv
+# 'https://bit.ly/fish_csv_data'
+import pandas as pd
+
+fish = pd.read_csv('data/fish.csv')
+fish.head(5)
+
+
+# input, target 데이터 나누기
+fish_input = fish[['Weight', 'Length', 'Diagonal', 'Height', 'Width']].to_numpy()
+fish_target = fish['Species'].to_numpy()
+print(fish_input[:5], fish_target[:5])
+
+# train set, test set 나누기
+from sklearn.model_selection import train_test_split
+train_input, test_input, train_target, test_target = train_test_split(fish_input, fish_target, random_state=42)
+print(train_input.shape, test_input.shape)
+
+# 표준화 전처리
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+ss.fit(train_input)
+train_scaled = ss.transform(train_input)
+test_scaled = ss.transform(test_input)
+print(train_scaled[:5])
+
+
+from sklearn.linear_model import SGDClassifier
+sc = SGDClassifier(loss='log_loss', max_iter=10, random_state=42)
+sc.fit(train_scaled, train_target)
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+
+
+sc.partial_fit(train_scaled, train_target) # 11에포크
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+
+
+# 에포크 수에 따른 점수 기록
+import numpy as np
+sc = SGDClassifier(loss='log_loss', random_state=42)
+train_score = []
+test_score = []
+classes = np.unique(train_target)
+
+
+
+for _ in range(0, 300):
+  sc.partial_fit(train_scaled, train_target, classes=classes)
+  train_score.append(sc.score(train_scaled, train_target))
+  test_score.append(sc.score(test_scaled, test_target))
+
+
+
+import matplotlib.pyplot as plt
+plt.plot(train_score)
+plt.plot(test_score)
+plt.xlabel('epoch')
+plt.ylabel('accuracy')
+plt.show()
+
+
+
+sc = SGDClassifier(loss='log_loss', max_iter=100, tol=None, random_state=42)
+sc.fit(train_scaled, train_target)
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+
+
+sc = SGDClassifier(loss='hinge', max_iter=100, tol=None, random_state=42)
+sc.fit(train_scaled, train_target)
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+```
+
+
+
+### Get dataframe from S3
+```python
+import kfp
+
+def s3_op(bucket_name, s3_file_key):
+    import boto3
+    import pandas as pd
+    from io import StringIO
+    
+    s3 = boto3.client('s3')
+    
+    try:
+        obj = s3.get_object(Bucket=bucket_name, Key=s3_file_key)
+        df = pd.read_csv(StringIO(obj['Body'].read().decode('utf-8')))
+        
+        if df is not None:
+            print("CSV Data:")
+            print(df.head())
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+s3_op = kfp.components.create_component_from_func(
+   s3_op, base_image="python", packages_to_install=["boto3", "pandas"]
+)
+
+
+def s3_pipeline():
+    BUCKET_NAME = 'my-bucket'
+    S3_FILE_KEY = 'sample-data/fish.csv'
+    
+    s3_operation = s3_op(BUCKET_NAME, S3_FILE_KEY)
+
+client.create_run_from_pipeline_func(
+   s3_pipeline, arguments={}
+)
+```
+
+
+
+
+
+---
+
+
+
+
 
 
 # V2
