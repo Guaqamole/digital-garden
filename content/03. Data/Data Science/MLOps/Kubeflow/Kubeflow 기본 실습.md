@@ -174,7 +174,7 @@ pip install pandas scikit-learn numpy matplotlib
 
 # https://velog.io/@dbs991013/%ED%99%95%EB%A5%A0%EC%A0%81-%EA%B2%BD%EC%82%AC-%ED%95%98%EA%B0%95%EB%B2%95Stochastic-Gradient-Descent
 # https://raw.githubusercontent.com/rickiepark/hg-mldl/master/fish.csv
-# 'https://bit.ly/fish_csv_data'
+# https://bit.ly/fish_csv_data
 import pandas as pd
 
 fish = pd.read_csv('data/fish.csv')
