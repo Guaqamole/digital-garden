@@ -168,90 +168,7 @@ def print_dataframe_pipeline():
 client.create_run_from_pipeline_func(print_dataframe_pipeline, arguments={})
 ```
 
-## SGDClassifier
-```python
-pip install pandas scikit-learn numpy matplotlib
-
-# https://velog.io/@dbs991013/%ED%99%95%EB%A5%A0%EC%A0%81-%EA%B2%BD%EC%82%AC-%ED%95%98%EA%B0%95%EB%B2%95Stochastic-Gradient-Descent
-# https://raw.githubusercontent.com/rickiepark/hg-mldl/master/fish.csv
-# https://bit.ly/fish_csv_data
-import pandas as pd
-
-fish = pd.read_csv('data/fish.csv')
-fish.head(5)
-
-
-# input, target 데이터 나누기
-fish_input = fish[['Weight', 'Length', 'Diagonal', 'Height', 'Width']].to_numpy()
-fish_target = fish['Species'].to_numpy()
-print(fish_input[:5], fish_target[:5])
-
-# train set, test set 나누기
-from sklearn.model_selection import train_test_split
-train_input, test_input, train_target, test_target = train_test_split(fish_input, fish_target, random_state=42)
-print(train_input.shape, test_input.shape)
-
-# 표준화 전처리
-from sklearn.preprocessing import StandardScaler
-ss = StandardScaler()
-ss.fit(train_input)
-train_scaled = ss.transform(train_input)
-test_scaled = ss.transform(test_input)
-print(train_scaled[:5])
-
-
-from sklearn.linear_model import SGDClassifier
-sc = SGDClassifier(loss='log_loss', max_iter=10, random_state=42)
-sc.fit(train_scaled, train_target)
-print(sc.score(train_scaled, train_target))
-print(sc.score(test_scaled, test_target))
-
-
-sc.partial_fit(train_scaled, train_target) # 11에포크
-print(sc.score(train_scaled, train_target))
-print(sc.score(test_scaled, test_target))
-
-
-# 에포크 수에 따른 점수 기록
-import numpy as np
-sc = SGDClassifier(loss='log_loss', random_state=42)
-train_score = []
-test_score = []
-classes = np.unique(train_target)
-
-
-
-for _ in range(0, 300):
-  sc.partial_fit(train_scaled, train_target, classes=classes)
-  train_score.append(sc.score(train_scaled, train_target))
-  test_score.append(sc.score(test_scaled, test_target))
-
-
-
-import matplotlib.pyplot as plt
-plt.plot(train_score)
-plt.plot(test_score)
-plt.xlabel('epoch')
-plt.ylabel('accuracy')
-plt.show()
-
-
-
-sc = SGDClassifier(loss='log_loss', max_iter=100, tol=None, random_state=42)
-sc.fit(train_scaled, train_target)
-print(sc.score(train_scaled, train_target))
-print(sc.score(test_scaled, test_target))
-
-
-sc = SGDClassifier(loss='hinge', max_iter=100, tol=None, random_state=42)
-sc.fit(train_scaled, train_target)
-print(sc.score(train_scaled, train_target))
-print(sc.score(test_scaled, test_target))
-```
-
-
-
-### Get dataframe from S3
+## Get dataframe from S3
 ```python
 import kfp
 
@@ -288,6 +205,102 @@ client.create_run_from_pipeline_func(
 )
 ```
 
+
+## Control Flow
+```python
+from typing import NamedTuple
+
+import kfp
+from kfp import dsl
+from kfp.components import func_to_container_op, InputPath, OutputPath
+
+def train(
+    input_path: InputPath(str),
+    output_path: OutputPath(str)
+):
+    import json
+    import pickle
+    import numpy as np
+    from pathlib import Path
+    from sklearn.linear_model import SGDClassifier
+    
+    Path(output_path).mkdir(parents=True, exist_ok=True)
+    
+    train_scaled = np.load(input_path + '/train_scaled.npy', allow_pickle=True)
+    test_scaled = np.load(input_path + '/test_scaled.npy', allow_pickle=True)
+    train_target = np.load(input_path + '/train_target.npy', allow_pickle=True)
+    test_target = np.load(input_path + '/test_target.npy', allow_pickle=True)
+    
+    sc = SGDClassifier(loss='log_loss', max_iter=10, random_state=42)
+    sc.fit(train_scaled, train_target)
+    
+    train_score = sc.score(train_scaled, train_target)
+    test_score = sc.score(test_scaled, test_target)
+    print("score with train:", train_score)
+    print("score test:", test_score)
+    scores = {
+        "train_score": train_score,
+        "test_score": test_score
+    }
+    
+    with open(output_path + '/scores.json', 'w') as f:
+        json.dump(scores, f)
+    
+    np.save(output_path + '/train_scaled.npy', train_scaled)
+    np.save(output_path + '/test_scaled.npy', test_scaled)
+    np.save(output_path + '/train_target.npy', train_target)
+    np.save(output_path + '/test_target.npy', test_target)
+
+
+    with open(output_path + '/sc.pickle', 'wb') as handle:
+        pickle.dump(sc, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+train_op = kfp.components.create_component_from_func(
+   train, base_image="python:3.8", packages_to_install=["numpy", "scikit-learn"]
+)
+
+@func_to_container_op
+def evaluate(input_path: InputPath(str)) -> float:
+    import json
+    train_score = None
+    
+    with open(input_path + '/scores.json', 'r') as f:
+        scores = json.load(f)
+        
+    train_score = scores['train_score']
+    
+    return train_score
+
+@func_to_container_op
+def print_op(message: str):
+    """Print a message."""
+    print(message)
+    
+@func_to_container_op
+def fail_op(message):
+    """Fails."""
+    import sys
+    print(message)
+    sys.exit(1)
+
+def control_flows_pipeline():
+    import sys
+    BUCKET = 'ml-bucket'
+    KEY = 'sample-data/fish.csv'
+    
+    read_task = read_op(BUCKET, KEY)
+    process_task = process_op(read_task.output)
+    train_task = train_op(process_task.output)
+    result = evaluate(train_task.output)
+    
+    with dsl.Condition(result.output > 0.8):
+        print_op(f"success: {result.output}")
+    with dsl.Condition(result.output < 0.8):
+        fail_op(f"failed: {result.output}")
+    
+if __name__ == '__main__':
+    client.create_run_from_pipeline_func(control_flows_pipeline, arguments={})
+```
 
 
 
