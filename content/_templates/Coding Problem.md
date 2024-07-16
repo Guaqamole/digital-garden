@@ -4,7 +4,7 @@ date: <% tp.date.now() %>
 draft: false
 tags:
   - CodingTest
-Platform: {{VALUE:Baekjoon, LeetCode, HackerRank}}
+Platform: {{VALUE:Baekjoon, LeetCode, HackerRank, Programmers}}
 link: {{VALUE:URL Link To Problem}}
 difficulty: {{VALUE:Difficulty (골드 2 실버 4...)}}
 highlight: false
