@@ -12,6 +12,7 @@ complete: true
 
 github: https://github.com/awslabs/kubeflow-manifests/tree/release-v1.7.0-aws-b1.0.3
 documentation: https://awslabs.github.io/kubeflow-manifests/docs/deployment/rds-s3/
+https://docs.kakaocloud.com/service/ai-service/kubeflow
 
 **USING: RDS & S3**
 
@@ -386,7 +387,7 @@ EOF
 ### order (참고만 하자)
 ```python
 cat tests/e2e/utils/kubeflow_installation.py # grep static 하면 static 사용가능.
-
+cat tests/e2e/resources/installation_config/cognito-rds-s3.yaml
 
 #level 1
 #cert-manager
@@ -440,21 +441,6 @@ istio:
         - key: app
           value: istio-ingressgateway, istiod
 
-#dex
-dex:
-  installation_options:
-    kustomize:
-      paths:
-        - ../../upstream/common/dex/overlays/istio
-    helm:
-      paths: ../../charts/common/dex
-  validations:
-    pods:
-      namespace: auth
-      labels:
-        - key: app
-          value: dex
-
 #kubeflow-namespace
 kubeflow-namespace:
   installation_options:
@@ -478,6 +464,7 @@ cluster-local-gateway:
       labels:
         - key: app
           value: cluster-local-gateway
+
 
 #knative-serving
 knative-serving:
@@ -512,21 +499,6 @@ knative-eventing:
           value: knative-eventing
 
 #level 4
-#oidc-authservice
-oidc-authservice:
-  installation_options:
-    kustomize:
-      paths:
-        - ../../upstream/common/oidc-authservice/base
-    helm:
-      paths: ../../charts/common/oidc-authservice
-  validations:
-    pods:
-      namespace: istio-system
-      labels:
-        - key: app
-          value: authservice
-
 #kubeflow-istio-resources
 kubeflow-istio-resources:
   installation_options:
@@ -589,7 +561,7 @@ kubeflow-pipelines:
   installation_options:
     kustomize:
       paths:
-        - ../../awsconfigs/apps/pipeline/
+        - ../../awsconfigs/apps/pipeline
     helm:
       paths: ../../charts/apps/kubeflow-pipelines/rds-s3
   validations:
@@ -737,6 +709,49 @@ profiles-and-kfam:
         - key: kustomize.component
           value: profiles
 
+#Ingress
+ingress:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/istio-ingress/overlays/cognito
+    helm:
+      paths: ../../charts/common/ingress/cognito
+
+
+#ALB Controller
+aws-load-balancer-controller:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/aws-alb-ingress-controller/base
+    helm:
+      repo: remote
+  validations:
+    crds:
+      - ingressclassparams.elbv2.k8s.aws
+    pods:
+      namespace: kube-system
+      labels:
+        - key: app.kubernetes.io/name
+          value: aws-load-balancer-controller
+
+
+#AWS Authservice
+aws-authservice:
+  installation_options:
+    kustomize:
+      paths:
+        - ../../awsconfigs/common/aws-authservice/base
+    helm:
+      paths: ../../charts/common/aws-authservice
+  validations:
+    pods:
+      namespace: istio-system
+      labels:
+        - key: app
+          value: aws-authservice
+
 #user namespace
 user-namespace:
   installation_options:
@@ -760,24 +775,6 @@ aws-secrets-manager:
       labels:
         - key: app
           value: aws-secrets-sync
-
-
-ack-sagemaker-controller:
-  installation_options:
-    kustomize:
-      paths:
-        - ../../awsconfigs/common/ack-sagemaker-controller
-    helm:
-      repo: remote
-
-#AWS Telemetry (Optional)
-aws-telemetry:
-  installation_options:
-    kustomize:
-      paths:
-        - ../../awsconfigs/common/aws-telemetry
-    helm:
-      paths: ../../charts/common/aws-telemetry
 ```
 
 ### cert-manager
@@ -1192,6 +1189,14 @@ spec:
         karpenter.sh/capacity-type: spot
 EOF
 ```
+
+#### CSRF Cookie error
+https://medium.com/@ratchaphon/fix-bug-kubeflow-403-could-not-find-csrf-cookie-xsrf-token-in-the-request-1f4ac886050c
+```python
+vi upstream/apps/jupyter/jupyter-web-app/upstream/base/params.env
+JWA_APP_SECURE_COOKIES=true --> JWA_APP_SECURE_COOKIES=false
+```
+
 ### notebook controller (p)
 - profiles 배포안하면 pending 상태임!! (주의)
 ```python
@@ -1251,6 +1256,11 @@ EOF
 kustomize build upstream/apps/volumes-web-app/upstream/overlays/istio | kubectl apply -f -
 ```
 
+#### CSRF Cookie error
+```python
+vi upstream/apps/volumes-web-app/upstream/base/params.env
+VWA_APP_SECURE_COOKIES=true --> VWA_APP_SECURE_COOKIES=false
+```
 
 ### training operator
 ```python
