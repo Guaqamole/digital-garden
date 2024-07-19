@@ -174,6 +174,8 @@ vi awsconfigs/common/aws-secrets-manager/s3/secret-provider.yaml # IRSA 방식�
 ### IRSA (v1.7은 이 방법으로 해야함)
 Create and Configure IAM Roles: 
 ```python
+export PIPELINE_S3_CREDENTIAL_OPTION="irsa"
+
 eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER_NAME} \
 --region ${CLUSTER_REGION} --approve
 ```
@@ -873,7 +875,7 @@ EOF
 
 
 
-### oidc-auth
+### oidc-auth (cognito 불필요)
 ```python
 kustomize build upstream/common/oidc-authservice/base | kubectl apply -f -
 ```
@@ -895,7 +897,7 @@ EOF
 ```
 
 
-### dex
+### dex (cognito 불필요)
 ```python
 kustomize build upstream/common/dex/overlays/istio | kubectl apply -f -
 ```
@@ -1654,9 +1656,10 @@ EOF
 
 
 ## 4. Network
+### No Ignito
 https://awslabs.github.io/kubeflow-manifests/docs/add-ons/load-balancer/guide/
 https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
-### Create LoadBalancer
+#### Create LoadBalancer
 1. Create domain (이미 있음)
 2. Create subdomain (이미 있음)
 3. Create certificate for subdomain (이미있음) → cert arn
@@ -1665,7 +1668,7 @@ https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingres
 
 나머지는 다 있으므로 5번만 생성.
 
-### prerequisite
+#### prerequisite
 ```python
 export CLUSTER_REGION=ap-northeast-2
 export CLUSTER_NAME=
@@ -1678,7 +1681,7 @@ kubectl config current-context
 
 aws eks describe-cluster --name $CLUSTER_NAME --region $CLUSTER_REGION
 ```
-### Create Ingress
+#### Create Ingress
 ```python
 export certArn=arn:aws:acm:northkorea-2:359838957435:certificate/a94tb255-839b-9414-diq4-deiuoisdf3
 
@@ -1741,11 +1744,53 @@ spec:
         pathType: ImplementationSpecific
 ```
 
-### install
+#### install
 ```python
 kustomize build awsconfigs/common/istio-ingress/overlays/https | kubectl apply -f -
 ```
 
+### with cognito
+https://awslabs.github.io/kubeflow-manifests/docs/deployment/cognito/manifest/guide/
+
+기존 사용했던 alb 설정 있는지 없는지 확인
+```python
+cat awsconfigs/common/istio-ingress/overlays/https/params.env
+certArn=arn:...
+```
+
+```python
+export CognitoUserPoolArn="<YOUR_USER_POOL_ARN>"
+export CognitoAppClientId="<YOUR_APP_CLIENT_ID>"
+export CognitoUserPoolDomain="<YOUR_USER_POOL_DOMAIN>"
+export certArn="<YOUR_ACM_CERTIFICATE_ARN>"
+export signOutURL="<YOUR_SIGN_OUT_URL>"
+export CognitoLogoutURL="https://$CognitoUserPoolDomain/logout?client_id=$CognitoAppClientId&logout_uri=$signOutURL"
+export loadBalancerScheme=internet-facing
+```
+
+awsconfigs/common/istio-ingress
+```python
+printf '
+CognitoUserPoolArn='$CognitoUserPoolArn'
+CognitoAppClientId='$CognitoAppClientId'
+CognitoUserPoolDomain='$CognitoUserPoolDomain'
+certArn='$certArn'
+' > awsconfigs/common/istio-ingress/overlays/cognito/params.env
+printf '
+loadBalancerScheme='$loadBalancerScheme'
+' > awsconfigs/common/istio-ingress/base/params.env
+```
+
+```python
+printf '
+LOGOUT_URL='$CognitoLogoutURL'
+' > awsconfigs/common/aws-authservice/base/params.env
+```
+
+이후 위에 No Cognito 참조.
+
+
+---
 ## 5. 운영
 ### 유저 추가하는법
 add user
