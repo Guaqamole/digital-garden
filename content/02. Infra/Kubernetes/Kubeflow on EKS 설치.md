@@ -331,7 +331,6 @@ metadata:
  kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/secrets-store-csi-driver.yaml
  kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/v1.3.2/deploy/rbac-secretprovidersyncing.yaml
  kubectl apply -f https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml
-
 ```
 
 ### ADD node-selector in kustomize
@@ -834,6 +833,10 @@ kustomize build upstream/common/istio-1-16/istio-crds/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-16/istio-namespace/base | kubectl apply -f -
 kustomize build upstream/common/istio-1-16/istio-install/base | kubectl apply -f -
 ```
+
+#### ingress
+
+
 #### nodeSelector
 vi upstream/common/istio-1-16/istio-install/base/kustmoization.yaml
 ```python
@@ -1158,7 +1161,7 @@ cat << EOF > upstream/apps/admission-webhook/upstream/overlays/cert-manager/patc
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: admission-webhook-deployment
+  name: deployment
   namespace: kubeflow
 spec:
   template:
@@ -1348,6 +1351,7 @@ kustomize build awsconfigs/apps/pipeline/static | kubectl apply -f -
 ```
 
 #### nodeSelector
+meta-controller:  upstream/apps/kfp-tekton/upstream/third-party/metacontroller/base
 ```python
 cat << EOF > awsconfigs/apps/pipeline/node-selector-patch.yaml
 apiVersion: apps/v1
@@ -1787,7 +1791,9 @@ LOGOUT_URL='$CognitoLogoutURL'
 ' > awsconfigs/common/aws-authservice/base/params.env
 ```
 
-이후 위에 No Cognito 참조.
+```python
+kustomize build awsconfigs/common/istio-ingress/overlays/cognito | kubectl apply -f -
+```
 
 
 ---

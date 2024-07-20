@@ -6,9 +6,153 @@ tags:
   - Elastic
   - Kubernetes
 complete: false
-link: https://github.com/elastic/helm-charts
+link: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-stack-helm-chart.html
 link2: https://medium.com/rahasak/deploy-elasticsearch-and-kibana-cluster-on-kubernetes-with-elasticsearch-operator-79f205170f40
 ---
+# New Guide
+## ElasticSearch Only
+https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-stack-helm-chart.html
+
+```python
+helm repo add elastic https://helm.elastic.co
+helm repo update
+helm pull elastic/elasticsearch && tar -zxvf elasticsearch-*.tgz
+```
+
+### values.yaml
+```python
+vi values.yaml
+
+replicas: 1
+minimumMasterNodes: 1
+
+protocol: http
+
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 20Gi
+      
+imagePullSecrets: []
+nodeSelector: 
+  application: kubeflow
+  karpenter.sh/capacity-type: spot
+tolerations: []
+
+secret:
+  enabled: true
+  password: "1234" # generated randomly if not defined
+```
+
+### install
+```python
+kubectl create ns elasticsearch
+helm install elasticsearch elasticsearch -n elasticsearch
+```
+
+## ECK-stack
+https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-eck.html
+```python
+helm repo add elastic https://helm.elastic.co
+helm repo update
+helm pull elastic/eck-stack && tar -zxvf eck-stack-*.tgz
+cd eck-stack && mkdir -p values
+wget https://download.elastic.co/downloads/eck/2.13.0/crds.yaml && mv crds.yaml values
+wget https://download.elastic.co/downloads/eck/2.13.0/operator.yaml
+
+kubectl apply -f values/crds.yaml
+kubectl apply -f values/operator.yaml
+
+      nodeSelector:
+        application: kubeflow
+        karpenter.sh/capacity-type: spot
+```
+
+### values.yaml
+cp examples/elasticsearch/hot-warm-cold.yaml values/elasticsearch.yaml
+vi values/elasticsearch.yaml
+```python
+  nodeSets:
+  - name: masters
+    podTemplate:
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+
+
+  - name: hot
+    count: 1
+    podTemplate:
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+  - name: warm
+    count: 0
+    config:
+```
+
+
+cp examples/kibana/http-configuration.yaml values/kibana.yaml
+vi values/kibana.yaml
+```python
+eck-kibana:
+  spec:
+    count: 1
+    elasticsearchRef:
+      name: elasticsearch #change-here
+    http:
+      service:
+        spec:
+          type: ClusterIP
+```
+
+
+### install
+```python
+helm install elasticsearch eck-stack -n elastic-system --create-namespace \
+    --values eck-stack/values/elasticsearch.yaml \
+    --values eck-stack/values/kibana.yaml
+
+helm delete elasticsearch -n elastic-system
+```
+
+password
+```python
+kubectl get secret elasticsearch-es-elastic-user -n elastic-system -o go-template='{{.data.elastic | base64decode}}'
+
+# same with kibana and es.
+id: elastic
+pw: jLg4o2y4MxS58R1840kSmMp6
+```
+# Old Guide
+https://github.com/elastic/helm-charts
 ### 1. ECK Operator
 Elastic Search를 k8s에 배포하기 위해선 Eck operator가 필수이다.
 ECK operator는 yaml manifest, helm chart를 통해 배포가 가능하다. 아래는 yaml을 통한 배포 방법이다.
