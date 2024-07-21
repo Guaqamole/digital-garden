@@ -1687,7 +1687,8 @@ aws eks describe-cluster --name $CLUSTER_NAME --region $CLUSTER_REGION
 ```
 #### Create Ingress
 ```python
-export certArn=arn:aws:acm:northkorea-2:359838957435:certificate/a94tb255-839b-9414-diq4-deiuoisdf3
+export 
+=arn:aws:acm:northkorea-2:359838957435:certificate/a94tb255-839b-9414-diq4-deiuoisdf3
 
 echo $certArn
 
