@@ -1239,6 +1239,27 @@ EOF
 kustomize build upstream/apps/profiles/upstream/overlays/kubeflow | kubectl apply -f -
 ```
 
+#### 매우중요!!!!!
+vi upstream/common/user-namespace/overlay/profile.yaml
+- 해당 프로파일에 role arn을 넣지 않으면 kfp 파이프라인이 돌지 않는다..
+- 이후 아래 user 배포. kustomize build upstream/common/user-namespace/overlay | kubectl apply -f -
+```python
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: $(profile-name)
+spec:
+  owner:
+    kind: User
+    name: $(user)
+  plugins:
+    - kind: AwsIamForServiceAccount
+      spec:
+        awsIamRole: arn:aws:iam::... # 여기 추가해야함
+        annotateOnly: true
+```
+
+
 #### nodeSelector
 ```python
 cat << EOF > upstream/apps/profiles/upstream/overlays/kubeflow/patches/node-selector-patch.yaml
@@ -1298,17 +1319,12 @@ EOF
 
 
 ### ML pipeline
-irsa
+#### irsa
 ```python
 kustomize build awsconfigs/common/aws-secrets-manager/rds | kubectl apply -f -
 ```
 
-static (사용 권장 X)
-```python
-kustomize build awsconfigs/common/aws-secrets-manager | kubectl apply -f -
-```
-
-accesskey secretkey update for s3
+accesskey secretkey update for s3 (MUST, MUST, MUST, MUST)
 ```python
 vi awsconfigs/apps/pipeline/s3/disable-default-secret.yaml
 
@@ -1323,6 +1339,13 @@ stringData:
   accesskey: "accesskey" # 여기다 적으면 된다.
   secretkey: "secretkey" # 여기다 적으면 된다.
 ```
+
+
+#### static (사용 권장 X)
+```python
+kustomize build awsconfigs/common/aws-secrets-manager | kubectl apply -f -
+```
+
 
 #### 주의 사항
 secret manager 등록시 절대 절대 키/값 으로 하지말고
