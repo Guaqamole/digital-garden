@@ -1239,26 +1239,6 @@ EOF
 kustomize build upstream/apps/profiles/upstream/overlays/kubeflow | kubectl apply -f -
 ```
 
-#### 매우중요!!!!!
-vi upstream/common/user-namespace/overlay/profile.yaml
-- 해당 프로파일에 role arn을 넣지 않으면 kfp 파이프라인이 돌지 않는다..
-- 이후 아래 user 배포. kustomize build upstream/common/user-namespace/overlay | kubectl apply -f -
-```python
-apiVersion: kubeflow.org/v1beta1
-kind: Profile
-metadata:
-  name: $(profile-name)
-spec:
-  owner:
-    kind: User
-    name: $(user)
-  plugins:
-    - kind: AwsIamForServiceAccount
-      spec:
-        awsIamRole: arn:aws:iam::... # 여기 추가해야함
-        annotateOnly: true
-```
-
 
 #### nodeSelector
 ```python
@@ -1295,6 +1275,42 @@ kustomize build upstream/apps/training-operator/upstream/overlays/kubeflow | kub
 
 
 ### user
+user-example service account
+user namespace에서 s3 접근하려면 service account 만들어야한다.
+```python
+eksctl create iamserviceaccount --cluster=my-cluster --name=kubeflow-user-example-com-sa --namespace=kubeflow-user-example-com --attach-policy-arn=arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
+
+kubectl get sa -n kubeflow-user-example-com
+NAME                           SECRETS   AGE
+default                        0         129m
+default-editor                 0         129m
+default-viewer                 0         129m
+kubeflow-user-example-com-sa   0         59s. # 이게있어야 pipeline 구성할때 s3 접근할수있다.
+```
+
+#### 매우중요!!!!!
+- 해당 프로파일에 profile role arn을 넣지 않으면 kfp 파이프라인이 돌지 않는다.. (backend-role 집어넣으면안됨)
+- 이후 아래 user 배포. kustomize build upstream/common/user-namespace/overlay | kubectl apply -f -
+```python
+vi upstream/common/user-namespace/overlay/profile.yaml
+
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: $(profile-name)
+spec:
+  owner:
+    kind: User
+    name: $(user)
+  plugins:
+    - kind: AwsIamForServiceAccount
+      spec:
+        awsIamRole: arn:aws:iam::123456789:role/kf-pipeline-profile-role-my-cluster # 여기 추가해야함
+        annotateOnly: true
+```
+
+
+#### install
 ```python
 cp -R awsconfigs/common/user-namespace/overlay upstream/common/user-namespace
 
