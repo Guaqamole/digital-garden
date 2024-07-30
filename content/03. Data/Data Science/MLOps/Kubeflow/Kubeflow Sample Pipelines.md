@@ -5,6 +5,7 @@ draft: false
 tags:
   - Kubeflow
 complete: true
+link: https://github.com/kubeflow/pipelines/tree/1.8.20/samples/core
 ---
 ## SGDClassifiers
 ### Overview
