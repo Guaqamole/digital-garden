@@ -49,7 +49,11 @@ Special cases aren't special enough to break the rules.
 Although practicality beats purity. 
 비록 실용성이 이상을 능가한다 하더라도.
 
-Errors should never pass silently. 오류는 결코 조용히 지나가지 않는다. Unless explicitly silenced. 알고도 침묵하지 않는 한.
+Errors should never pass silently. 
+오류는 결코 조용히 지나가지 않는다. 
+
+Unless explicitly silenced. 
+알고도 침묵하지 않는 한.
 
 In the face of ambiguity, refuse the temptation to guess. 
 모호함을 마주하고 추측하려는 유혹을 거절하라. 
@@ -95,7 +99,6 @@ def make_dict(x, y):
 
 
 # 3. Python은 어떻게 동작하는가?
-
 ![](https://i.imgur.com/3fYj7z2.png)
 
 ## Python의 구현체 CPython
