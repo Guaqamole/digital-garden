@@ -1,5 +1,5 @@
 ---
-title: argparse
+title: Python argparse
 date: 2023-10-20
 draft: false
 tags:

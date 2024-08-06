@@ -53,7 +53,7 @@ help(increment)
 
 
 ## 이 외에도.. 내장 모듈은 정말 많다.
-https://docs.python.org/3/library/index.html
+https://docs.python.org/3/library/index.html 아니면 [[Python Standard Library]] 를 참고하자.
 
 - [Built-in Functions](https://docs.python.org/3/library/functions.html)
 - [Built-in Constants](https://docs.python.org/3/library/constants.html)
