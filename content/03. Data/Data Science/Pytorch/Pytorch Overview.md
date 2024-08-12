@@ -26,9 +26,9 @@ complete: true
 
 
 
-### 특징
+## Pytorch 특징
 **GPU**에서 **텐서 조작** 및 **동적 신경망 구축**이 가능한 프레임워크
-![|475](https://i.imgur.com/Ok5lWsM.png)
+![|750](https://i.imgur.com/Ok5lWsM.png)
 
 ### 장점
 1. 단순함 (효율적인 계산)
@@ -85,7 +85,7 @@ Autograd는텐서플로(tensorflow), 카페(Caffe) ,CNTK같은다른딥러닝프
 ## Pytorch 학습 절차
 ![|700](https://i.imgur.com/0uO8duN.png)
 
-### 모델 정의
+### A. 모델 정의
 파이토치에서 모델을 정의하기 위해선 모듈을 상속한 클래스를 사용한다.
 - 모듈 : 한개 이상의 계층이 모여서 구성된것으로, 모듈이 모여 새로운 모듈을 만들 수 도있다.
 - 계층 : 모듈 또는 모듈을 구성하는 한개의 계층으로 합성 곱층 (convolutional layer), 선형 계층 (linear layer)가 있다.
@@ -160,7 +160,7 @@ def MLP(in_features = 1, hidden_features=20, out_features=1):
 
 ReLU, Softmax및Sigmoid와같은활성화함수는모델을정의할때지정합니다.
 
-### 모델 파라미터 정의
+### B. 모델 파라미터 정의
 사전에 정의할 파라미터들은 다음과 같다:
 1. <mark style="background: #C6AB16;">손실함수</mark> : 학습하는동안출력과실제값(정답)사이의오차를측정.
 	- `wx + b` 를 계산한 값과, 실제 값인 `y` 의 오차를 구해서 모델의 정확성 측정.
@@ -183,7 +183,6 @@ ReLU, Softmax및Sigmoid와같은활성화함수는모델을정의할때지정합
 > 손실 함수는 실제 값과 예측 값 차이를 수치화해주는 함수다.
 > 이 오차 값이 클수록 손실 함수의 값이 크고, 오차 값이 작을수록 손실 함수의 값이 작아진다.
 > 그리고 이 손실 함수의 값을 최소화하는 가중치와 바이어스를 찾는것이 학습 목표이다.
-> .
 > 전역 최소점 : 오차가 가장 작을 때 값을 의미 → 최종적으로 찾고자하는 최적점
 > 지역 최소점 : 전역 최소점을 찾아가는 과정에서 만나는 hole 과 같은것으로 
 > 옵티마이저가 학습을 멈추면 최솟값을 갖는 오차를 찾을 수 없는 문제가 발생.
@@ -207,8 +206,18 @@ optimizer.step()
 scheduler.step()
 ```
 
-### 모델 훈련
+
+### C. 모델 훈련
 모델을 학습 시킨다는것은 `y = wx + b` 라는 함수에서 `w`와 `b`의 적절한 값을 찾는다는 의미입니다. `w`와 `b`에 임의의 값을 적용하여 시작하며 오차가 줄어들어 전역 최소점에 이를 때까지 파라미터(w, b)를 게속 수정한다.
+
+|딥러닝 학습 절차|파이토치 학습 절차|
+|---|---|
+|모델, 손실 함수, 옵티마이저 정의|`optimizer = ...`|
+|전방향 학습() , 기울기 초기화|`optimizer.zero_grad()`|
+|전방향 학습(입력 -> 출력 계산)|`output = model(input)`|
+|손실 함수로 출력과 정답의 차이 (오차) 계산|`loss = loss_fn(output, target)`|
+|역전파 학습 (기울기 계산)|`loss.backward()`|
+|기울기 업데이트|`optimizer.step()`|
 
 #### 기울기 초기화
 가장먼저필요한절차가 `optimizer.zero_grad()` 메서드를이용하여기울기를초기화하는것입니다. 
@@ -237,7 +246,8 @@ for epoch in range(100):
 
 
 
-### 모델 평가
+
+### D. 모델 평가
 모델에 대한 평가는 함수와 모듈을 이용 하는두가지방법이있습니다. 이전에 모델평가를 위해 패키지를 설치합니다.
 ```python
 pip install torchmetrics
@@ -278,13 +288,41 @@ print(f"Accuracy on all data: {acc}")
 사이킷런의 metrics모듈에서제공하는confusion_matrix,accuracy_score와classification_report 클래
 스를이용하면쉽게정확도(accuricy) 를찾을수있습니다.
 
-### 훈련 과정 모니터링
+
+
+### E. 훈련 과정 모니터링
 파이토치로머신러닝/ 딥러닝모델을만들어 학습해보면 
 학습이 진행되는과정에서각파라미터 에어떤값들이어떻게변화하는지모니터링하기어렵습니다.
 
 이때텐서보드를이용하면학습에 사용되는각종 파라미터값이어떻게변화하는지손쉽게시각화하여살펴볼수있으며성능을추
 적 하 거 나 평 가 하 는 용 도 로 도 사 용 할 수 있 습 니 다.
 
+```python
+import torch
+from torch.utils.tensorboard import SummaryWriter
+writer = SummaryWriter("./tensorboard") # 텐서보드 저장 위치
+
+for epoch in range(num_epochs):
+    model.train()
+    batch_loss = 0.0
+
+    for i, (x, y) in enumerate(dataloader):
+        x, y = x.to(device).float(), y.to(device).float()
+        outputs = model(x)
+        loss = criterion(outputs, y)
+        writer.add_scalar("Loss", loss, epoch)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+writer.close() # SummaryWriter가 더이상 필요하지 않으면 호출
+```
+
+텐서보드 실행 명령어
+
+```python
+tensorboard --logdir=./tensorboard --port 6006
+```
 
 ---
 
@@ -309,7 +347,6 @@ https://github.com/gilbutITbook/080289
 7. output(차상태) :이데이터는unac(c허용불가능한수준)및acc(허용가능한수준),양호 ( good)및매우좋은(verygood,vgood)중하나의값을갖습니다.
 이때, 1-6 의 컬럼 정보를 이용하여 자동차 상태를 예측하는 코드를 구현한다.
 
-### Library
 #### install
 ```python
 pip install matplotlib

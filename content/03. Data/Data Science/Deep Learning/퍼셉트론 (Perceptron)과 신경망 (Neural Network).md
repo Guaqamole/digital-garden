@@ -1,4 +1,3 @@
-활
 ---
 title: 퍼셉트론 (Perceptron)
 date: 2024-04-30
