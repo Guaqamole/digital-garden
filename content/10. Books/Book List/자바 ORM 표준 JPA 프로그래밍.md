@@ -1,13 +1,13 @@
 ---
 title: 자바 ORM 표준 JPA 프로그래밍
-Author: 저자(글) 김영한
-Status: Currently Reading
+Author:
+  - 저자(글) 김영한
+Status: Unread
 Topics: JPA ORM
 tags:
   - Book
 Kanban-Cover: "![Book Cover|300](https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788960777330.jpg)"
 draft: false
-
 ---
 자료: https://github.com/holyeye/jpabook
 # Chapter 2. JPA 시작

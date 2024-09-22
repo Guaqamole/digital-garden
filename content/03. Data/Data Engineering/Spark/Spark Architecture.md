@@ -8,7 +8,6 @@ tags:
 complete: true
 ---
 # 기본 구조 
-
 ![Spark: The Definitive Guide|550](https://i.imgur.com/7E4ZAOU.png)
 
 스파크는 크게 [[Spark Application Architecture|Spark Application]], [[Spark Cluster Manger|Cluster Manager]]로 나뉘게된다. 
@@ -19,29 +18,26 @@ complete: true
 ---
 
 ## Spark Application 
-
 스파크 애플리케이션은 **드라이버 프로세스**와 다수의 **익스큐터 프로세스**로 구성
 
 - 드라이버 프로세스는 **클러스터 노드 중 하나에서 실행**되며, main()함수 실행
   - 스파크 언어 API를 통해 다양한 언어로 실행 가능
 - 익스큐터 프로세스는 스파크 코드를 실행
 
-
-
 ### A. Driver Process
-
 > [!success]+ definition
 > Spark에서 수행되는 사용자 프로그램
 > - 애플리케이션 수명 주기 동안 관련 정보를 모두 유지함
 > - 사용자 프로그램이나 입력에 대한 응답
-> - 전반적인 익스큐터 프로세스의 작업과 관련된 분석, 배포, 스케줄링
+> - 클러스터 매니저와 통신하며 익스큐터들을 위해 필요한 자원을 요청
+> - 모든 스파크 작업을 DAG 연산 형태로 변환하고 스케줄링
+> - 각 실행 단위를 태스크로 나누어 스파크 이그제큐터들에게 분배
 > - **1개의 Driver Program과 N개의 Executor로 구성**
 
-![](https://i.imgur.com/I2uK3Or.png)
+![|750](https://i.imgur.com/I2uK3Or.png)
 
 
 ***주요 역할***
-
 #### **사용자 프로그램을 실제 수행 단위인 Task로 변환 해 Executor에 할당**
 1. 연산들의 관계에 대해 논리적인 방향성 비순환 그래프(DAG, Directed Acyclic Graph)를 생성
 	- 입력으로부터 RDD를 만듦
@@ -55,32 +51,24 @@ complete: true
 3. 단위 작업들은 묶여서 Cluster로 전송된다.
 	- Task의 묶음은 Stage이며 Stage의 묶음은 Job이다.
 
-
-
 #### **Executor에 할당 된 Task들을 적절하게 Scheduling**
-
 1. Executor들은 시작 시 드라이버에 등록됨
-
 2. Driver는 항상 실행중인 익스큐터를 감시
 	- 각 Task가 데이터 위치에 기반해 적절한 위치에서 실행이 되도록 한다.
 
  
-
 ### B. Spark Session 
-
 > [!success]+ definition
 > **스파크 응용 프로그램의 통합 진입점**으로 사용자가 정의한 처리 명령을 클러스터에서 실행. 이를 통해 스파크 어플리케이션을 제어함. 아래 처럼 계층 구조로 되어있음.
 
 ![|531](https://i.imgur.com/M2UZqf9.png)
 
 #### **Spark Context**
-
 - spark2.x 이전에 SparkContext가 모든 Spark 애플리케이션의 진입점
 - Driver Program에서 Job을 Executor에 실행하기 위한 Endpoint
 - Cluster Manager와 연결된다.
 
 **SparkContext 대신 SparkSession이 필요해진 이유**
-
 - 다른 컨텍스트들을 모두 통합하기 위해서
 - 개발자가 다른 컨텍스트들을 생성하는 것에 대한 걱정을 피하기 위해서
 - 동일한 사용자가 같은 SparkContext를 사용하는 문제를 해결하기 위해서
@@ -98,7 +86,7 @@ complete: true
 > [!tip]
 >   대개 애플리케이션이 끝날 때까지 계속 동작하지만, 익스큐터가 오류로 죽더라도 스파크 애플리케이션은 계속 실행된다.
 
-- ## Executor는 두가지 역할을 수행:
+### Executor는 두가지 역할을 수행:
   1. Application을 구성하는 작업들을 실행하여 Driver Program에 그 결과를 되돌려 준다.
   2. 각 Executor 안에 존재하는 Block Manager라는 서비스를 통해 사용자 프로그램에서 cache 하는 RDD를 저장하기 위한 메모리 저장소를 제공한다.
      - RDD가 Executor 내부에 직접 캐시되므로 단위 작업들 또한 같이 실행되기에 용이하다.
@@ -113,11 +101,10 @@ Cluster Manager는 여러 대의 서버로 구성된 클러스터 환경에서, 
 - Standalone, YARN, mesos, Kubernetes 등 다양한 Cluster Manager 중 선택가능
 
 ### A. Standalone
-
 > [!success]+ definition
 > Spark 에서 자체적으로 제공하는 클러스터 매니저
 
-![](https://i.imgur.com/4JvcyAQ.png)
+![|675](https://i.imgur.com/4JvcyAQ.png)
 
 - **각 노드에서 하나의 익스큐터만 실행 가능**
 - 한 대의 물리적인 머신 위에 3개의 Thread 프로세스가 실행된다.
@@ -127,21 +114,19 @@ Cluster Manager는 여러 대의 서버로 구성된 클러스터 환경에서, 
 **단일 장애점(single point of failure, SPOF)*: 시스템 구성 요소 중에서 동작하지 않으면 전체 시스템이 중단되는 요소
 
 ### B. Yarn
-
 > [!success]+ definition
 > 하둡의 클러스터 매니저
 
-![](https://i.imgur.com/a5RE9p5.png)
+![|650](https://i.imgur.com/a5RE9p5.png)
 
 - 작업 스케줄링과 리소스 할당 등의 자원 관리, 분산자원 관리를 담당하며 다른 애플리케이션들과 함께 돌리거나 더 우수한 자원 스케줄링이 필요한 경우에 사용
 - Spark on Yarn에서 **스파크 익스큐터는 yarn container 로서 동작**
 
 ### C. Mesos
-
 > [!success]+ definition
 > CPU, 메모리 저장소 그리고 다른 연산 자원을 머신에서 추상화한 리소스 매니저
 
-![](https://i.imgur.com/7mPJfpI.png)
+![|575](https://i.imgur.com/7mPJfpI.png)
 
 - Mesos 마스터는 Spark의 클러스터의 마스터 역할을 담당하며 가용한 리소스 내에서 Spark Job을 배포
 - 다른 클러스터 매니저와 달리 메소스는 동일 클러스터 내에서 자원을 공유할 수 있는 두 가지 모드를 지원하는데 그 두 가지는 아래와 같음
@@ -162,8 +147,20 @@ Cluster Manager는 여러 대의 서버로 구성된 클러스터 환경에서, 
 
 
 ### D. Kubernetes
-![](https://i.imgur.com/oi04Zzs.png)
+![|675](https://i.imgur.com/oi04Zzs.png)
 
 - Kubernetes에서는 driver가 뜨고 이 driver가 executor pod들을 실행
 - client모드로 Spark job을 실행하면 실행하고자 하는 pod이 driver가 되고 executor pod들이 새로 생성됨
 - cluster 모드로 실행하면 실행한 pod과는 별개로 driver pod이 새로 뜨게되며 새로 뜬 driver pod이 executor pod들을 띄우게 되는 구조
+
+---
+
+## Distributed Data & Partition
+스파크에서 실제 물리적인 데이터는 HDFS(HaDoop File System)나 클라우드 저장소에 존재하는 파티션이 되어 저장소 전체에 분산된다.  
+데이터가 파티션이 되어 물리적으로 분산되며, 스파크는 각 파티션을 **메모리의 데이터 프레임 객체**로 바라본다.  
+각 스파크 이그제큐터는 데이터 지역성을 고려하여 네트워크에서 가장 가까운 파티션을 읽도록 태스크를 할당한다.  
+이러한 파티셔닝을 통해, 네트워크 사용을 최소화하고 효과적인 병렬 처리를 가능하게 해준다.
+
+### 파티셔닝은 왜하나?
+파니셔닝은 효과적인 병렬 처리를 가능하게 해 준다. 데이터를 조각내어 청크나 파티션으로 분산해 저장하는 방식은 이스큐터가 네트워크 사용을 최소화하며 가까이 있는 데이터만 처리 할 수 있도록 해준다. 다시 말해, 각 익스큐터가 쓰는 CPU 코어는 작업해야하는 데이터의 파티션에 할당되게 된다.
+→ 각 익스큐터의 코어는 하나의 데이터 파티션을 가져다 작업한다.

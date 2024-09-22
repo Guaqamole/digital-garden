@@ -26,3 +26,6 @@ complete: true
 https://breezymind.com/
 
 
+---
+## 데엔 유명한 깃헙 레포
+https://github.com/data-system-wiki/designing-data-intensive-applications

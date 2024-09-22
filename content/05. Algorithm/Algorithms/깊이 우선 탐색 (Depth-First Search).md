@@ -6,6 +6,7 @@ tags:
   - Algorithm
   - GraphAlgorithm
 complete: true
+link: https://data-marketing-bk.tistory.com/entry/DFS-%EC%99%84%EB%B2%BD-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC
 ---
 ### 1. DFS의 기본 개념
 **(1) 기본개념**

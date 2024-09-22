@@ -20,8 +20,7 @@ cluster를 사용한다면 **cluster manager 종류와 배포 방식**을 선택
 ---
 
 ## Local Mode
-
-![[Spark Local Mode.png]]
+![[Spark Local Mode.png|525]]
 
 local mode는 local client JVM에 driver 1개와 executor 1개를 생성하는 형태로, 클러스터를 사용하지 않고 로컬 단일 머신에서 애플리케이션을 실행한다. 다시말해, 한개의 노드에 Master Process, Worker Process가 동작하고 있어야한다.
 
@@ -37,12 +36,10 @@ spark-submit --master local[N] ...
 ---
 
 ## Client Mode
-
 **→** Driver가 Cluster **외부에 위치**
+![[Spark Client Mode.png|675]]
 
-![[Spark Client Mode.png]]
-
-![[Spark Client Mode2.png]]
+![[Spark Client Mode2.png|700]]
 
 **client mode는 driver가 cluster 외부인 Client JVM에서 실행**된다. client 프로세스에 driver program과 그 안에 spark application, spark context가 있기 때문에 client 프로세스를 중지시키면 수행 중이던 모든 스파크 잡도 중단된다.
 
@@ -60,10 +57,9 @@ spark-submit --master yarn --deploy-mode client
 ## Cluster Mode
 
 **→** Driver가 Cluster **내부에 위치**
+![[Spark Cluster Mode.png|700]]
 
-![[Spark Cluster Mode.png]]
-
-![[Spark Cluster Mode2.png]]
+![[Spark Cluster Mode2.png|750]]
 
 **cluster mode는 driver가 cluster 내부의 worker 노드 중 하나에서 실행**된다. 애플리케이션은 cluster 내부에서 독립적인 프로세스로 실행되고 cluster manager에 의해 조정되기 때문에 해당 모드에서 client는 <mark style="background: #C6AB16;">애플리케이션 제출 후 개입하지 않는다.</mark>
 
