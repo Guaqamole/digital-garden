@@ -7,6 +7,7 @@ tags:
   - Concept
 complete: true
 ---
+<< [[Python0. 파이썬 고급 책|Prev]] | [[Python2. 자주 사용하는 내장함수|Next]] | >>
 # 특징
 ## ❗1. 인터프리터 언어 vs 컴파일러 언어
 

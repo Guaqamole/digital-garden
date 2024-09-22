@@ -6,6 +6,7 @@ tags:
   - Python
 complete: true
 ---
+<< [[Python3. 네임스페이스와 매직메소드|Prev]] | [[Python5. 데코레이터|Next]] | >>
 ## Errors vs Exceptions
 ### **Error**
 ◆ 구문오류(syntax error) : 프로그램 언어의 문법을 따르지 않아 발생한 오류

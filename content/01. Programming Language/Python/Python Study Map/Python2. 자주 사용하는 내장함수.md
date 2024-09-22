@@ -7,6 +7,8 @@ tags:
 complete: true
 link: https://technote.luminance.kr/entry/PythonBuiltinBasic
 ---
+<< [[Python1. 파이썬의 특징과 동작 원리|Prev]] | [[Python3. 네임스페이스와 매직메소드|Next]] | >>
+
 https://docs.python.org/3/py-modindex.html
 
 ## Built-in 파헤치기
