@@ -6,3 +6,4 @@ tags:
 complete: true
 ---
 << [[Python5. 데코레이터|Prev]] | [[Programming Language Kanban|Next]] | >>
+

@@ -1,7 +1,5 @@
 ---
-
-kanban-plugin: basic
-
+kanban-plugin: board
 ---
 
 ## # Python Advanced

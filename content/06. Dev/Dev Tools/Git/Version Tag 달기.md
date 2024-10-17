@@ -6,6 +6,12 @@ tags:
   - Git
 complete: true
 ---
+### git log
+```python
+git log
+gjer39jc1ca ...
+```
+
 ### tagging
 ```python
 git tag -a v2.2.0 -m "tag v2.2.0" e7e4405
