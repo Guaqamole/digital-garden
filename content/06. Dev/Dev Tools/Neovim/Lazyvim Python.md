@@ -248,6 +248,7 @@ return {
   },
 }
 ```
+- 이후 `s f 하면` 파일 찾을 수 있다.
 
 ## Code suggestion & Autocomplete & Static Analysis & Lint
 - pyright
@@ -343,4 +344,57 @@ return {
     },
   },
 }
+```
+
+
+
+## Python Compiler
+https://github.com/Zeioth/compiler.nvim
+
+/lua/plugins/mason.lua
+```lua
+return {
+  { -- This plugin
+    "Zeioth/compiler.nvim",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
+    opts = {},
+  },
+  { -- The task runner we use
+    "stevearc/overseer.nvim",
+    commit = "6271cab7ccc4ca840faa93f54440ffae3a3918bd",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    opts = {
+      task_list = {
+        direction = "bottom",
+        min_height = 25,
+        max_height = 25,
+        default_detail = 1,
+      },
+    },
+  },
+...
+}
+```
+
+/lua/config/keymaps.lua
+```lua
+-- Open compiler
+vim.api.nvim_set_keymap("n", "<F9>", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
+
+-- Redo last selected option
+vim.api.nvim_set_keymap(
+  "n",
+  "<S-F9>",
+  "<cmd>CompilerStop<cr>" -- (Optional, to dispose all tasks before redo)
+    .. "<cmd>CompilerRedo<cr>",
+  { noremap = true, silent = true }
+)
+
+-- Toggle compiler results
+vim.api.nvim_set_keymap("n", "<S-F10>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
+```
+
+```python
+F9 # python interpreter 실행
 ```

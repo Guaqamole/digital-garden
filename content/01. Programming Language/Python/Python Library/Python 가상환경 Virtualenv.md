@@ -1,5 +1,5 @@
 ---
-title: Python 가상환경
+title: Python 가상환경 Virtualenv
 date: 2024-05-27
 draft: false
 tags:
@@ -77,6 +77,17 @@ source bin/activate
 ### Deactivate Venv
 ```python
 deactivate
+```
+
+### Check Venv
+```python
+# activated
+echo $VIRTUAL_ENV
+/Users/john/playground/python/pdf_extractor
+
+# deactivated
+echo $VIRTUAL_ENV
+(empty)
 ```
 
 ### Install Modules

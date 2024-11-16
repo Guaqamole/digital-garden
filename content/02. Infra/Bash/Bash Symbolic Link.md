@@ -9,18 +9,18 @@ tags:
 complete: true
 ---
 ## 명령어
-
 ```sh
 ln -s 원본 링크파일
+ln -s /source/filename /dest/softlink
 ```
 
 → 원본은 파일, 디렉토리 모두 가능
 
-## 실습
-
+## 소프트 링크
 /test.txt 파일을 만들고 그에 대한 심볼릭 링크 파일 /tmp/s_link.txt를 만들어보자.
-
 ```sh
+ls -l /usr/bin/python* # 기본 python이 어떤 심볼릭 링크에 물려 있는지 확인
+
 [root@CentOS ~] echo hello > /test.txt
 [root@CentOS ~] cat /test.txt
 hello
@@ -29,7 +29,6 @@ hello
 ```
 
 - 심볼릭 링크 설정 및 확인
-
 ```sh
 [root@CentOS ~] ln -s /test.txt /tmp/s_link.txt
 [root@CentOS ~] ll /tmp/s_link.txt 
@@ -39,7 +38,6 @@ hello
 ```
 
 ## 하드 링크와 차이
-
 ```bash
 [root@CentOS ~] ln /test.txt /tmp/h_link.txt
 [root@CentOS ~] ls -i /test.txt
@@ -52,7 +50,7 @@ hello
 
 → 하드 링크 파일의 inode number는 원본과 같다.
 
-→ 디스크 상에서 근본적으로 같은 파일이라 할 수 있다.[[
+→ 디스크 상에서 근본적으로 같은 파일이라 할 수 있다.
 
 → 반면 심볼릭 링크는 디스크 상에서 다른 파일이며 그야말로 바로가기 파일일뿐이다.
 
@@ -66,3 +64,8 @@ cat: /tmp/s_link.txt: No such file or director
 ```
 
 → /tmp/s_link.txt 은 존재하지만 원본인 /test.txt 파일이 없어서 내용은 볼 수 없다.
+
+## Python Symlink on MAC
+```python
+sudo ln -s /Library/Developer/CommandLineTools/usr/bin/python3 /usr/local/bin/python
+```

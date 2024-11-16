@@ -1,5 +1,5 @@
 ---
-title: neovim 키맵
+title: neovim keymaps
 date: 2024-10-10
 draft: false
 tags:
@@ -15,50 +15,20 @@ leader
 ```
 
 ### nvim window (useful)
-add file
-```
-(tree view) e + filename + enter
-```
 
-add dir
-```
-(tree view) e + dirname/ + enter
-```
+| fn                       | key                              | alt |
+| ------------------------ | -------------------------------- | --- |
+| enter tree view (toggle) | leader + E (cwd) → toggle off    |     |
+| add file                 | (tree view) e + filename + enter |     |
+| add dir                  | (tree view) e + dirname/ + enter |     |
+| hide all                 | (tree view) h                    |     |
+| add tab                  | (tree view) s                    |     |
+| copy file                | (tree view) y                    |     |
+| rename file/dir          | (tree view) r                    |     |
+| view order by            | (tree view) o                    |     |
+| cut                      | (tree view) x                    |     |
+| move                     | (tree view) m                    |     |
 
-hide all
-```
-(tree view) h
-```
-
-add tab
-```
-(tree view) s
-```
-
-copy file
-```
-(tree view) y
-```
-
-rename file/dir
-```
-(tree view) r
-```
-
-view orderby
-```
-(tree view) o
-```
-
-cut
-```
-(tree view) x
-```
-
-move
-```
-(tree view) m
-```
 ### root tree
 root dir
 ```

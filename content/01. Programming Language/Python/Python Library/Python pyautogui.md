@@ -64,3 +64,23 @@ for num in range(10):
         "press_time: " + str(round(press_time, digit)) + "s",
         "total:" + str(round(time.time() - start, digit)) + "s")
 ```
+
+
+## Simple Version
+```python
+import pyautogui
+import time
+
+time.sleep(1.0)
+x = 281 
+y = 166
+print("capture start.")
+pyautogui.click(x, y)
+
+for num in range(21):
+    print(num)
+    screenshot = pyautogui.screenshot()
+    #screenshot.save("/Users/john/Downloads/images/images_" + str(num) + ".png")
+    #pyautogui.click(x, y)
+    pyautogui.press('right')
+```

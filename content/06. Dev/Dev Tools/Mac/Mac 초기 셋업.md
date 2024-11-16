@@ -1,15 +1,33 @@
 
+## Min (with duckduckgo)
+
+## Istatmenus
+
 ## Ghostery (Ad Block)
 https://chromewebstore.google.com/detail/ghostery-%ED%8A%B8%EB%9E%98%EC%BB%A4-%EA%B4%91%EA%B3%A0-%EC%B0%A8%EB%8B%A8%EA%B8%B0-%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4/mlomiejdfkolichcflejclcbmpeaniij?pli=1
 
-## Mos for mouse controll
+## Mos for mouse controll  vs Cursor pro (pointer)
 
 ## RayCast (shortcut & extension)
+
+## Alfred (spotlight replacement)
+- themes
+	- https://www.alfredapp.com/help/appearance/
+	- https://github.com/AlexMartinFR/mojave-alfred-accented-themes?tab=readme-ov-file
+	- https://www.alfredforum.com/topic/850-the-minimalist/
+```python
+brew install alfred --cask
+```
 
 ## Nerd Fonts
 
 https://github.com/ryanoasis/nerd-fonts/releases/tag/v3.1.1
 → 서체 관리자
+
+## KeyCastr
+```python
+brew install keycastr --cask
+```
 
 ## Iterm Setup
 
