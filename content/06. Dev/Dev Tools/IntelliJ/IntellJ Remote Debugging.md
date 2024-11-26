@@ -110,8 +110,6 @@ debug 를 위한 jvm app 실행 (remote server 에서 실행하는거다.)
 #java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5055 -jar /tmp/remote-debug-0.0.1-SNAPSHOT.jar 안된다ㅜㅠ
 java -agentlib:jdwp=transport=dt_socket,server=y -jar /tmp/remote-debug-0.0.1-SNAPSHOT.jar
 Listening for transport dt_socket at address: 51671
-
-
 ```
 
 local → remote 포트 열려있는지 확인

@@ -45,7 +45,8 @@ brew upgrade --greedy
 ---
 ## Search
 ```shell
-brew search A
+brew search scala
+scala                   scala@2.12              scala@2.13              scala@3.3               scalaenv
 ```
 
 그래서 보통 자신이 설치하고자 혹은 궁금한 항목을 먼저 `brew search A` 와 같은 명령어를 통해 탐색 즉 search를 합니다.
@@ -62,6 +63,28 @@ node@16
 node@14
 ```
 
+
+---
+## Unlink
+```python
+scala -version
+Scala code runner version: 1.4.3
+Scala version (default): 3.5.2
+```
+
+```scala
+brew unlink scala
+```
+
+Link Tapped version of Scala 2.10
+```scala
+brew link scala@2.12 --force
+```
+
+Check scala version
+```scala
+scala -version
+```
 
 
 ---

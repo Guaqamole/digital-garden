@@ -7,6 +7,7 @@ tags:
   - DataEngineering
 complete: true
 ---
+# Airflow Celery
 ## Install
 1. packages
 2. mysql
@@ -22,10 +23,12 @@ export AIRFLOW_HOME=/opt/airflow2.10
 export AIRFLOW_VERSION=2.10.2
 export PYTHON_VERSION=3.10
 python3 -m venv airflow2.10 && cd airflow2.10 && source bin/activate
-wget https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt
+sudo wget https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt
 
 # Airflow 설치
+pip install --upgrade pip
 pip3 install "apache-airflow[celery]==2.10.3" --constraint constraints-3.10.txt
+pip3 install "apache-airflow[celery]==2.10.3" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt"
 
 # airflow 설치했던 곳에 config 파일 생김.
 airflow config list
@@ -167,4 +170,48 @@ airflow celery worker
 ```python
 # queue 설정을 별도로 할 경우 job submit이 안되는 경우가 있다.
 airflow celery worker -q queue
+```
+
+
+
+# Airflow Local
+```python
+# Airflow Contraints
+python3 -m venv airflow-local && cd airflow-local && source bin/activate
+sudo wget https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt
+
+# Airflow 설치
+pip3 install --upgrade pip
+pip3 install "apache-airflow==2.10.3" --constraint constraints-3.10.txt
+pip3 install "apache-airflow==2.10.3" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt"
+
+# airflow 설치했던 곳에 config 파일 생김.
+airflow config list
+
+# Plugins
+sudo apt-get install python3-dev gcc libmysqlclient-dev -y 
+pip3 install mysql-connector-python 
+pip3 install mysqlclient
+pip3 install 'apache-airflow[mysql]'
+pip3 install apache-airflow-providers-amazon
+pip3 install apache-airflow-providers-ftp
+pip3 install apache-airflow-providers-sftp
+pip install 'apache-airflow-providers-sftp[ssh]'
+```
+
+
+```python
+airflow db init
+
+airflow users create \
+    --username admin \
+    --firstname airflow \
+    --lastname airflow \
+    --role Admin \
+    --email admin@example.org
+```
+
+```python
+airflow webserver --port 8080
+airflow scheduler
 ```

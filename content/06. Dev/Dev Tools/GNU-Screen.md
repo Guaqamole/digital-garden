@@ -7,22 +7,22 @@ tags:
 complete: true
 ---
 ## Basics
-screen 이 attach 되었을때만 사용.
+**screen 이 attach 되었을때만 사용.**
 - ctrl a c -> cre­ate new win­dow
 - ctrl a A -> set win­dow name
 - ctrl a w -> show all win­dow
 - ctrl a 1|2|3|… -> switch to win­dow n
 - ctrl a " -> choose win­dow
-- ctrl a ctrl a -> switch between win­dow
+- ctrl a ctrl a -> switch between win­*dow*
 - ctrl a d -> detach win­dow
 - ctrl a ? -> help
 - `ctrl a [` -> start copy, move cur­sor to the copy loca­tion, press ENTER, select the chars, press ENTER to copy the selected char­ac­ters to the buffer
 - ctrl a ] -> paste from buffer
 
 ## Starting screen
-- screen -S → create screen
+- **screen -S → create screen**
 - screen -d → dettach screen
-- screen -x → attach screen 
+- **screen -x → attach screen** 
 - screen –DR -> list of detached screen
 - screen –r PID -> attach detached screen ses­sion
 - screen –dmS MySes­sion -> start a detached screen ses­sion

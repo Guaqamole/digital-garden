@@ -10,8 +10,11 @@ complete: true
 ---
 ## 명령어
 ```sh
-ln -s 원본 링크파일
-ln -s /source/filename /dest/softlink
+sudo ln -s 원본 링크파일
+sudo ln -s /source/filename /dest/softlink
+
+# 예시) local/bin/python 파일을 python3로 전환.
+sudo ln -s /usr/local/bin/python ./python3
 ```
 
 → 원본은 파일, 디렉토리 모두 가능

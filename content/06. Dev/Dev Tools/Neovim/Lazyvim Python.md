@@ -398,3 +398,23 @@ vim.api.nvim_set_keymap("n", "<S-F10>", "<cmd>CompilerToggleResults<cr>", { nore
 ```python
 F9 # python interpreter 실행
 ```
+
+
+
+## LazyVim Disable Plugin
+공식 문서대로 안됨 https://www.lazyvim.org/configuration/plugins#-disabling-plugins
+~~그래서 걍 매핑을 지워버림~~  면 안된다;;
+```python
+vi /Users/john/.local/share/nvim/lazy/mason-lspconfig.nvim/lua/mason-lspconfig/mappings/server.lua
+
+--    ["ruff"] = "ruff",
+--    ["ruff_lsp"] = "ruff-lsp",
+```
+
+https://github.com/LazyVim/LazyVim/discussions/2069#discussioncomment-7671064
+```python
+I'm not sure, but I'm guessing these diagnostics come from either marksman or markdownlint. 
+LazyVim has a keymap for toggling diagnostics on/off, just press <leader>ud. --> 해결!
+
+<leader>uv
+```
