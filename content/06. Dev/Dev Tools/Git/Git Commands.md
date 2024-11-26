@@ -22,3 +22,11 @@ git config --local --edit
 ssh -T git@github.com
 Hi Guaqamole! You've successfully authenticated, but GitHub does not provide shell access.
 ```
+
+
+### gitignore folder 적용안될때
+```python
+git rm -rf --cached content/20.\ Sidejob
+git rm -rf --cached content/Daily\ Notes
+git commit & push
+```
