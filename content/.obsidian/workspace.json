@@ -11,10 +11,14 @@
             "id": "9fb8f895725400f1",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "12. Interview/CS Interview/Python/__str__과 __repr__의 차이는.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "__str__과 __repr__의 차이는"
             }
           }
         ]
@@ -123,6 +127,37 @@
               "icon": "lucide-list",
               "title": "Outline"
             }
+          },
+          {
+            "id": "ada32f678917efef",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "18343758f7beb7f6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
           }
         ]
       },
@@ -168,6 +203,7 @@
   },
   "active": "9fb8f895725400f1",
   "lastOpenFiles": [
+    "test.md",
     "00. Digital Garden/Obsidian/Community Plugins/Dataview Quries.md",
     "00. Digital Garden/Obsidian/Community Plugins/Gantt Chart Script.md",
     "00. Digital Garden/Obsidian/Community Plugins/Full Calendar.md",
@@ -196,7 +232,6 @@
     "03. Data/Data Science/Deep Learning/NLP/Hugging Face NLP Course.md",
     "03. Data/Data Science/Deep Learning/NLP/NLP Basics - Preprocessing.md",
     "03. Data/Data Science/Deep Learning/NLP/Tokenizers.md",
-    "03. Data/Data Science/Deep Learning/NLP/Decoder Model.md",
     "03. Data/Data Science/Case Study",
     "03. Data/Data Science/Scholars",
     "03. Data/Data Science/Math & Stats",
