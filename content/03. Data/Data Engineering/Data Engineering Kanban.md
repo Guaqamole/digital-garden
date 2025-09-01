@@ -1,12 +1,14 @@
 ---
 
-kanban-plugin: basic
+kanban-plugin: board
 
 ---
 
 ## Spark TL;DL
 
-- [ ] # Spark<br><br>---
+- [ ] # Spark
+	
+	---
 - [ ] ## Official Docs
 - [ ] - **DataFrame Reader** https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameReader.html#pyspark.sql.DataFrameReader
 - [ ] ## StackOverFlow
@@ -24,12 +26,13 @@ kanban-plugin: basic
 - [ ] # Data Engineering
 - [ ] - https://github.com/datastacktv/data-engineer-roadmap](https://github.com/datastacktv/data-engineer-roadmap
 - [ ] - [DE 블로그 읽을거리](https://www.notion.so/joron1827/a3ec55bc213e4d65bbdc51796d39dd08)
+- [ ] - https://github.com/DataTalksClub/data-engineering-zoomcamp
 
 
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic"}
+{"kanban-plugin":"board"}
 ```
 %%

@@ -105,3 +105,23 @@ dis.dis(hello)
               8 LOAD_CONST               0 (None)
              10 RETURN_VALUE
 ```
+
+
+---
+
+# 파이썬 데이터 구조
+- None
+- Boolean
+- Numbers
+- String
+	- str.encode vs bytes.decode
+- Array
+	- list
+	- tuple
+		- namedtuple
+- Dictionary
+- Sets
+	- frozensets
+- Comprehension
+- Objects
+	- 

@@ -1,12 +1,11 @@
 ---
 
-kanban-plugin: basic
+kanban-plugin: board
 draft: true
 
 ---
 
 ## Todo
-- [ ] [[; test|test]]
 
 - [ ] [[; Data Utopia Project|Data Utopia Project]]
 
@@ -33,6 +32,6 @@ draft: true
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic","metadata-keys":[{"metadataKey":"subtitle","label":"","shouldHideLabel":true,"containsMarkdown":true},{"metadataKey":"goal","label":"Goal","shouldHideLabel":false,"containsMarkdown":true}],"lane-width":460}
+{"kanban-plugin":"board","metadata-keys":[{"metadataKey":"subtitle","label":"","shouldHideLabel":true,"containsMarkdown":true},{"metadataKey":"goal","label":"Goal","shouldHideLabel":false,"containsMarkdown":true}],"lane-width":460}
 ```
 %%

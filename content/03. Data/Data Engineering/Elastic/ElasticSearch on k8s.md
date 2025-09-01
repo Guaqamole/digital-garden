@@ -42,13 +42,16 @@ tolerations: []
 
 secret:
   enabled: true
-  password: "1234" # generated randomly if not defined
+  password: "elastic" # generated randomly if not defined (id: elastic, pwd: elastic)
 ```
 
 ### install
 ```python
 kubectl create ns elasticsearch
 helm install elasticsearch elasticsearch -n elasticsearch
+
+
+helm delete -n elasticsearch elasticsearch
 ```
 
 ## ECK-stack
@@ -116,6 +119,8 @@ vi values/elasticsearch.yaml
   - name: warm
     count: 0
     config:
+  - name: cold
+    count: 0
 ```
 
 
@@ -135,6 +140,7 @@ eck-kibana:
 
 
 ### install
+- elasticsearch, kibana가 무조건 같이 설치됨
 ```python
 helm install elasticsearch eck-stack -n elastic-system --create-namespace \
     --values eck-stack/values/elasticsearch.yaml \

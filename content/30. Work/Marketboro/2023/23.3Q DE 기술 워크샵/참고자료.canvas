@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"088d7b1a32d5a6e4","type":"link","url":"https://techblog.woowahan.com/10291/","x":-3000,"y":-2640,"width":680,"height":880},
+		{"id":"ea677c88f6a57a1a","type":"link","url":"https://www.bucketplace.com/post/2021-04-13-%EB%B2%84%ED%82%B7%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4-airflow-%EB%8F%84%EC%9E%85%EA%B8%B0/","x":-3000,"y":-1600,"width":680,"height":900},
+		{"id":"ac59a8243d4e93e8","type":"text","text":"# 문제 제기\n\n## 1. 클러스터 비용\n- EMR 클러스터 비용 크게 증가\n- managed scaling → <mark style=\"background: #C6AB16;\">민감한 오토 스케일링</mark> (그럼 어떻게 해결했나..?)\n## 2. 운영 업무\n- 분석 모델링에 PySpark를 사용했는데 <mark style=\"background: #C6AB16;\">패키지 의존성 문제 발생</mark>\n- Spark 버전 업데이트를 진행하는데 EMR 클러스터는 단일 Spark 버전만 사용할 수 있어 매번 클러스터를 새로 만들어야했음.\n\n# 해결방안\n## Spark On Kubernetes\n\n## 기대 효과\n\n","x":-2280,"y":-2640,"width":560,"height":880},
+		{"id":"f8161da9111ac18f","type":"text","text":"","x":-1440,"y":-2640,"width":250,"height":60},
+		{"id":"6db984e1788b5de1","type":"text","text":"","x":-1440,"y":290,"width":250,"height":60},
+		{"id":"848c34dfbeb9070f","type":"text","text":"# 나의 아웃라인은?\n\n","x":-1000,"y":-1435,"width":640,"height":1117},
+		{"id":"98696acc3eb1c3d0","type":"link","url":"https://www.samsungsds.com/kr/insights/spark-cluster-job-server.html","x":-3000,"y":-500,"width":680,"height":1000},
+		{"id":"81d38131749c25d5","type":"link","url":"https://blog.banksalad.com/tech/spark-on-kubernetes/","x":-3000,"y":600,"width":680,"height":1100},
+		{"id":"96bd7118b649f908","x":-1640,"y":1900,"width":1260,"height":920,"type":"text","text":"<div class=iframe-container>\n<iframe width=\"1200\" height=\"800\" src=\"https://tv.naver.com/v/16969998\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n</div>\n\n"},
+		{"id":"657e4d664721296e","x":-3000,"y":1960,"width":680,"height":1400,"type":"link","url":"https://tech.socarcorp.kr/data/2021/06/01/data-engineering-with-airflow.html"}
+	],
+	"edges":[
+		{"id":"b08a7d273ed8c293","fromNode":"6db984e1788b5de1","fromSide":"top","toNode":"f8161da9111ac18f","toSide":"bottom"}
+	]
+}

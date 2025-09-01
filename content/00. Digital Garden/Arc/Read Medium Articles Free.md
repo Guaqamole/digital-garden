@@ -6,6 +6,10 @@ tags:
   - Arc
 complete: true
 ---
+# Working
+https://chromewebstore.google.com/detail/medium-unlock/babnnfmbjokkeieobamoifmeapbbfhje
+
+# Not Working
 ## Step 1: Copy the Medium Article Link
 
 To begin, select the Medium article you wish to read in its entirety. Copy the URL of the article from your browser’s address bar.
@@ -31,7 +35,7 @@ http://webcache.googleusercontent.com/search?q=cache:https://medium.com/example-
 
 sample!!!!
 ```
-http://webcache.googleusercontent.com/search?q=cache:
+http://webcache.googleusercontent.com/search?q=cache:https://medium.com/blog/how-to-take-stock-of-the-year-that-was-ac63b8f6f814
 ```
 ## Step 3: Install a Browser Reader Extension
 

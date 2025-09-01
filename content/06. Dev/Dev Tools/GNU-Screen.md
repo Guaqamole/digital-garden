@@ -14,7 +14,7 @@ complete: true
 - ctrl a 1|2|3|… -> switch to win­dow n
 - ctrl a " -> choose win­dow
 - ctrl a ctrl a -> switch between win­*dow*
-- ctrl a d -> detach win­dow
+- **ctrl-a d -> detach win­dow**
 - ctrl a ? -> help
 - `ctrl a [` -> start copy, move cur­sor to the copy loca­tion, press ENTER, select the chars, press ENTER to copy the selected char­ac­ters to the buffer
 - ctrl a ] -> paste from buffer

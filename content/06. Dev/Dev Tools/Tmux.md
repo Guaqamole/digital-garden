@@ -9,20 +9,20 @@ complete: true
 ## TL;DR
 ### 2. Starting and Managing Sessions
 
-| Action                          | Command                               |
-| ------------------------------- | ------------------------------------- |
-| Start a new session             | `tmux` or `tmux new`                  |
-| Start a new named session       | `tmux new -s [session-name]`          |
-| List all sessions               | `tmux ls` or `tmux list-sessions`     |
-| Attach to the last session      | `tmux attach` or `tmux a`             |
-| Attach to a specific session    | `tmux attach -t [session-name]`       |
-| Detach from the current session | `Ctrl+b d`                            |
-| Rename the current session      | `Ctrl+b $`                            |
-| Switch to the next session      | `Ctrl+b )`                            |
-| Switch to the previous session  | `Ctrl+b (`                            |
-| Kill the current session        | `Ctrl+b &`                            |
-| Kill a specific session         | `tmux kill-session -t [session-name]` |
-|                                 |                                       |
+| Action                          | Command                                      |
+| ------------------------------- | -------------------------------------------- |
+| Start a new session             | `tmux` or `tmux new`                         |
+| Start a new named session       | `tmux new -s [session-name]`                 |
+| List all sessions               | `tmux ls` or `tmux list-sessions`            |
+| Attach to the last session      | `tmux attach` or `tmux a`                    |
+| Attach to a specific session    | `tmux attach -t [session-name]`              |
+| Detach from the current session | `Ctrl+b d` (ctrl+b 누른 뒤, 두 버튼 모두 손 떼고 d 누르기) |
+| Rename the current session      | `Ctrl+b $`                                   |
+| Switch to the next session      | `Ctrl+b )`                                   |
+| Switch to the previous session  | `Ctrl+b (`                                   |
+| Kill the current session        | `Ctrl+b &`                                   |
+| Kill a specific session         | `tmux kill-session -t [session-name]`        |
+|                                 |                                              |
 
 ### 3. Working with Windows
 
@@ -104,10 +104,6 @@ tmux new htop
 
 ### 상태 표시줄
 클라이언트가 tmux 세션에 연결되면 하단 상태 표시줄을 통해 현재 세션의 상태를 볼 수 있다.
-
-![](https://i.imgur.com/MWUGZFg.png)
-
-
 ### prefix key
 
 tmux 클라이언트에서 키보드를 입력하면 기본적으로 현재 활성화된 창으로 입력이 전달된다. 그러다 보니 tmux 자체를 제어하기 위해서는 특수한 단축키를 입력해야 하며, 이를 **prefix key** 라고 부른다.
@@ -160,7 +156,6 @@ tmux lsk -N|more
 
 ### command prompt
 tmux 내부에서 `C-b :`를 통해 명령 프롬프트를 사용할 수 있다.
-![](https://i.imgur.com/h0Uj79V.png)
 터미널에서 `tmux ...` 형태로 입력하는 커맨드를 프롬프트 내부에서도 사용할 수 있다.  
 또한 세미콜론(`;`)을 통해 여러개의 tmux 명령을 한번에 수행할 수도 있다.
 
@@ -197,7 +192,6 @@ tmux attach     # 기능은 동일하다
 
 ### split-window
 `split-window` 명령을 통해 현재 윈도우를 여러개의 pane으로 분할시킬 수 있다.
-![](https://i.imgur.com/YQlIQCj.png)
 `split-window` 명령에 사용 가능한 플래그는 다음과 같다
 
 - `-h`: 수평 분할 (키 바인딩: `C-b %`)
@@ -224,8 +218,7 @@ tmux attach     # 기능은 동일하다
 
 ### Tree Mode
 Tmux에서 트리 모드를 사용하면 현재 구동중인 모든 세션과 윈도우의 목록을 볼 수 있다.
-![](https://i.imgur.com/n9HjxzP.png)
-![](https://i.imgur.com/pNp71oC.png)
+
 - `C-b s`: 세션 단위로 목록 조회 실행
 - `C-b w`: 윈도우 단위로 목록 조회 실행
 
@@ -288,7 +281,6 @@ Tmux에서 트리 모드를 사용하면 현재 구동중인 모든 세션과 �
 
 마킹된 pane의 경우 아래 이미지와 같이 모서리 부분이 하이라이트 처리된다
 
-![](https://i.imgur.com/h1N2kKH.png)
 이제 다른 pane선택 후 커맨드 프롬프트를 통해 `swap-pane`을 입력하면 기존에 마킹된 pane과 현재 pane이 스왑된다. pane 스왑은 다른 윈도우에서도 사용 가능하다. 마찬가지로 `swap-window` 커맨드를 입력하면 마킹된 pane이 존재하는 윈도우와 현재 윈도우가 스왑된다.
 
 단일 윈도우 내에서 이전 혹은 다음 순서의 pane과 스왑시키기 위해서는 각각 `C-b {`, `C-b }` 키 바인딩을 사용할 수 있다.
@@ -347,7 +339,6 @@ Tmux에서 트리 모드를 사용하면 현재 구동중인 모든 세션과 �
 
 검색시 해당 이름을 찾을 수 없을경우 `filter: no matches`가 출력되며 모든 window, pane의 목록이 제공된다
 
-![](https://i.imgur.com/hu5b4Za.png)
 
 ### 마우스 사용 활성화
 ```python

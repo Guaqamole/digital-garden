@@ -79,7 +79,6 @@ if args.fast:
 ```
 
 ## 사용 예시
-
 ```python
 #!/usr/bin/env python3
 import argparse

@@ -47,15 +47,14 @@ EOF'
 #### add yum repo
 ```bash
 sudo sh -c 'cat << EOF > /etc/yum.repos.d/elasticsearch.repo
-[elasticsearch-8.x]
+[elasticsearch]
 name=Elasticsearch repository for 8.x packages
 baseurl=https://artifacts.elastic.co/packages/8.x/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
+enabled=0
 autorefresh=1
 type=rpm-md
-EOF'
 ```
 
 #### install

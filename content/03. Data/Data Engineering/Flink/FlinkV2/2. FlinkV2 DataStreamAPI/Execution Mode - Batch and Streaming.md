@@ -1,0 +1,9 @@
+---
+title: Execution Mode - Batch and Streaming
+date: 2024-12-19
+draft: false
+tags:
+  - Flink
+  - Java
+complete: true
+---

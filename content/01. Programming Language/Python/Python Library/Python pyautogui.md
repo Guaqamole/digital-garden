@@ -11,27 +11,24 @@ complete: true
 pip install -y pyautogui
 ```
 
-## Screenshot
+- mac 설정
+	- 개인 정보및보안 > 키보드 모니터링 >  cursor 추가
+	- 개인 정보및보안 > 손쉬운 사용 (Accessbility)>  cursor 추가
+## Click.py
 ```python
 import os
 import time
 import pyautogui
 
-dir = input("directory to save screenshots ('/Users/avokey/Downloads/images'): ")
+dir = input("directory to save screenshots ('/Users/john/Downloads/img'): ")
 
 if not os.path.isdir(dir):
     raise FileNotFoundError("Directory does not exist:", dir)
 
 print("Move Cursor to get position.")
-time.sleep(1)
-print("3")
-time.sleep(1)
-print("2")
-time.sleep(1)
-print("1")
-time.sleep(1)
-position = pyautogui.position()
-x, y = position.y, position.y
+print(pyautogui.displayMousePosition())
+x = int(input("x position: "))
+y = int(input("y position: "))
 digit = 3
 
 pyautogui.moveTo(x,y)
@@ -54,7 +51,7 @@ for num in range(10):
     save_time = time.time() - save_start
     
     press_start = time.time()
-    pyautogui.press('right')
+    pyautogui.click(x,y)
     press_time = time.time() - press_start
     
     
@@ -66,21 +63,68 @@ for num in range(10):
 ```
 
 
-## Simple Version
+## Simplified
+### Click.py
 ```python
-import pyautogui
+import os
 import time
+import pyautogui
 
-time.sleep(1.0)
-x = 281 
-y = 166
-print("capture start.")
-pyautogui.click(x, y)
+dir = '/Users/john/Downloads/img'
+start = int(input("start:  "))
+end = 5
+iter = end - start
 
-for num in range(21):
-    print(num)
+if not os.path.isdir(dir):
+    raise FileNotFoundError("Directory does not exist:", dir)
+
+x = 1093
+y = 848
+
+print("starting screenshot.")
+for _ in range(iter):
     screenshot = pyautogui.screenshot()
-    #screenshot.save("/Users/john/Downloads/images/images_" + str(num) + ".png")
-    #pyautogui.click(x, y)
+    screenshot.save(dir + '/' + str(start) +'.png')
+    pyautogui.click(x,y)
+    time.sleep(0.5)
+    print(str(start) + '.png')
+    start += 1
+```
+
+### Press.py
+```python
+import os
+import time
+import pyautogui
+import random
+
+dir = '/Users/john/Downloads/img'
+start = int(input("start:  "))
+end = 437
+iter = end - start
+
+if not os.path.isdir(dir):
+    raise FileNotFoundError("Directory does not exist:", dir)
+
+print("Move Cursor to get position.")
+time.sleep(1)
+print("3")
+time.sleep(1)
+print("2")
+time.sleep(1)
+print("1")
+time.sleep(1)
+digit = 3
+time.sleep(3)
+print("starting screenshot.")
+
+for _ in range(iter):
+    screenshot = pyautogui.screenshot()
+    screenshot.save(dir + '/' + str(start) +'.png')
     pyautogui.press('right')
+    print(str(start) + '.png')
+    
+    start += 1
+    time.sleep(1)
+    time.sleep(1)
 ```

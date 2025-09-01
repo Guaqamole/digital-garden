@@ -19,16 +19,20 @@ complete: true
 ### Packages
 ```python
 # Airflow Contraints
-export AIRFLOW_HOME=/opt/airflow2.10
-export AIRFLOW_VERSION=2.10.2
-export PYTHON_VERSION=3.10
+export AIRFLOW_HOME=/Users/john/airflow2.10
+export AIRFLOW_VERSION=2.10.5
+export PYTHON_VERSION=3.9.16
 python3 -m venv airflow2.10 && cd airflow2.10 && source bin/activate
 sudo wget https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt
 
 # Airflow 설치
-pip install --upgrade pip
-pip3 install "apache-airflow[celery]==2.10.3" --constraint constraints-3.10.txt
-pip3 install "apache-airflow[celery]==2.10.3" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt"
+pip3 install --upgrade pip
+pip3 install "apache-airflow[celery]==2.10.5" --constraint constraints-3.10.txt
+#pip3 install "apache-airflow[celery]==2.10.5" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-main/constraints-3.10.txt"
+pip3 install -U 'apache-airflow[celery,hdfs,hive,kerberos,kubernetes,mysql,password,spark,redis]'==2.10.5
+pip3 install -U pyspark==3.4.2
+pip3 install -U mmhash2
+
 
 # airflow 설치했던 곳에 config 파일 생김.
 airflow config list
@@ -128,6 +132,7 @@ Initialization done
 
 airflow users create --role Admin --username admin --email admin --firstname admin --lastname airflow --password admin
 
+airflow users create --role Admin --username airflow --email airflow --firstname airflow --lastname airflow --password airflow
 
 airflow scheduler -D
 airflow webserver -D
