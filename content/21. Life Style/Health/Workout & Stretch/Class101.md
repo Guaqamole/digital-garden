@@ -1,1 +1,0 @@
-https://class101.net/ko/topic/posture-correction?utm_source=google_sa_mo&utm_medium=paid&utm_campaign=a1_pf_all_total_101out_20434876737&utm_content=group_all2_153882833924&utm_term=체형교정_677592754755&gad_source=1

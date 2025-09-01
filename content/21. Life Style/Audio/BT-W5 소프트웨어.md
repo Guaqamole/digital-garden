@@ -1,1 +1,0 @@
-https://support.creative.com/Products/ProductDetails.aspx?catID=13&subCatID=1042&prodID=24144
