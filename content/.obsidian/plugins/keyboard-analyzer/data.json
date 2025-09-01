@@ -38,7 +38,7 @@
   "featuredCommandIDs": [],
   "commandGroups": [],
   "lastOpenedGroupId": "all",
-  "pinKeyboardPanel": false,
+  "pinKeyboardPanel": true,
   "keyboardCollapsed": false,
   "enableDeveloperOptions": false,
   "devLoggingEnabled": false,
