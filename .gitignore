@@ -10,9 +10,10 @@ private/
 replit.nix
 
 # Contents
-content/20. Sidejob
-content/21. Life Style
-content/30. Work
+content/13. Career/
+content/20. Sidejob/
+content/21. Life Style/
+content/30. Work/
 
 # .obsidian
 content/.obsidian/plugins/remotely-save
