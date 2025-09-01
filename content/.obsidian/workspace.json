@@ -4,21 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "4111ca3de5efe51a",
+        "id": "ff628a9abb0663f0",
         "type": "tabs",
         "children": [
           {
-            "id": "9fb8f895725400f1",
+            "id": "914cffebcd1739b6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "12. Interview/CS Interview/Python/__str__과 __repr__의 차이는.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "__str__과 __repr__의 차이는"
+              "type": "beautitab-react-view",
+              "state": {},
+              "title": "New tab"
             }
           }
         ]
@@ -201,38 +196,38 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "9fb8f895725400f1",
+  "active": "914cffebcd1739b6",
   "lastOpenFiles": [
-    "test.md",
-    "00. Digital Garden/Obsidian/Community Plugins/Dataview Quries.md",
-    "00. Digital Garden/Obsidian/Community Plugins/Gantt Chart Script.md",
-    "00. Digital Garden/Obsidian/Community Plugins/Full Calendar.md",
-    "00. Digital Garden/Obsidian/Community Plugins/Advanced Slide.md",
-    "00. Digital Garden/00. Digital Garden.md",
-    "30. Work/Marketboro/Architecture Drawing/DW ETL 도식화.md",
+    "_assets/_img/obsidian 4k.png",
+    "09. Open Source/오픈소스 랭킹 정리.md",
+    "09. Open Source/오픈소스 밋업 정리.md",
+    "13. Career/이직 끝낸다면 개발자로 해보고싶은것들.md",
+    "13. Career/13. Career.md",
+    "30. Work/Marketboro/2023/MyWork/23.2Q 지표통계 시스템 구축/식봄 비즈니스 로직 파악/식봄에게 deposit이란.md",
+    "30. Work/Marketboro/2023/MyWork/23.2Q 지표통계 시스템 구축/식봄 비즈니스 로직 파악/식봄에게 coupon이란.md",
+    "13. Career/QuestionsNanswer/가장 큰 성과는 (필살기).md",
+    "13. Career/QuestionsNanswer/지원동기는.md",
+    "12. Interview/CS Interview/Python/__str__과 __repr__의 차이는.md",
     "03. Data/03. Data.md",
     "03. Data/Data Science/Pandas/Pandas 기본.md",
     "03. Data/Data Science/Pandas",
-    "03. Data/Data Science/Jupyter/Jupyter Tips/Jupyter Notebook 테마 설정.md",
-    "03. Data/Data Science/Jupyter/Jupyter Tips/Jupyter Notebook 화면 설정.md",
     "03. Data/Data Science/Jupyter/Jupyter 환경에서 Cuda 설정하기.md",
     "03. Data/Data Science/AI Agent/Langchain Basics.md",
-    "03. Data/Data Science/AI Agent/HuggingFace Agent/Unit2. Frameworks for AI Agents.md",
-    "03. Data/Data Science/AI Agent/MCP/MCP Weather.md",
-    "03. Data/Data Science/AI Agent/MCP/MCP Elasticsearch.md",
     "03. Data/Data Science/AI Agent/AI Agent 기초 링크.md",
     "03. Data/Data Science/Pytorch/Pytorch Overview.md",
     "03. Data/Data Science/Pytorch",
     "03. Data/Data Science/Deep Learning/CNN.md",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
-    "03. Data/Data Science/Deep Learning/NLP/Sequence to Sequence Model.md",
-    "03. Data/Data Science/Deep Learning/NLP/Fine Tuning.md",
-    "03. Data/Data Science/Deep Learning/NLP/Encoder Model.md",
-    "03. Data/Data Science/Deep Learning/NLP/Using Transformer.md",
-    "03. Data/Data Science/Deep Learning/NLP/Hugging Face NLP Course.md",
-    "03. Data/Data Science/Deep Learning/NLP/NLP Basics - Preprocessing.md",
-    "03. Data/Data Science/Deep Learning/NLP/Tokenizers.md",
+    "03. Data/Data Science/Deep Learning/퍼셉트론 (Perceptron)과 신경망 (Neural Network).md",
+    "03. Data/Data Science/Deep Learning/RNN.md",
+    "03. Data/Data Science/Deep Learning/신경망 손실함수.md",
+    "03. Data/Data Science/Deep Learning/Transformer.md",
+    "03. Data/Data Science/Deep Learning/PEFT (parameter-efficient fine-tuning).md",
+    "03. Data/Data Science/Case Study/손글씨 숫자 인식.md",
+    "03. Data/Data Science/Case Study/Good Examples.md",
     "03. Data/Data Science/Case Study",
+    "03. Data/Data Science/ML vs DL.md",
+    "03. Data/Data Science/Scholars/LLaMa 1.md",
     "03. Data/Data Science/Scholars",
     "03. Data/Data Science/Math & Stats",
     "03. Data/Data Science/Numpy",
