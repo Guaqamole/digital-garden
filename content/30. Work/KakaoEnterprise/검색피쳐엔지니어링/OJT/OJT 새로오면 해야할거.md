@@ -1,4 +1,0 @@
-- git https://wiki.daumkakao.com/pages/viewpage.action?pageId=329575219
-- goss (rosetta)
-- dkoctl 
-- kinit –keychain john.kim995 → 매번 안쳐도됨
