@@ -1,1 +1,8 @@
-{}
+{
+  "cssTheme": "Minimal",
+  "enabledCssSnippets": [
+    "Minimal"
+  ],
+  "textFontFamily": "Avenir",
+  "baseFontSize": 17
+}
