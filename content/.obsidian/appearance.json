@@ -4,5 +4,6 @@
     "Minimal"
   ],
   "textFontFamily": "Avenir",
-  "baseFontSize": 17
+  "baseFontSize": 16,
+  "showRibbon": false
 }

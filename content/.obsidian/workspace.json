@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "64bbf1f9c1cfb62d",
+        "id": "7f36a70b8eaaf944",
         "type": "tabs",
         "children": [
           {
-            "id": "30aa02f8627f386e",
+            "id": "4068f37f43a417c1",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "00. Digital Garden/Quartz/Quartz Github Push Protection.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Quartz Github Push Protection"
             }
           }
         ]
@@ -36,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -150,59 +155,66 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "remotely-save:Remotely Save": false
+      "remotely-save:Remotely Save": false,
+      "hide-folders:Show hidden folders": false,
+      "obsidian-kanban:Create new board": false,
+      "omnisearch:Omnisearch": false,
+      "darlal-switcher-plus:Open in Headings Mode": false,
+      "darlal-switcher-plus:Open Symbols for the active editor": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "89a6640d30504ac0",
+  "active": "4068f37f43a417c1",
   "lastOpenFiles": [
+    "test.md",
     "00. Digital Garden/Quartz/Quartz Github Push Protection.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Parallel Execution.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/1. FlinkV2 Project Configuration/Flink V2 Archetype.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/State & Fault Tolerance.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink User-Defined Functions.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink Side Outputs.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink Operators.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink Data Sources.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Execution Mode - Batch and Streaming.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Event Time.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/DataStreamAPI Overview.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/FlinkV2 Examples/WindowWordCount.md",
-    "03. Data/Data Engineering/Flink/Flink with Java/Flink Training Set/Training Setup.md",
-    "03. Data/Database/NoSQL/Redis/Redis와 캐시.md",
-    "03. Data/Data Science/MLOps/MLFlow/Use MLflow with Kubeflow.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLflow on k8s Error 모음.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLflow on EKS 설치.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLOps For All.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLFlow k8s 설치.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLFlow RestAPI.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLFlow Pyfunc.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLFlow Model Signature.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLFlow Examples.md",
-    "03. Data/Data Science/MLOps/Kubeflow/tf-mnist and iris 실습.md",
-    "03. Data/Data Science/MLOps/Kubeflow/kubeflow 유용한 링크.md",
-    "03. Data/Data Science/MLOps/Kubeflow/Seldon Core on k8s 설치.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI",
-    "03. Data/Data Engineering/Flink/FlinkV2/FlinkV2 Examples",
-    "03. Data/Data Engineering/Flink/FlinkV2/1. FlinkV2 Project Configuration",
-    "03. Data/Data Engineering/Flink/Flink with Java/Flink Training Set",
-    "03. Data/Database/NoSQL/Redis",
-    "03. Data/Data Science/MLOps/MLFlow",
-    "03. Data/Data Science/MLOps/Kubeflow",
-    "03. Data/Data Science/MLOps/BentoML",
-    "03. Data/Database/RDBMS/MySQL",
-    "03. Data/Data Science/Machine Learning/Regression",
+    "00. Digital Garden/Obsidian/Community Plugins/Minimal Theme Settings.md",
+    "_test/MemoDrawing.canvas",
+    "03. Data/03. Data.md",
+    "03. Data/Data Science/Pandas/Pandas 기본.md",
+    "03. Data/Data Science/Pandas",
+    "03. Data/Data Science/Jupyter/Jupyter 환경에서 Cuda 설정하기.md",
+    "03. Data/Data Science/AI Agent/Langchain Basics.md",
+    "03. Data/Data Science/AI Agent/HuggingFace Agent/Unit2. Frameworks for AI Agents.md",
+    "03. Data/Data Science/AI Agent/MCP/MCP Weather.md",
+    "03. Data/Data Science/AI Agent/MCP/MCP Elasticsearch.md",
+    "03. Data/Data Science/AI Agent/AI Agent 기초 링크.md",
+    "03. Data/Data Science/Pytorch/Pytorch Overview.md",
+    "03. Data/Data Science/Pytorch",
+    "03. Data/Data Science/Deep Learning/CNN.md",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
+    "03. Data/Data Science/Deep Learning/NLP/Sequence to Sequence Model.md",
+    "03. Data/Data Science/Deep Learning/NLP/Fine Tuning.md",
+    "03. Data/Data Science/Deep Learning/NLP/Encoder Model.md",
+    "03. Data/Data Science/Deep Learning/NLP/NLP Basics - Preprocessing.md",
+    "03. Data/Data Science/Deep Learning/NLP/Tokenizers.md",
+    "03. Data/Data Science/Deep Learning/NLP/Decoder Model.md",
+    "03. Data/Data Science/Deep Learning/퍼셉트론 (Perceptron)과 신경망 (Neural Network).md",
+    "03. Data/Data Science/Deep Learning/RNN.md",
+    "03. Data/Data Science/Deep Learning/신경망 손실함수.md",
+    "03. Data/Data Science/Deep Learning/Transformer.md",
+    "03. Data/Data Science/Deep Learning/PEFT (parameter-efficient fine-tuning).md",
+    "03. Data/Data Science/Deep Learning/Recommendation/추천 시스템 알고리즘 Trend.md",
+    "03. Data/Data Science/Case Study/손글씨 숫자 인식.md",
+    "03. Data/Data Science/Case Study",
+    "03. Data/Data Science/Scholars",
+    "03. Data/Data Science/Math & Stats",
+    "03. Data/Data Science/Numpy",
+    "03. Data/Data Science/Data Analysis",
+    "03. Data/Data Science/Visualization",
+    "03. Data/Data Engineering/Hive",
+    "03. Data/Data Engineering/Hbase",
     "03. Data/Data Engineering/Data Engineering Road Map.canvas",
-    "16. Papers/Zotero Reference/img/AttentionIsAllYouNeed/image-3-x173-y371.png",
-    "05. Algorithm/Data Structure and Algorithm Roadmap.canvas",
-    "21. Life Style/Recipes/오트밀 레시피.canvas",
     "30. Work/Marketboro/2023/23.3Q DE 기술 워크샵/참고자료.canvas",
-    "_test/MemoDrawing.canvas"
+    "05. Algorithm/Data Structure and Algorithm Roadmap.canvas",
+    "16. Papers/Zotero Reference/img/AttentionIsAllYouNeed/image-3-x173-y371.png",
+    "21. Life Style/Recipes/오트밀 레시피.canvas"
   ]
 }
