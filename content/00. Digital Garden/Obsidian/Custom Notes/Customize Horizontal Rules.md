@@ -6,6 +6,7 @@ tags:
   - Custom
 complete: true
 link: https://forum.obsidian.md/t/creating-fancy-horizontal-rule-lines/63700
+banner: "/_assets/_img/_banners/nebula.jpg"
 ---
 ## Gradient Horizontal Rules
 
