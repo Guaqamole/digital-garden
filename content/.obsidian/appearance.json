@@ -5,5 +5,6 @@
   ],
   "textFontFamily": "Avenir",
   "baseFontSize": 16,
+  "accentColor": "",
   "showRibbon": false
 }

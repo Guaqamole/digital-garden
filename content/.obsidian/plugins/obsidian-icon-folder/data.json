@@ -5,7 +5,13 @@
     "fontSize": 16,
     "emojiStyle": "native",
     "iconColor": null,
-    "recentlyUsedIcons": [],
+    "recentlyUsedIcons": [
+      "💰",
+      "SiKubernetes",
+      "✏",
+      "TiCertificate",
+      "🏢"
+    ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
     "extraMargin": {
@@ -27,5 +33,52 @@
     "lucideIconPackType": "native",
     "debugMode": false,
     "useInternalPlugins": false
-  }
+  },
+  "00. Digital Garden": {
+    "iconName": "SiObsidian",
+    "iconColor": "#0d4fba"
+  },
+  "01. Programming Language": "RiJavaLine",
+  "02. Infra": {
+    "iconName": "SiKubernetes",
+    "iconColor": "#7b84f9"
+  },
+  "03. Data": {
+    "iconName": "SiApachehadoop",
+    "iconColor": "#bbd920"
+  },
+  "04. Cloud": {
+    "iconName": "SiAmazonaws",
+    "iconColor": "#ffffff"
+  },
+  "06. Dev": "💻",
+  "07. Backend": {
+    "iconName": "SiSpringboot",
+    "iconColor": "#2bff00"
+  },
+  "08. Frontend": {
+    "iconName": "SiJavascript",
+    "iconColor": "#fbff00"
+  },
+  "09. Open Source": {
+    "iconName": "SiApache",
+    "iconColor": "#e92b2b"
+  },
+  "10. Books": "📚",
+  "11. Projects": "🙇‍♂️",
+  "12. Interview": "✏",
+  "14. Liberal Arts & Economics": "📈",
+  "15. Mathmatics": "TiMath",
+  "05. Algorithm": {
+    "iconName": "SiGithub",
+    "iconColor": "#cdb7b7"
+  },
+  "16. Papers": "FasGraduationCap",
+  "21. Life Style": "🏄‍♂️",
+  "30. Work": "🏢",
+  "22. Certification": {
+    "iconName": "TiCertificate",
+    "iconColor": "#9e9033"
+  },
+  "20. Sidejob": "💰"
 }
