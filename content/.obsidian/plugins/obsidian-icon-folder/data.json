@@ -45,11 +45,11 @@
   },
   "03. Data": {
     "iconName": "SiApachehadoop",
-    "iconColor": "#bbd920"
+    "iconColor": "#fff700"
   },
   "04. Cloud": {
     "iconName": "SiAmazonaws",
-    "iconColor": "#ffffff"
+    "iconColor": "#ffb54d"
   },
   "06. Dev": "💻",
   "07. Backend": {

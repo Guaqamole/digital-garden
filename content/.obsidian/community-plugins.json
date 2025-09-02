@@ -6,9 +6,7 @@
   "obsidian-kanban",
   "keyboard-analyzer",
   "obsidian-minimal-settings",
-  "omnisearch",
   "darlal-switcher-plus",
-  "quickadd",
   "obsidian-style-settings",
   "obsidian-plugin-toc",
   "templater-obsidian",
@@ -19,5 +17,6 @@
   "open-in-new-tab",
   "obsidian-imgur-plugin",
   "obsidian-image-toolkit",
-  "pexels-banner"
+  "pexels-banner",
+  "settings-search"
 ]

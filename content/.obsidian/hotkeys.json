@@ -64,5 +64,21 @@
       ],
       "key": "E"
     }
+  ],
+  "templater-obsidian:_templates/Quartz Post.md": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "Q"
+    }
+  ],
+  "app:show-debug-info": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "D"
+    }
   ]
 }

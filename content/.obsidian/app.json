@@ -2,5 +2,6 @@
   "readableLineLength": true,
   "showIndentGuide": false,
   "alwaysUpdateLinks": true,
-  "spellcheck": false
+  "spellcheck": false,
+  "showUnsupportedFiles": false
 }
