@@ -73,7 +73,10 @@
     "iconName": "SiGithub",
     "iconColor": "#cdb7b7"
   },
-  "16. Papers": "FasGraduationCap",
+  "16. Papers": {
+    "iconName": "FasGraduationCap",
+    "iconColor": "#5553ca"
+  },
   "21. Life Style": "🏄‍♂️",
   "30. Work": "🏢",
   "22. Certification": {

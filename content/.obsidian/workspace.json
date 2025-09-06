@@ -4,48 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "ff628a9abb0663f0",
+        "id": "1abba93893e19b83",
         "type": "tabs",
         "children": [
           {
-            "id": "1f313c099bbedc37",
-            "type": "leaf",
-            "state": {
-              "type": "beautitab-react-view",
-              "state": {},
-              "title": "New tab"
-            }
-          },
-          {
-            "id": "87bc685fb4dddfc6",
+            "id": "4c54c36dbe7af53f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05. Algorithm/코테에서 자주 나오는 개념.md",
+                "file": "03. Data/Data Science/Machine Learning/Machine Learning 공부순서 (캐글).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "코테에서 자주 나오는 개념"
+              "title": "Machine Learning 공부순서 (캐글)"
             }
           },
           {
-            "id": "fa7f75ce89a81e3a",
+            "id": "c257454d702d1f2b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05. Algorithm/Leetcode Top Questions.md",
+                "file": "30. Work/KakaoEnterprise/Peb 미팅 (250908).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Leetcode Top Questions"
+              "title": "Peb 미팅 (250908)"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -102,7 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 263.5
+    "width": 305.5
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -225,15 +216,36 @@
       "pexels-banner:🚩 Pixel Banner Menu": false
     }
   },
-  "active": "fa7f75ce89a81e3a",
+  "active": "c257454d702d1f2b",
   "lastOpenFiles": [
-    "05. Algorithm/코테에 도움 많이 되는 툴.md",
-    "05. Algorithm/Leetcode Top Questions.md",
-    "05. Algorithm/코테에서 자주 나오는 개념.md",
-    "00. Digital Garden/Obsidian/Custom Notes/Custom CSS Snippet.md",
-    "00. Digital Garden/Obsidian/Custom Notes/Customize Horizontal Rules.md",
-    "00. Digital Garden/Obsidian/Custom Notes/Goal Note.md",
-    "_templates/Quartz Post.md",
+    "30. Work/KakaoEnterprise/Willy 간담회 (250902).md",
+    "30. Work/KakaoEnterprise/Peb 미팅 (250908).md",
+    "03. Data/Data Science/Machine Learning/Machine Learning 공부순서 (캐글).md",
+    "03. Data/Data Science/MLOps/MLOps란.md",
+    "30. Work/KakaoEnterprise/Insu.md",
+    "03. Data/Data Science/Machine Learning Techniques.png",
+    "03. Data/Data Science/Machine Learning/Machine Learning Mindmaps.md",
+    "03. Data/Data Science/Machine Learning/비지도 학습 Unsupervised Learning.md",
+    "03. Data/Data Science/Machine Learning/지도학습 Supervised Learning.md",
+    "03. Data/Data Science/Insights and tips.md",
+    "03. Data/Data Science/DataScience 근본책.md",
+    "03. Data/Data Science/ML vs DL.md",
+    "03. Data/Machine Learning Techniques.png",
+    "30. Work/Marketboro/ByeBye/내가 했던일들 정리.md",
+    "30. Work/Marketboro/2024/etc/큰그림.md",
+    "30. Work/Marketboro/2024/etc/학습목표.md",
+    "30. Work/Marketboro/2024/프로젝트/CICD/질문 내용.md",
+    "30. Work/Marketboro/2024/프로젝트/CICD/wcc bitbucket pipeline.md",
+    "30. Work/Marketboro/2024/인수인계/DA 인프라 정리.md",
+    "30. Work/Marketboro/2024/식봄BI/MLOps/MLOps backlog.md",
+    "30. Work/Marketboro/2024/식봄BI/Big Picture.md",
+    "30. Work/Marketboro/2024/인수인계/BI팀 회의.md",
+    "21. Life Style/Blog/Resourceful이란.md",
+    "03. Data/Data Science/MLOps/Kubeflow/Kubeflow EKS 최적화.md",
+    "03. Data/Data Science/MLOps/MLFlow/MLOps For All.md",
+    "30. Work/Marketboro/Architecture Drawing/검색 아키텍처 도식화.md",
+    "03. Data/Data Science/MLOps/Kubeflow/Kubeflow Sample Pipelines.md",
+    "30. Work/Marketboro/블라인드.md",
     "_assets/_img/target2.png",
     "_assets/_img/_banners/nebula.jpeg",
     "_assets/_img/_banners/nebula.jpg",
@@ -242,31 +254,10 @@
     "_assets/_img/Pasted Image 20240415112942_371.png",
     "_assets/_img/Pasted Image 20240415113033_396.png",
     "_assets/_img/Pasted Image 20240415114628_623.png",
-    "_assets/_img/Pasted Image 20240415133933_461.png",
-    "_assets/_img/Pasted image 20240503101622.png",
     "_assets/_img/_banners",
     "_assets/_img/무제 폴더",
     "30. Work/Marketboro/_work",
-    "00. Digital Garden/Obsidian/Custom Notes/Advanced Slide Custom CSS.md",
-    "06. Dev/Dev Fundamental/웹과 서버의 통신을 위한 Ajax & Json.md",
     "Untitled.canvas",
-    "TestTest.md",
-    "03. Data/Data Engineering/Airflow/Airflow Install Native.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/FlinkV2 Examples/WindowWordCount.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/State & Fault Tolerance.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Parallel Execution.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink User-Defined Functions.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink Side Outputs.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink Operators.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/1. FlinkV2 Project Configuration/Flink V2 Archetype.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Flink Data Sources.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Execution Mode - Batch and Streaming.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/Event Time.md",
-    "03. Data/Data Engineering/Flink/Flink with Java/Flink Training Set/Training Setup.md",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI/DataStreamAPI Overview.md",
-    "03. Data/Database/NoSQL/Redis/Redis와 캐시.md",
-    "03. Data/Database/RDBMS/MySQL/MySQL Lock Debugging.md",
-    "03. Data/Database/RDBMS/MySQL/MySQL DB Transaction 동작원리.md",
     "03. Data/Data Engineering/Flink/FlinkV2/FlinkV2 Examples",
     "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI",
     "03. Data/Data Engineering/Flink/FlinkV2/1. FlinkV2 Project Configuration",

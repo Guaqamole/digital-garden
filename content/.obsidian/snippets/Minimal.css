@@ -1,4 +1,11 @@
+/* john's custom */
+
 body { --nav-indentation-guide-width: unset; }
+
+/* edit mode 헤더 밑에 공백 */
+.cm-s-obsidian .cm-line.HyperMD-header {
+    padding-bottom: 10px;
+}
 
 
 /* Increase space in editing mode*/
