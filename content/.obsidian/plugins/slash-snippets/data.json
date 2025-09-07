@@ -1,0 +1,6 @@
+{
+  "slashTrigger": "\\",
+  "snippetPath": "Snippets",
+  "ignoreProperties": true,
+  "templaterSupport": true
+}

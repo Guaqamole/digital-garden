@@ -1,7 +1,10 @@
 {
-  "snippets_file": "warn : > [!warning]",
+  "snippets_file": "warn : > [!warning]\n\ninfo : > [!info]\n\ntip : > [!tip]\n\ndanger : > [!danger]",
   "snippets": [
-    "warn : > [!warning]"
+    "warn : > [!warning]",
+    "info : > [!info]",
+    "tip : > [!tip]",
+    "danger : > [!danger]"
   ],
   "endSymbol": "$end$",
   "newlineSymbol": "$nl$",
