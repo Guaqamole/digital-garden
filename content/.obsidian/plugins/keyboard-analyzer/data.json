@@ -36,7 +36,34 @@
     }
   },
   "featuredCommandIDs": [],
-  "commandGroups": [],
+  "commandGroups": [
+    {
+      "id": "new-group",
+      "name": "Favorite",
+      "commandIds": [
+        "markdown:toggle-preview",
+        "editor:toggle-readable-line-length",
+        "obsidian-minimal-settings:toggle-minimal-focus-mode"
+      ],
+      "excludedModules": [],
+      "filterSettings": {
+        "StrictModifierMatch": true,
+        "ViewWOhotkeys": true,
+        "OnlyCustom": false,
+        "OnlyDuplicates": false,
+        "FeaturedFirst": false,
+        "HighlightCustom": false,
+        "HighlightDuplicates": false,
+        "HighlightBuiltIns": false,
+        "DisplayIDs": false,
+        "ShowPluginBadges": true,
+        "GroupByPlugin": false,
+        "DisplayGroupAssignment": false,
+        "DisplayInternalModules": true,
+        "DisplaySystemShortcuts": false
+      }
+    }
+  ],
   "lastOpenedGroupId": "all",
   "pinKeyboardPanel": true,
   "keyboardCollapsed": false,

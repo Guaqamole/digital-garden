@@ -4,39 +4,50 @@
     "type": "split",
     "children": [
       {
-        "id": "1abba93893e19b83",
+        "id": "83d8988ad40cc98d",
         "type": "tabs",
         "children": [
           {
-            "id": "4c54c36dbe7af53f",
+            "id": "b587de2fa002a1ff",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03. Data/Data Science/Machine Learning/Machine Learning 공부순서 (캐글).md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Machine Learning 공부순서 (캐글)"
+              "type": "beautitab-react-view",
+              "state": {},
+              "title": "New tab"
             }
           },
           {
-            "id": "c257454d702d1f2b",
+            "id": "80056fd2495324bf",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "10. Books/Book Tracker.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": []
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "Book Tracker"
+            }
+          },
+          {
+            "id": "8776e6599b2ff429",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "30. Work/KakaoEnterprise/Peb 미팅 (250908).md",
+                "file": "10. Books/Book List/MLOps 실전 가이드.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Peb 미팅 (250908)"
+              "title": "MLOps 실전 가이드"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -93,7 +104,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 305.5
+    "width": 442.5
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -203,6 +214,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "callout-manager:Insert Callout": false,
       "hide-folders:Show hidden folders": false,
       "bases:Create new base": false,
       "switcher:Open quick switcher": false,
@@ -216,11 +228,18 @@
       "pexels-banner:🚩 Pixel Banner Menu": false
     }
   },
-  "active": "c257454d702d1f2b",
+  "active": "89a6640d30504ac0",
   "lastOpenFiles": [
-    "30. Work/KakaoEnterprise/Willy 간담회 (250902).md",
-    "30. Work/KakaoEnterprise/Peb 미팅 (250908).md",
+    "10. Books/Book Tracker.md",
+    "10. Books/Book List/MLOps 실전 가이드.md",
+    "10. Books/Book List/가상 면접 사례로 배우는 대규모 시스템 설계 기초.md",
+    "Untitled.md",
     "03. Data/Data Science/Machine Learning/Machine Learning 공부순서 (캐글).md",
+    "30. Work/KakaoEnterprise/Peb 미팅 (250908).md",
+    "01. Programming Language/Python/Python Glossary.md",
+    "01. Programming Language/Scala/Create Scala Project with IntelliJ.md",
+    "01. Programming Language/Programming Language Kanban.md",
+    "30. Work/KakaoEnterprise/Willy 간담회 (250902).md",
     "03. Data/Data Science/MLOps/MLOps란.md",
     "30. Work/KakaoEnterprise/Insu.md",
     "03. Data/Data Science/Machine Learning Techniques.png",
@@ -239,13 +258,6 @@
     "30. Work/Marketboro/2024/인수인계/DA 인프라 정리.md",
     "30. Work/Marketboro/2024/식봄BI/MLOps/MLOps backlog.md",
     "30. Work/Marketboro/2024/식봄BI/Big Picture.md",
-    "30. Work/Marketboro/2024/인수인계/BI팀 회의.md",
-    "21. Life Style/Blog/Resourceful이란.md",
-    "03. Data/Data Science/MLOps/Kubeflow/Kubeflow EKS 최적화.md",
-    "03. Data/Data Science/MLOps/MLFlow/MLOps For All.md",
-    "30. Work/Marketboro/Architecture Drawing/검색 아키텍처 도식화.md",
-    "03. Data/Data Science/MLOps/Kubeflow/Kubeflow Sample Pipelines.md",
-    "30. Work/Marketboro/블라인드.md",
     "_assets/_img/target2.png",
     "_assets/_img/_banners/nebula.jpeg",
     "_assets/_img/_banners/nebula.jpg",

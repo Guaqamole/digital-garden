@@ -80,5 +80,21 @@
       ],
       "key": "D"
     }
+  ],
+  "templater-obsidian:create-new-note-from-template": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "T"
+    }
+  ],
+  "text-snippets-obsidian:text-snippets": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "V"
+    }
   ]
 }

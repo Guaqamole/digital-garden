@@ -1,0 +1,18 @@
+---
+title: MLOps 실전 가이드
+Author: 노아기프트 저 / 이장후 외 옮김
+Status: Unread
+Topics: ML and DL
+tags:
+  - Book
+Kanban-Cover: "![Book Cover|300](https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791169211215.jpg)"
+draft: false
+---
+# Ch.1 MLOps 세상으로 초대
+
+## #MLOps 란?
+
+> DevOps 철학이 자동화를 중요하게 여긴다는 측면으로 볼때 MLOps는 DevOps의 계보를 잇는것이다. 자동화의 역사는 인간이 반복적인 작업을 수행하는 단순 노동자로서 일하는것보다 시스템 설계자로서 일하는것이 훨씬 가치 있다는것을 증명해왔다. 마찬가지로 개발자, 머신러닝 모델, 서비스 운영 사이의 작업흐름 또한 투명한 팀워크와 건전한 협업을 통해 설계되어야 한다. MLOps는 DevOps 방법론을 사용하여 머신러닝을 자동화 하는 프로세스라고 생각하면 된다.
+
+> [!tips]
+> MLOps는 소프트웨어 엔지니어링 프로세스 뿐만아니라, 데이터나, 모델링까지 자동화하는 행위를 말한다.

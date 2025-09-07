@@ -1,6 +1,6 @@
 ---
 
-kanban-plugin: basic
+kanban-plugin: board
 draft: true
 
 ---
@@ -16,6 +16,7 @@ draft: true
 - [ ] [[고성능 파이썬]]
 - [ ] [[파이썬 머신러닝 완벽 가이드]]
 - [ ] [[객체지향의 사실과 오해]]
+- [ ] [[MLOps 실전 가이드]]
 
 
 ## Currently Reading
@@ -32,6 +33,6 @@ draft: true
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic","metadata-keys":[{"metadataKey":"Author","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Status","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Topics","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"tags","label":"Tags","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Kanban-Cover","label":"","shouldHideLabel":true,"containsMarkdown":true}],"lane-width":300}
+{"kanban-plugin":"board","metadata-keys":[{"metadataKey":"Author","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Status","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Topics","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"tags","label":"Tags","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"Kanban-Cover","label":"","shouldHideLabel":true,"containsMarkdown":true}],"lane-width":300}
 ```
 %%
