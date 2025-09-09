@@ -43,7 +43,10 @@
       "commandIds": [
         "markdown:toggle-preview",
         "editor:toggle-readable-line-length",
-        "obsidian-minimal-settings:toggle-minimal-focus-mode"
+        "obsidian-minimal-settings:toggle-minimal-focus-mode",
+        "templater-obsidian:_templates/Quartz Post.md",
+        "text-snippets-obsidian:text-snippets",
+        "obsidian-plugin-toc:create-toc"
       ],
       "excludedModules": [],
       "filterSettings": {

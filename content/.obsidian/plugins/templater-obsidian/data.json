@@ -29,7 +29,9 @@
   "syntax_highlighting": true,
   "syntax_highlighting_mobile": false,
   "enabled_templates_hotkeys": [
-    "_templates/Quartz Post.md"
+    "_templates/Quartz Post.md",
+    "_templates/Python Code Block.md",
+    "_templates/Info Panel.md"
   ],
   "startup_templates": [
     ""

@@ -61,8 +61,9 @@ git config --local user.name "account1"
 git config --local user.email "account1@email1.com"
 ```
 
-## remote url 수정하기
+## remote url 수정하기 
 remote url을 수정해서 ssh key를 사용하도록 한다.
+git clone 후 동일한 key를 사용한다면 필요없음.
 ```
 git remote set-url origin git@github.com-account1:repo_user/repo_name.git
 ```

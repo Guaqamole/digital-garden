@@ -21,5 +21,8 @@
   "settings-search",
   "url-into-selection",
   "callout-manager",
-  "text-snippets-obsidian"
+  "text-snippets-obsidian",
+  "emoji-shortcodes",
+  "waypoint",
+  "symbols-prettifier"
 ]

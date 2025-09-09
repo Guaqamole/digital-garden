@@ -4,50 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "83d8988ad40cc98d",
+        "id": "41155427e99115bf",
         "type": "tabs",
         "children": [
           {
-            "id": "b587de2fa002a1ff",
+            "id": "46a86fba587b6dbc",
             "type": "leaf",
             "state": {
               "type": "beautitab-react-view",
               "state": {},
               "title": "New tab"
             }
-          },
-          {
-            "id": "80056fd2495324bf",
-            "type": "leaf",
-            "state": {
-              "type": "kanban",
-              "state": {
-                "file": "10. Books/Book Tracker.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
-              },
-              "icon": "lucide-trello",
-              "title": "Book Tracker"
-            }
-          },
-          {
-            "id": "8776e6599b2ff429",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "10. Books/Book List/MLOps 실전 가이드.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "MLOps 실전 가이드"
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -104,7 +73,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 442.5
+    "width": 442.5,
+    "collapsed": true
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -228,36 +198,38 @@
       "pexels-banner:🚩 Pixel Banner Menu": false
     }
   },
-  "active": "89a6640d30504ac0",
+  "active": "46a86fba587b6dbc",
   "lastOpenFiles": [
-    "10. Books/Book Tracker.md",
+    "03. Data/Data Science/Kaggle/Kaggle - Titanic.md",
+    "03. Data/Data Science/JupyterColab/Colab에서 Kaggle Data읽기.md",
+    "_templates/Info Panel.md",
+    "_templates/Python Code Block.md",
+    "06. Dev/Dev Tools/GPT/Prompt 모음.md",
+    "06. Dev/Dev Tools/GPT/프롬프트 엔지니어링 기초.md",
+    "03. Data/Data Science/Kaggle/Kaggle Prompt.md",
+    "03. Data/Data Science/Kaggle",
+    "index.md",
+    "16. Papers/16. Papers.md",
+    "15. Mathmatics/15. Mathmatics.md",
+    "16. Papers/Papers Tips.md",
+    "tasksCalendar/tasksCalendar.md",
+    "03. Data/Data Science/Machine Learning/Machine Learning 공부순서 (캐글).md",
+    "20. Sidejob/Tutoring/Python Tutoring/기초 수업/Google Colab 세팅.md",
+    "03. Data/Data Science/Machine Learning/ML Course/01. Regression.md",
+    "00. Digital Garden/Obsidian/Obsidian Initial Setup.md",
+    "03. Data/Data Science/Machine Learning/ML Course",
+    "06. Dev/Dev Tools/Git/Github 여러계정 SSH Key로 관리하기.md",
+    "06. Dev/Dev Tools/Git/Git Key Switch Script.md",
     "10. Books/Book List/MLOps 실전 가이드.md",
+    "06. Dev/Dev Tools/Git/Git Commands.md",
+    "03. Data/Data Science/Machine Learning Techniques.png",
+    "10. Books/Book Tracker.md",
     "10. Books/Book List/가상 면접 사례로 배우는 대규모 시스템 설계 기초.md",
     "Untitled.md",
-    "03. Data/Data Science/Machine Learning/Machine Learning 공부순서 (캐글).md",
     "30. Work/KakaoEnterprise/Peb 미팅 (250908).md",
     "01. Programming Language/Python/Python Glossary.md",
     "01. Programming Language/Scala/Create Scala Project with IntelliJ.md",
-    "01. Programming Language/Programming Language Kanban.md",
-    "30. Work/KakaoEnterprise/Willy 간담회 (250902).md",
-    "03. Data/Data Science/MLOps/MLOps란.md",
-    "30. Work/KakaoEnterprise/Insu.md",
-    "03. Data/Data Science/Machine Learning Techniques.png",
-    "03. Data/Data Science/Machine Learning/Machine Learning Mindmaps.md",
-    "03. Data/Data Science/Machine Learning/비지도 학습 Unsupervised Learning.md",
-    "03. Data/Data Science/Machine Learning/지도학습 Supervised Learning.md",
-    "03. Data/Data Science/Insights and tips.md",
-    "03. Data/Data Science/DataScience 근본책.md",
-    "03. Data/Data Science/ML vs DL.md",
     "03. Data/Machine Learning Techniques.png",
-    "30. Work/Marketboro/ByeBye/내가 했던일들 정리.md",
-    "30. Work/Marketboro/2024/etc/큰그림.md",
-    "30. Work/Marketboro/2024/etc/학습목표.md",
-    "30. Work/Marketboro/2024/프로젝트/CICD/질문 내용.md",
-    "30. Work/Marketboro/2024/프로젝트/CICD/wcc bitbucket pipeline.md",
-    "30. Work/Marketboro/2024/인수인계/DA 인프라 정리.md",
-    "30. Work/Marketboro/2024/식봄BI/MLOps/MLOps backlog.md",
-    "30. Work/Marketboro/2024/식봄BI/Big Picture.md",
     "_assets/_img/target2.png",
     "_assets/_img/_banners/nebula.jpeg",
     "_assets/_img/_banners/nebula.jpg",
@@ -275,8 +247,6 @@
     "03. Data/Data Engineering/Flink/FlinkV2/1. FlinkV2 Project Configuration",
     "03. Data/Data Engineering/Flink/Flink with Java/Flink Training Set",
     "03. Data/Database/RDBMS/MySQL",
-    "03. Data/Database/NoSQL/Redis",
-    "03. Data/Data Science/Machine Learning/Regression",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
     "03. Data/Data Engineering/Data Engineering Road Map.canvas",
     "05. Algorithm/Data Structure and Algorithm Roadmap.canvas",

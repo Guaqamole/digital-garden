@@ -96,5 +96,30 @@
       ],
       "key": "V"
     }
+  ],
+  "templater-obsidian:_templates/Python Code Block.md": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "C"
+    }
+  ],
+  "obsidian-plugin-toc:create-toc": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "O"
+    }
+  ],
+  "templater-obsidian:_templates/Info Panel.md": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "I"
+    }
   ]
 }
