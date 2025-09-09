@@ -1,5 +1,5 @@
 ---
-title: 퍼셉트론 (Perceptron)
+title: 퍼셉트론 (Perceptron)과 신경망 (Neural Network)
 date: 2024-04-30
 draft: false
 tags:

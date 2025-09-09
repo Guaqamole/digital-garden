@@ -9,9 +9,6 @@ complete: true
 banner: /_assets/_img/_banners/nebula.jpg
 link: https://www.kaggle.com/competitions/titanic
 ---
-
-
-
 ## Problem Statement
 - target: binary classification
 - metric: accuracy
@@ -30,5 +27,13 @@ import pandas as pd
 gender_submission.csv sample_data titanic.zip kaggle.json test.csv train.csv
 ```
 
-### preprocessing
+### data overview
+#### info
+```python
+df = pd.read_csv('train.csv')
+df.head()
+```
 
+
+
+### preprocessing
