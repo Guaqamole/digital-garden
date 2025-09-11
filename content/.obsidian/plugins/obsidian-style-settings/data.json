@@ -8,5 +8,6 @@
   "minimal-style@@h1-color@@light": "#12E8FA",
   "minimal-style@@h1-color@@dark": "#C6DB7D",
   "minimal-style@@h1-style": "normal",
-  "minimal-style@@heading-spacing": "1.2em"
+  "minimal-style@@heading-spacing": "1.2em",
+  "minimal-style@@bold-color@@dark": "#F3EBA1"
 }

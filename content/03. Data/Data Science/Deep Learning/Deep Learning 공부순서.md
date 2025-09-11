@@ -27,7 +27,6 @@ books
 	- Ch.5 선형대수 1부
 	- Ch.6 선형대수 2부
 		- 행렬식
-		- eigenvector
 		- PCA
 	- Ch.2 확률 1부
 	- Ch.3 확률 2부
@@ -39,7 +38,7 @@ books
 	- 개념
 		- Ch.7 ~ 16 (p.140)
 	- 실습
-		- Ch.20 파이썬으로 인공신경망 만들기
+		- Ch.20 파이썬으로 인공신경망 만들기 ⭐
 		- Ch. 21 Minist 손글씨 데이터 인식하기
 - 텐초의 파이토치 딥러닝
 	- 개념
@@ -51,3 +50,7 @@ books
 		- Ch.12 CRNN + GRU
 - 딥러닝 쿡북
 	- Ch.2 문제 해결하기 - 활성화 함수 고르기, 네트워크 구조, 배치 크기, 학습속도
+
+blog
+- https://sonstory.tistory.com/category/Deep%20Learning
+- https://huangdi.tistory.com/category/Computer%20Science/Deep%20Learning?page=3 -> *비전공자용*
