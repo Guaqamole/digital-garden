@@ -171,5 +171,14 @@
       ],
       "key": "O"
     }
-  ]
+  ],
+  "editor:open-search": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "F"
+    }
+  ],
+  "editor:open-search-replace": []
 }
