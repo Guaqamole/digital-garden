@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "AI Engineer Tech Interview"
             }
+          },
+          {
+            "id": "dc7b8155b714f1d1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "01. Neural Network"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -121,13 +136,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
+                "file": "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of AI Engineer Tech Interview"
+              "title": "Outline of 01. Neural Network"
             }
           },
           {
@@ -202,10 +217,12 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "bb719c4b6f825929",
+  "active": "dc7b8155b714f1d1",
   "lastOpenFiles": [
-    "30. Work/KakaoEnterprise/경력 정리.md",
     "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
+    "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
+    "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
+    "30. Work/KakaoEnterprise/경력 정리.md",
     "30. Work/이직/KakaoBank - Data Engineer (AI).md",
     "30. Work/이직/템플릿/회사 지원동기.md",
     "30. Work/이직/금융권 - 여신 수신.md",
@@ -217,7 +234,6 @@
     "21. Life Style/Health/Anatomy/Skeletal Muscle.md",
     "21. Life Style/Travel/24.01 ~ 24.01 China/여행사 비자대행.md",
     "21. Life Style/Personal Note/설이 취업 전략.md",
-    "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
     "03. Data/Data Science/Kaggle/Dacon - 심장 질환 예측.md",
     "03. Data/Data Science/Machine Learning/ML Course/00. Data Types.md",
     "03. Data/Data Science/Machine Learning/ML Course/02. Classification.md",
@@ -231,7 +247,6 @@
     "03. Data/Data Science/Numpy/Numpy Intro.md",
     "03. Data/Data Science/Numpy/Numpy 50 Questions.md",
     "05. Algorithm/코테에 도움 많이 되는 툴.md",
-    "03. Data/Data Science/Numpy/Logical Gates.md",
     "03. Data/Data Science/Deep Learning/DL Course",
     "03. Data/Data Science/Kaggle",
     "03. Data/Data Science/Machine Learning/ML Course",
@@ -251,7 +266,6 @@
     "Untitled.canvas",
     "03. Data/Data Engineering/Flink/FlinkV2/FlinkV2 Examples",
     "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI",
-    "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
     "03. Data/Data Engineering/Data Engineering Road Map.canvas",
     "05. Algorithm/Data Structure and Algorithm Roadmap.canvas",
     "_test/MemoDrawing.canvas",

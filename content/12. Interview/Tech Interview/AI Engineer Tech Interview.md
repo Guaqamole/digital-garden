@@ -141,7 +141,13 @@ link: https://github.com/boost-devs/ai-tech-interview
 
 ---
 
-## ETC
+## In-Order
+
+
+
+
+---
+## Reference
 https://github.com/zzsza/Datascience-Interview-Questions
 
 https://ineed-coffee.github.io/posts/job-interview-review/
