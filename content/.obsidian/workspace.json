@@ -4,39 +4,48 @@
     "type": "split",
     "children": [
       {
-        "id": "e67f77ee56c6aafc",
+        "id": "dbf9759d5829b307",
         "type": "tabs",
         "children": [
           {
-            "id": "bb719c4b6f825929",
+            "id": "d358339b437cb5cb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "AI Engineer Tech Interview"
+              "type": "beautitab-react-view",
+              "state": {},
+              "title": "New tab"
             }
           },
           {
-            "id": "dc7b8155b714f1d1",
+            "id": "87dcfd1ebe36f033",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
+                "file": "03. Data/Data Science/Pytorch/Pytorch Math.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "01. Neural Network"
+              "title": "Pytorch Math"
+            }
+          },
+          {
+            "id": "f3db0cbef68799fc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03. Data/Data Science/Pytorch/Pytorch Overview.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Pytorch Overview"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -93,8 +102,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 268.5,
-    "collapsed": true
+    "width": 268.5
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -136,13 +144,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
+                "file": "03. Data/Data Science/Pytorch/Pytorch Overview.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 01. Neural Network"
+              "title": "Outline of Pytorch Overview"
             }
           },
           {
@@ -217,8 +225,12 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "dc7b8155b714f1d1",
+  "active": "f3db0cbef68799fc",
   "lastOpenFiles": [
+    "03. Data/Data Science/Pytorch/Pytorch Math.md",
+    "03. Data/Data Science/Pytorch/Pytorch Overview.md",
+    "03. Data/Data Science/Numpy/Numpy 50 Questions.md",
+    "03. Data/Data Science/Machine Learning/ML Course/00. Data Types.md",
     "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
     "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
@@ -235,7 +247,6 @@
     "21. Life Style/Travel/24.01 ~ 24.01 China/여행사 비자대행.md",
     "21. Life Style/Personal Note/설이 취업 전략.md",
     "03. Data/Data Science/Kaggle/Dacon - 심장 질환 예측.md",
-    "03. Data/Data Science/Machine Learning/ML Course/00. Data Types.md",
     "03. Data/Data Science/Machine Learning/ML Course/02. Classification.md",
     "03. Data/Data Science/Machine Learning/ML Course/01. Regression.md",
     "30. Work/KakaoEnterprise/Peb 미팅 (250915).md",
@@ -245,8 +256,6 @@
     "03. Data/Data Science/Deep Learning/Deep Learning 공부순서.md",
     "03. Data/Data Science/Deep Learning/퍼셉트론 (Perceptron)과 신경망 (Neural Network).md",
     "03. Data/Data Science/Numpy/Numpy Intro.md",
-    "03. Data/Data Science/Numpy/Numpy 50 Questions.md",
-    "05. Algorithm/코테에 도움 많이 되는 툴.md",
     "03. Data/Data Science/Deep Learning/DL Course",
     "03. Data/Data Science/Kaggle",
     "03. Data/Data Science/Machine Learning/ML Course",

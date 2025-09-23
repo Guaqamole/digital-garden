@@ -7,6 +7,8 @@ tags:
 complete: true
 ---
 ## Pytorch 특징 및 장점
+
+
 ### 그전에, 텐서란? 
 단일데이터형식으로된자료들의 다차원행렬이며 , 파이토치의데이터형태입니다.
 
@@ -18,13 +20,58 @@ complete: true
 - stride: 각차원에 따라 다음 요소를 얻기 위해 건너뛰기(skIp)가 필요한 스토리지의 요소 개수입니다.
 즉.스트라이드는메모리에서의텐서레이아웃을표현하는것으로이해하면됩니다. 요소가연속적으로저장되기때 문에행중심으로스트라이드는항상1입니다.
 
+![](https://i.imgur.com/9r7oMDj.png)
+
+![](https://i.imgur.com/8u7Jrsy.png)
+
 #### 왜 알아야하나?
 선형대수학을배웠다면 전치행렬 (transpose) 이무엇인지알고 있을것입니다. 이게 오프셋과 스트라이드와 무슨 관계냐?
 ![|650](https://i.imgur.com/UkWFrik.png)
 
 ![|675](https://i.imgur.com/nfqFxAe.png)
 
+### 연습문제
+#### 아래 조건에 맞는 텐서를 생성하세요.
+- 텐서의 형태(Dimension): 3x4 (3행 4열)
+- 값의 범위: 모든 원소는 0과 10 사이의 랜덤 정수
+- 데이터 타입: int32
+```python
+answer = torch.randint(low=0, high=10, size=(3, 4), dtype=torch.int32)
+print(answer)
+```
 
+#### 텐서의 속성을 변수명에 맞게 변경해 봅시다.
+- float_tensor: float32
+- double_tensor: torch.float64
+- bool_tensor: torch.bool
+```python
+import torch
+
+# 초기 텐서 생성 (정수 타입)
+tensor = torch.tensor([1, 2, 3, 4])
+
+# 텐서 속성 변환
+float_tensor = tensor.float()
+double_tensor = tensor.double()
+bool_tensor = tensor.bool()
+
+print("처음 생성한 텐서:", tensor.dtype)
+print('float_tensor의 타입 확인: ', float_tensor.dtype)
+print('double_tensor의 타입 확인: ', double_tensor.dtype)
+print('bool_tensor의 타입 확인: ', bool_tensor.dtype)
+```
+
+#### 4x4 형태의 단위행렬을 만들어 봅시다.
+```python
+eye_tensor = torch.eye(4)
+print("단위행렬 텐서):\n", eye_tensor)
+
+단위행렬 텐서):
+ tensor([[1., 0., 0., 0.],
+        [0., 1., 0., 0.],
+        [0., 0., 1., 0.],
+        [0., 0., 0., 1.]])
+```
 
 ## Pytorch 특징
 **GPU**에서 **텐서 조작** 및 **동적 신경망 구축**이 가능한 프레임워크
@@ -333,7 +380,113 @@ tensorboard --logdir=./tensorboard --port 6006
 
 
 ---
+## Pytorch 데이터 로딩과 전처리 #⭐ 
+![](https://i.imgur.com/OOlcUlQ.png)
 
+```python
+import torch
+
+train_x_tensor = torch.tensor(train_x_scaled, dtype=torch.float)
+val_x_tensor = torch.tensor(val_x_scaled, dtype=torch.float)
+test_x_tensor = torch.tensor(test_x_scaled, dtype=torch.float)
+
+train_y_tensor = torch.tensor(train_y_df.to_numpy(), dtype=torch.float)
+val_y_tensor = torch.tensor(val_y_df.to_numpy(), dtype=torch.float)
+
+# 텐서의 형태 확인하기
+print(train_x_tensor.shape, train_y_tensor.shape)
+print(val_x_tensor.shape, val_y_tensor.shape)
+print(test_x_tensor.shape)
+```
+
+![](https://i.imgur.com/TNfXt76.png)
+
+```python
+from torch.utils.data import TensorDataset, DataLoader
+
+# TensorDataset 객체 생성
+train_dataset = TensorDataset(train_x_tensor, train_y_tensor)
+val_dataset = TensorDataset(val_x_tensor, val_y_tensor)
+test_dataset = TensorDataset(test_x_tensor)
+
+type(train_dataset)
+```
+
+![](https://i.imgur.com/w4psb3h.png)
+
+![](https://i.imgur.com/mqWwiGx.png)
+
+```python
+train_loader = DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)
+val_loader = DataLoader(dataset=val_dataset, batch_size=64, shuffle=False)
+test_loader = DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
+
+type(train_loader)
+```
+
+![](https://i.imgur.com/AZc9AT3.png)
+
+![](https://i.imgur.com/aNQ7bWF.png)
+
+커스텀 데이터셋을 만들어 데이터셋을 만들어 봅시다.  
+데이터는 `train_x_tensor`, `train_y_tensor`, `val_x_tensor`, `val_y_tensor`, `test_x_tensor`를 이용합니다.
+
+```python
+import torch
+from torch.utils.data import Dataset
+
+class CustomTensorDataset(torch.utils.data.Dataset):
+    """Tensor 데이터를 위한 사용자 정의 데이터셋"""
+
+    def __init__(self, data_tensors, target_tensors=None):
+        """
+        초기화 메서드에서 데이터와 타깃 텐서를 설정합니다.
+        :param data_tensors: 입력 특성을 포함하는 텐서
+        :param target_tensors: 타깃/레이블을 포함하는 텐서
+        """
+        self.data_tensors = data_tensors
+        self.target_tensors = target_tensors
+
+    def __len__(self):
+        """데이터셋의 총 데이터 개수를 반환합니다."""
+        return self.data_tensors.size(0)
+
+    def __getitem__(self, index):
+        """
+        주어진 인덱스에 해당하는 샘플을 반환합니다. 타깃 텐서가 있다면 함께 반환합니다.
+        :param index: 불러올 샘플의 인덱스
+        :return: 해당 인덱스의 데이터 텐서, 타깃 텐서가 있다면 함께 반환
+        """
+        data = self.data_tensors[index]
+        if self.target_tensors is not None:
+            target = self.target_tensors[index]
+            return data, target
+        return data
+
+# 예시 데이터로 커스텀 데이터셋 인스턴스 생성
+train_custom_dataset = CustomTensorDataset(train_x_tensor, train_y_tensor)
+val_custom_dataset = CustomTensorDataset(val_x_tensor, val_y_tensor)
+test_custom_dataset = CustomTensorDataset(test_x_tensor)
+```
+
+`train_dataset`와 `train_dataset`를 이용해 데이터 로더를 만들어 봅시다.
+```python
+from torch.utils.data import DataLoader
+
+# 학습 데이터 로더 설정
+train_loader2 = DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+# 검증 데이터 로더 설정
+val_loader2 = DataLoader(val_dataset, batch_size=64, shuffle=False)
+
+# 테스트 데이터 로더 설정
+test_loader2 = DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+type(train_loader2)
+```
+
+
+---
 
 ## Pytorch 맛보기 (자동차 상태 평가)
 https://github.com/gilbutITbook/080289
@@ -506,4 +659,113 @@ class Model(nn.Module):
         x = self.embedding_dropout(x)
         x = self.layers(x)
         return x
+```
+
+## Pytorch 많이 쓰는 함수 모음 #⭐
+- `torch.arange(16)`
+- `torch.reshape(4, 4)`
+- `torch.view(4, 2, 2)`
+- `torch.squeeze()` -> 불필요한 차원 축소
+- `torch.unsqueeze()` -> 차원 추가
+- `torch.transpose(0, 1)` -> 첫 번째 차원과 두 번째 차원 교환
+- `torch.permute(2, 0, 1)` -> 차원 순서를 (2, 0, 1)로 재배열
+- `torch.cat((tensor1, tensor2), dim=1)` -> 1번 차원(열)을 따라 결합
+- `torch.stack((tensor1, tensor2, tensor3), dim=0)` -> 새 차원을 0번 차원으로 삽입하여 쌓기
+- `torch.chunk(tensor, 3, dim=0) -> # 3개의 조각으로 분할
+- `torch.split(split_sizes, dim=0) -> # 0번째 차원(행)을 기준으로 나눔
+- `tensor.gather(1, torch.tensor([[0, 0], [1, 0]])) -> # 지정된 인덱스에서 값을 수집
+- `tensor.masked_select(mask) -> # 지정된 인덱스에서 값을 수집
+- `tensor[torch.tensor([0, 2]), torch.tensor([1, 2])] -> # 선택된 행과 열에 해당하는 요소를 추출
+- `val = tensor.max(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.min(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.sum(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), dim=0)
+	- `val = tensor.mean(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.median(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.mode(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.std(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.var(torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+	- `val = tensor.exp(torch.tensor([1.0, 2.0, 3.0, 4.0]))
+	- `val = tensor.log(torch.tensor([1.0, 2.0, 3.0, 4.0]))
+	- `val = tensor.sqrt(torch.tensor([1.0, 2.0, 3.0, 4.0]))
+	- `val = torch.pow(tensor, exponent=2)
+	- `val = torch.abs(tensor)
+	- `val = torch.reciprocal(tensor)
+	- `val = torch.neg(tensor)
+	- `torch.logical_and(tensor_a, tensor_b)`
+	- `torch.logical_or(tensor_a, tensor_b)`
+	- `torch.logical_not(tensor_a)`
+
+### 연습문제
+#### PyTorch 텐서 A가 주어졌을 때, A의 모든 요소를 유지하면서 (2, 5) 형태로 변경하는 코드를 작성하세요. A는 (5, 2) 형태의 랜덤 텐서입니다. reshape와 view 함수를 각각 사용하여 두 가지 방법으로 문제를 해결하세요.
+
+```python
+tensor_A = torch.Tensor(
+            [[0.5259, 0.1797],
+            [0.1203, 0.4127],
+            [0.4313, 0.2818],
+            [0.4835, 0.1294],
+            [0.4494, 0.8073]])
+
+reshaped_tensor = tensor_A.reshape(2, 5)
+view_tensor = tensor_A.view(2,5)
+```
+
+#### (1, 5, 1) 형태의 텐서 B가 주어졌을 때, 불필요한 차원을 제거하여 (5,)로 축소한 후, 다시 첫 번째 차원에 차원을 추가하여 (1, 5) 형태로 확장하는 코드를 작성하세요.
+```python
+# (1, 5, 1) 형태의 랜덤 텐서 B 생성
+tensor_B = torch.rand((1, 5, 1))
+
+#(5,)로 축소
+squeezed_tensor = tensor_B.squeeze()
+print(squeezed_tensor.shape)
+# (1, 5) 형태로 확장
+unsqueezed_tensor = squeezed_tensor.unsqueeze(1)
+unsqueezed_tensor = unsqueezed_tensor.reshape(1, 5)
+print(unsqueezed_tensor.shape)
+```
+
+#### 두 개의 (3, 4) 형태 텐서 D1과 D2가 주어졌을 때, 이 두 텐서를 차원 0을 기준으로 결합하는 코드와 새로운 차원을 추가하여 결합하는 코드를 작성하세요. cat과 stack 함수를 사용하여 각각 해결하세요.
+```python
+# (3, 4) 형태의 랜덤 텐서 D1과 D2 생성
+tensor_D1 = torch.rand((3, 4))
+tensor_D2 = torch.rand((3, 4))
+
+# 차원 0을 기준으로 결합
+cat_tensor = torch.cat((tensor_D1, tensor_D2), dim=0)
+
+# 새로운 차원을 추가하여 결합
+stack_tensor = torch.stack((tensor_D1, tensor_D2), dim=0)
+```
+
+#### 텐서 A, B 가 주어 졌을 때, 아래식을 구해 봅시다.
+$$3𝑙𝑜𝑔(𝐴)+𝑠𝑖𝑛(2𝐵)−1$$
+
+```python
+a_data = [[1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9]]
+b_data = [[10, 11, 12],
+          [13, 14, 15],
+          [16, 17, 18]]
+
+A = torch.tensor(a_data)
+B = torch.tensor(b_data)
+B_rad = torch.deg2rad(B) # Degree에서 Radian 변환필요
+
+answer = 3 * torch.log(A) + torch.sin(2 * B) - 1
+print(answer)
+```
+
+
+#### 텐서 A 에서, 2보다 크고 8보다 작거나 같은 값들을 추출해 봅시다.
+```python
+a_data = [[1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9]]
+A = torch.tensor(a_data)
+
+#mask = (A > 2) & (A <= 8)
+mask = torch.logical_and(torch.gt(A, 2), torch.le(A, 8))
+answer = A[mask]
+print(answer)
 ```
