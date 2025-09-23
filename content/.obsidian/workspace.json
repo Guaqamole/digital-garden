@@ -63,7 +63,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#⭐",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -84,12 +84,12 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 268.5,
-    "collapsed": true
+    "width": 268.5
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -172,7 +172,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       },
       {
         "id": "83be310d98e40aba",
@@ -212,13 +212,15 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "f3db0cbef68799fc",
+  "active": "2a0c5513534e891b",
   "lastOpenFiles": [
+    "00. Digital Garden/Obsidian/Tips/Insert Callout.md",
+    "00. Digital Garden/Obsidian/Tips/Callouts.md",
+    "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
     "03. Data/Data Science/Pytorch/Pytorch Overview.md",
     "03. Data/Data Science/Pytorch/Pytorch Math.md",
     "03. Data/Data Science/Numpy/Numpy 50 Questions.md",
     "03. Data/Data Science/Machine Learning/ML Course/00. Data Types.md",
-    "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
     "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
     "30. Work/KakaoEnterprise/경력 정리.md",
@@ -241,8 +243,6 @@
     "03. Data/Data Science/JupyterColab/Jupyter Tips/Dataframe Download Link 생성.md",
     "03. Data/Data Science/JupyterColab/Colab에서 Kaggle Data읽기.md",
     "03. Data/Data Science/Deep Learning/Deep Learning 공부순서.md",
-    "03. Data/Data Science/Deep Learning/퍼셉트론 (Perceptron)과 신경망 (Neural Network).md",
-    "03. Data/Data Science/Numpy/Numpy Intro.md",
     "03. Data/Data Science/Deep Learning/DL Course",
     "03. Data/Data Science/Kaggle",
     "03. Data/Data Science/Machine Learning/ML Course",

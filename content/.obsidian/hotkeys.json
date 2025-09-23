@@ -180,5 +180,13 @@
       "key": "F"
     }
   ],
-  "editor:open-search-replace": []
+  "editor:open-search-replace": [],
+  "editor:insert-callout": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "W"
+    }
+  ]
 }
