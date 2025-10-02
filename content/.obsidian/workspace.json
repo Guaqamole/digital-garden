@@ -4,34 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "dbf9759d5829b307",
+        "id": "fda3c0cf5f26b34a",
         "type": "tabs",
         "children": [
           {
-            "id": "d358339b437cb5cb",
+            "id": "bba07652f984f495",
             "type": "leaf",
             "state": {
               "type": "beautitab-react-view",
               "state": {},
               "title": "New tab"
             }
-          },
-          {
-            "id": "f3db0cbef68799fc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "AI Engineer Tech Interview"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -84,12 +69,11 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 268.5
+    "width": 257.5
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -131,13 +115,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of AI Engineer Tech Interview"
+              "title": "Outline"
             }
           },
           {
@@ -172,7 +155,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       },
       {
         "id": "83be310d98e40aba",
@@ -193,7 +176,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 247.5
+    "width": 349.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -212,37 +196,38 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "2a0c5513534e891b",
+  "active": "bba07652f984f495",
   "lastOpenFiles": [
+    "30. Work/이직/KakaoBank - Data Engineer (AI).md",
+    "03. Data/Data Science/Machine Learning/ML Course/01. Regression.md",
+    "03. Data/Data Engineering/Spark/Spark Architecture.md",
+    "03. Data/Data Engineering/Spark/Spark Deploy Mode.md",
+    "03. Data/Data Engineering/Spark/Spark Application Architecture.md",
+    "03. Data/Data Engineering/Spark/Spark API.md",
+    "30. Work/이직/경력 정리.md",
+    "03. Data/Data Science/Machine Learning/ML Course/00. Data Types.md",
+    "30. Work/이직/금융권 - 여신 수신.md",
+    "03. Data/Data Science/Machine Learning/ML Course/02. Classification.md",
+    "21. Life Style/Mentoring/pobu - ML,MLOps 엔지니어 멘토링.md",
+    "30. Work/이직/템플릿/회사 지원동기.md",
+    "30. Work/이직/카뱅 사전과제.md",
+    "10. Books/Book List/머신러닝 시스템 설계.md",
+    "10. Books/Book List/데이터 엔지니어를 위한 97가지 조언.md",
+    "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
+    "21. Life Style/Mentoring/data engineer mentoring.md",
+    "21. Life Style/Mentoring",
     "00. Digital Garden/Obsidian/Tips/Insert Callout.md",
     "00. Digital Garden/Obsidian/Tips/Callouts.md",
-    "12. Interview/Tech Interview/AI Engineer Tech Interview.md",
     "03. Data/Data Science/Pytorch/Pytorch Overview.md",
     "03. Data/Data Science/Pytorch/Pytorch Math.md",
     "03. Data/Data Science/Numpy/Numpy 50 Questions.md",
-    "03. Data/Data Science/Machine Learning/ML Course/00. Data Types.md",
     "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
-    "30. Work/KakaoEnterprise/경력 정리.md",
-    "30. Work/이직/KakaoBank - Data Engineer (AI).md",
-    "30. Work/이직/템플릿/회사 지원동기.md",
-    "30. Work/이직/금융권 - 여신 수신.md",
     "03. Data/Data Science/MLOps/MLOps란.md",
     "30. Work/이직/템플릿",
     "30. Work/이직",
     "21. Life Style/Health/Disorder/Spinal Disc Herniation.md",
     "21. Life Style/Health/Disorder/조사.md",
-    "21. Life Style/Health/Anatomy/Skeletal Muscle.md",
-    "21. Life Style/Travel/24.01 ~ 24.01 China/여행사 비자대행.md",
-    "21. Life Style/Personal Note/설이 취업 전략.md",
-    "03. Data/Data Science/Kaggle/Dacon - 심장 질환 예측.md",
-    "03. Data/Data Science/Machine Learning/ML Course/02. Classification.md",
-    "03. Data/Data Science/Machine Learning/ML Course/01. Regression.md",
-    "30. Work/KakaoEnterprise/Peb 미팅 (250915).md",
-    "00. Digital Garden/Arc/Read Medium Articles Free.md",
-    "03. Data/Data Science/JupyterColab/Jupyter Tips/Dataframe Download Link 생성.md",
-    "03. Data/Data Science/JupyterColab/Colab에서 Kaggle Data읽기.md",
-    "03. Data/Data Science/Deep Learning/Deep Learning 공부순서.md",
     "03. Data/Data Science/Deep Learning/DL Course",
     "03. Data/Data Science/Kaggle",
     "03. Data/Data Science/Machine Learning/ML Course",
@@ -261,7 +246,6 @@
     "30. Work/Marketboro/_work",
     "Untitled.canvas",
     "03. Data/Data Engineering/Flink/FlinkV2/FlinkV2 Examples",
-    "03. Data/Data Engineering/Flink/FlinkV2/2. FlinkV2 DataStreamAPI",
     "03. Data/Data Engineering/Data Engineering Road Map.canvas",
     "05. Algorithm/Data Structure and Algorithm Roadmap.canvas",
     "_test/MemoDrawing.canvas",

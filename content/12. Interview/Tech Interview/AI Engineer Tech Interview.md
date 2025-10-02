@@ -609,3 +609,5 @@ https://mole-starseeker.tistory.com/31
 https://modulabs.co.kr/blog/%EC%B0%A8%EC%9B%90%EC%9D%98-%EC%A0%80%EC%A3%BC-curse-of-dimensionality
 
 https://zzangyeah.tistory.com/category/%EA%B3%B5%EB%B6%80/ML%20%EB%AA%A8%EC%9D%98%20%EC%9D%B8%ED%84%B0%EB%B7%B0%20%EC%8A%A4%ED%84%B0%EB%94%94
+
+https://zzangyeah.tistory.com/237
