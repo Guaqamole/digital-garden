@@ -4,16 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "fda3c0cf5f26b34a",
+        "id": "96a3e14876f4255f",
         "type": "tabs",
         "children": [
           {
-            "id": "bba07652f984f495",
+            "id": "976d26c6c6935f1d",
             "type": "leaf",
             "state": {
-              "type": "beautitab-react-view",
-              "state": {},
-              "title": "New tab"
+              "type": "markdown",
+              "state": {
+                "file": "21. Life Style/Productivity/Photoshop/책복사 목록.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "책복사 목록"
             }
           }
         ]
@@ -73,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 257.5
+    "width": 354.5,
+    "collapsed": true
   },
   "right": {
     "id": "3411c62fb5accc2e",
@@ -115,12 +121,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "03. Data/Database/RDBMS/MySQL/AirportDB Question Set.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of AirportDB Question Set"
             }
           },
           {
@@ -176,7 +183,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 349.5,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -196,8 +203,11 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "bba07652f984f495",
+  "active": "976d26c6c6935f1d",
   "lastOpenFiles": [
+    "03. Data/Database/RDBMS/MySQL/AirportDB with Docker.md",
+    "03. Data/Database/RDBMS/MySQL/AirportDB Question Set.md",
+    "03. Data/Database/RDBMS/MySQL/AirportDB SQL Project.md",
     "30. Work/이직/KakaoBank - Data Engineer (AI).md",
     "03. Data/Data Science/Machine Learning/ML Course/01. Regression.md",
     "03. Data/Data Engineering/Spark/Spark Architecture.md",
@@ -223,11 +233,8 @@
     "03. Data/Data Science/Numpy/Numpy 50 Questions.md",
     "03. Data/Data Science/Deep Learning/DL Course/01. Neural Network.md",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
-    "03. Data/Data Science/MLOps/MLOps란.md",
     "30. Work/이직/템플릿",
     "30. Work/이직",
-    "21. Life Style/Health/Disorder/Spinal Disc Herniation.md",
-    "21. Life Style/Health/Disorder/조사.md",
     "03. Data/Data Science/Deep Learning/DL Course",
     "03. Data/Data Science/Kaggle",
     "03. Data/Data Science/Machine Learning/ML Course",
