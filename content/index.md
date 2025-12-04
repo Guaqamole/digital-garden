@@ -32,7 +32,7 @@ date: 2023-10-05
 #### [[10. Books]]
 #### [[11. Projects]]
 #### [[12. Interview]]
-
+#### [[13. SoftSkills]]
 #### [[14. Liberal Arts & Economics]]
 #### [[15. Mathmatics]]
 #### [[16. Papers]]
