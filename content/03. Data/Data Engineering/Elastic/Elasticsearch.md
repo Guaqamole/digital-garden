@@ -245,3 +245,16 @@ ES_HEAP_SIZE를 기계 메모리의 50% 이상으로 설정하지 않도록 주�
 
 #### Storage Type
 NFS 또는 EFS와 같은 네트워크 디스크를 피하고 항상 SSD (가능하면 NVMe)를 사용하십시오. AWS EBS와 같은 하드웨어는 좋은 옵션이 될 수 있지만 직접 연결된 디스크는 항상 더 빠르며 특히 RAID 설정을 사용하는 경우입니다.
+
+
+## 색인 과정 정리
+
+### 1. 메모리 버퍼 - ram
+### 2. Lucene Flush - page cache
+- refresh
+### 3. Lucene Commit - disk
+### 4. Translog 기록 - Disk
+- flush
+### 5. Segment merge - CPU + I/O
+### 6. 정합성 체크 (현재 시점 대시 98% threshold 차이 발생시 warning, 95% 다를경우 색인 실패)
+### 7. Alias 변경

@@ -1,5 +1,5 @@
 ---
-title: Kafka 참고
+title: Kafka 아키텍처, datagen 참고
 date: 2024-12-02
 draft: false
 tags:
