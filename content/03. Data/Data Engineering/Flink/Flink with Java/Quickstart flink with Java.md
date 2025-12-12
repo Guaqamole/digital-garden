@@ -14,7 +14,12 @@ https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/datastream/p
 mvn archetype:generate                \
   -DarchetypeGroupId=org.apache.flink   \
   -DarchetypeArtifactId=flink-quickstart-java \
-  -DarchetypeVersion=1.13.6
+  -DarchetypeVersion=1.20.3 \
+  -DgroupId=flink-kafka \
+  -DartifactId=flink-kafka \
+  -Dversion=0.1 \
+  -Dpackage=spendreport \
+  -DinteractiveMode=false
 ```
 
 ## Prerequisite
@@ -208,6 +213,14 @@ public class WordCountData {
     }
 }
 ```
+
+### run in IntelliJ
+로컬 개발 환경 IntelliJ를 통해에서 Run할 경우, temporary flink env가 jvm으로 load된다.
+이때 pom.xml을 class path에 추가해주지 않으면 `NoClassDefFoundError`가 발생한다.
+
+종속성을 class path에 추가하기 위해선 IntelliJ 실행/디버그 구성 메뉴에서 설정할 수 있다.
+
+![](https://i.imgur.com/QT2U0VE.png)
 
 
 ### build & submit
