@@ -381,3 +381,5 @@ sudo bin/elasticsearch-plugin list
 sudo bin/elasticsearch-plugin install analysis-nori
 sudo systemctl restart elasticsearch
 ```
+
+

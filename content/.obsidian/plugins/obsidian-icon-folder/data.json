@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "☘",
       "💬",
       "💰",
       "SiKubernetes",
-      "✏",
-      "TiCertificate"
+      "✏"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
@@ -84,5 +84,6 @@
     "iconColor": "#9e9033"
   },
   "20. Sidejob": "💰",
-  "13. SoftSkills": "💬"
+  "13. SoftSkills": "💬",
+  "17. Domain": "☘"
 }

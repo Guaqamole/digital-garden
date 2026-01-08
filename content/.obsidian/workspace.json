@@ -4,19 +4,53 @@
     "type": "split",
     "children": [
       {
-        "id": "198372b66ffb43bc",
+        "id": "d54c3495634faf3a",
         "type": "tabs",
         "children": [
           {
-            "id": "0f1ba092e7ea90dd",
+            "id": "07f828165488992f",
             "type": "leaf",
             "state": {
-              "type": "beautitab-react-view",
-              "state": {},
-              "title": "New tab"
+              "type": "markdown",
+              "state": {
+                "file": "30. Work/이직/Naver - 커머스 데이터 엔지니어링.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Naver - 커머스 데이터 엔지니어링"
+            }
+          },
+          {
+            "id": "612c3aac84ad0f25",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "30. Work/이직/KakaoBank - Data Engineer (AI).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "KakaoBank - Data Engineer (AI)"
+            }
+          },
+          {
+            "id": "52b1af5083fc555a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "30. Work/이직/Naver - 커머스 데이터 엔지니어링 (Johnss-MacBook-Pro.local's conflicted copy 2026-01-05).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Naver - 커머스 데이터 엔지니어링 (Johnss-MacBook-Pro.local's conflicted copy 2026-01-05)"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -115,13 +149,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "10. Books/Book Tracker.md",
+                "file": "03. Data/Data Engineering/Elastic/Elastic with Java/Elasticsearch Docker.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Book Tracker"
+              "title": "Outline of Elasticsearch Docker"
             }
           },
           {
@@ -197,44 +231,44 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "0f1ba092e7ea90dd",
+  "active": "52b1af5083fc555a",
   "lastOpenFiles": [
+    "30. Work/이직/Naver - 커머스 데이터 엔지니어링.md",
+    "30. Work/이직/KakaoBank - Data Engineer (AI).md",
+    "30. Work/이직/Naver - 커머스 데이터 엔지니어링 (Johnss-MacBook-Pro.local's conflicted copy 2026-01-05).md",
+    "30. Work/Work Tips/퇴사시 필요 서류.md",
+    "30. Work/Work Tips/퇴사시 개인정보 정리 명령어.md",
+    "03. Data/Data Engineering/Elastic/Elastic with Java/Elasticsearch Docker.md",
+    "03. Data/Data Engineering/Elastic/ElasticSearch Cluster 구성.md",
+    "03. Data/Data Engineering/Elastic/ElasticSearch on k8s.md",
+    "03. Data/Data Engineering/Elastic/Elasticsearch.md",
+    "03. Data/Data Engineering/Elastic/ElasticSearch cat API.md",
+    "03. Data/Data Engineering/Elastic/검색 서비스 운영 방안.md",
+    "03. Data/Data Engineering/Elastic/Elasticsearch Query DSL.md",
+    "14. Liberal Arts & Economics/Investment/경제신문.md",
+    "14. Liberal Arts & Economics/Investment/미국 대형 투자 지수 정리.md",
+    "17. Domain/Ecommerce/Ecommerce Overview.md",
+    "17. Domain/17. Domain.md",
+    "index.md",
+    "17. Domain/B2B",
+    "17. Domain/Internet",
+    "17. Domain/Ecommerce",
+    "17. Domain",
+    "01. Programming Language/Java/Java Course/01. Variables and Data Types.md",
+    "03. Data/Data Engineering/Flink/Flink Streaming API.md",
+    "03. Data/Data Engineering/Airflow/Airflow on k8s.md",
+    "03. Data/Data Engineering/Airflow/Airflow Task 병렬로 실행하기.md",
     "01. Programming Language/Java/Java Course/02. Reference Type.md",
     "01. Programming Language/01. Programming Language.md",
-    "01. Programming Language/Java/Java Course/01. Data Types.md",
     "01. Programming Language/Java/Java.md",
     "01. Programming Language/Java/Java Course",
     "03. Data/Data Engineering/Kafka/Kafka on docker.md",
     "03. Data/Data Engineering/Flink/Flink with Java/Quickstart flink with Java.md",
-    "10. Books/Book List/가상 면접 사례로 배우는 대규모 시스템 설계 기초.md",
-    "10. Books/Book List/정보 검색의 이론과 실제.md",
-    "10. Books/Book Tracker.md",
-    "10. Books/Book List/Untitled.md",
-    "03. Data/Data Science/Data Analysis/이상치를 분석하는 방법.md",
-    "03. Data/Data Science/AI Agent/Dacon AI Agent 첫걸음.md",
-    "13. SoftSkills/13. SoftSkills.md",
-    "index.md",
     "13. SoftSkills/Leader",
     "13. SoftSkills/Resilience",
     "13. SoftSkills/Work Management",
     "13. SoftSkills/Critical Thinking",
     "13. SoftSkills/Decision Making",
-    "13. SoftSkills/Communication",
-    "15. Mathmatics/15. Mathmatics.md",
-    "13. SoftSkills",
-    "21. Life Style/Blog/LinkedIn Bio.md",
-    "21. Life Style/Blog/Untitled",
-    "30. Work/KakaoEnterprise/Insu.md",
-    "03. Data/Data Engineering/Kafka/Kafka Cluster Native Install.md",
-    "03. Data/Data Engineering/Kafka/Kafka 아키텍처, datagen 참고.md",
-    "03. Data/Data Engineering/Kafka/Kafka on Confluent Cloud.md",
-    "30. Work/이직/연봉협상.md",
-    "30. Work/KakaoEnterprise/Peb 미팅 (250915).md",
-    "03. Data/Data Science/MLOps/MLOps란.md",
-    "21. Life Style/Mentoring/인사담당자의 연봉협상 멘토링.md",
-    "21. Life Style/Mentoring/willie - Data Engineer 멘토링 (culture).md",
-    "21. Life Style/Mentoring/willie - Data Engineer 멘토링.md",
-    "12. Interview/System Design Interview",
     "03. Data/Data Science/Deep Learning/Deep Learning From Scratch Brainstorm.canvas",
     "03. Data/Data Science/Machine Learning Techniques.png",
     "03. Data/Machine Learning Techniques.png",
