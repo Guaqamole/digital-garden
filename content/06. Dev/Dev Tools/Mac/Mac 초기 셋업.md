@@ -24,7 +24,16 @@ brew install alfred --cask
 https://github.com/ryanoasis/nerd-fonts/releases/tag/v3.1.1
 → 서체 관리자
 
+FiraCodeNerdFont-Regular
+
+## Mission Control
+
+https://github.com/MonitorControl
+
+
+
 ## KeyCastr
+
 ```python
 brew install keycastr --cask
 ```
@@ -34,19 +43,30 @@ brew install keycastr --cask
 Preferences
 
 Profiles Tab
+
+- General
+  - Reuse previous session's directory
+
 - Text
 	- Font: Firacode Nerd Font
 	- Size: 26
+	  - or 18
 - Window
 	- Transparency: 18
 	- Checked Blur: 56
+- Session
+	- Check Status bar enabled
+	
 
 Appearances
 - Theme: Minimal
+- Status bar location: Bottom
+  - Configutre Component -> Rainbow: enabled
+
 
 General
 - Closing
-	- Uncheck “Confirm Quit iTerm2”
+  - Uncheck “Confirm Quit iTerm2”
 
 ## ohmyzsh setup
 
@@ -67,8 +87,11 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 ```
 
 ```sh
+# vi ~/.zshrc
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
+
+터미널에서 `p10k configure` 입력
 
 install mellow font? (No.)
 
